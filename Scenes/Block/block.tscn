@@ -1,0 +1,29 @@
+[gd_scene load_steps=5 format=3 uid="uid://cvnxwpgteteo8"]
+
+[ext_resource type="Texture2D" uid="uid://c2fi5ycedgtsq" path="res://Ninja Adventure - Asset Pack/Backgrounds/Tilesets/TilesetDungeon.png" id="1_rnv0g"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_w6i0u"]
+bounce = 0.8
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_yhwhx"]
+size = Vector2(14, 14)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5kdbf"]
+atlas = ExtResource("1_rnv0g")
+region = Rect2(127.901, 48.0863, 16.2011, 15.9137)
+
+[node name="Block" type="RigidBody2D" groups=["Pushable"]]
+collision_layer = 4
+collision_mask = 15
+physics_material_override = SubResource("PhysicsMaterial_w6i0u")
+gravity_scale = 0.0
+lock_rotation = true
+linear_damp = 15.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_yhwhx")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(0, -2.38419e-07)
+scale = Vector2(1, 1.06667)
+texture = SubResource("AtlasTexture_5kdbf")

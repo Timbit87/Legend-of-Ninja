@@ -1,0 +1,42 @@
+[gd_scene load_steps=6 format=3 uid="uid://dfo5yx4dp6oca"]
+
+[ext_resource type="PackedScene" uid="uid://bnxnixe62ut56" path="res://Scenes/PuzzleButton/puzzle_button.tscn" id="1_ts0u0"]
+[ext_resource type="Texture2D" uid="uid://c2fi5ycedgtsq" path="res://Ninja Adventure - Asset Pack/Backgrounds/Tilesets/TilesetDungeon.png" id="2_fkdmh"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hwvpx"]
+atlas = ExtResource("2_fkdmh")
+region = Rect2(48, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kpp64"]
+atlas = ExtResource("2_fkdmh")
+region = Rect2(32, 16, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_i825f"]
+animations = [{
+"frames": [],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hwvpx")
+}],
+"loop": true,
+"name": &"pressed",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kpp64")
+}],
+"loop": true,
+"name": &"unpressed",
+"speed": 5.0
+}]
+
+[node name="SingleUsePuzzleButton" instance=ExtResource("1_ts0u0")]
+is_single_use = true
+
+[node name="AnimatedSprite2D" parent="." index="1"]
+sprite_frames = SubResource("SpriteFrames_i825f")

@@ -1,0 +1,126 @@
+extends CharacterBody2D
+class_name Player
+
+@export var move_speed: float = 150
+@export var push_strength: float = 150
+
+var is_attacking: bool = false
+# Called when the node enters the scene tree for the first time.
+func _ready() -> void:
+	update_trasure_label()
+	update_hp_bar()
+	if SceneManager.player_spawn_position != Vector2(0,0):
+		position = SceneManager.player_spawn_position
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _physics_process(delta: float) -> void:
+	if not is_attacking:
+		move_player()
+	push_blocks()
+	move_and_slide()
+	update_trasure_label()
+	if Input.is_action_just_pressed("Interact"):
+		attack()
+	
+func move_player():
+	var move_vector: Vector2 = Input.get_vector("move_left", "move_right","move_up","move_down")
+	velocity = move_vector * move_speed
+	if velocity.x > 0:
+		$AnimatedSprite2D.play("move_right")
+		$InteractArea2D.position = Vector2(5,2)
+	elif velocity.x < 0:
+		$AnimatedSprite2D.play("move_left")		
+		$InteractArea2D.position = Vector2(-5,2)
+	elif velocity.y < 0:
+		$AnimatedSprite2D.play("move_up")		
+		$InteractArea2D.position = Vector2(0,-4)
+	elif velocity.y > 0:
+		$AnimatedSprite2D.play("move_down")		
+		$InteractArea2D.position = Vector2(0,8)
+	else:
+		$AnimatedSprite2D.stop()
+		
+func push_blocks():
+	var collision: KinematicCollision2D = get_last_slide_collision()
+	if collision:		
+		var collider_node = collision.get_collider()
+		if collider_node.is_in_group("Pushable"):
+			var collision_normal: Vector2 = collision.get_normal()
+			collider_node.apply_central_force(-collision_normal * push_strength )
+				
+
+
+func _on_area_2d_body_entered(body: Node2D) -> void:
+	if body.is_in_group("Interactable"):
+		body.can_interact = true
+
+
+func _on_area_2d_body_exited(body: Node2D) -> void:
+	if body.is_in_group("Interactable"):
+		body.can_interact = false
+
+func update_trasure_label():
+	var treasure_amount: int = SceneManager.opened_chests.size()
+	%TreasureLabel.text = str(treasure_amount)
+
+
+func _on_hit_box_area_2d_body_entered(body: Node2D) -> void:
+	$PlayerDamageAudioStreamPlayer2D.play()
+	SceneManager.player_hp -= 1
+	update_hp_bar()
+	if SceneManager.player_hp <= 0:
+		$PlayerDeathAudioStreamLayer2D.play()
+		die()
+	
+func die():
+	SceneManager.player_hp = 3
+	get_tree().call_deferred("reload_current_scene")
+	
+func update_hp_bar():
+	if SceneManager.player_hp >= 3:
+		%HPBar.play("3_hp")
+	elif SceneManager.player_hp == 2:
+		%HPBar.play("2_hp")
+	elif SceneManager.player_hp == 1:
+		%HPBar.play("1_hp")
+	else:
+		%HPBar.play("0_hp")
+
+func attack():
+	is_attacking = true
+	$Ninjaku.visible = true
+	%NinjakuArea2D.monitoring = true
+	$AttackDurationTimer.start()
+	velocity = Vector2(0,0)
+	
+	var player_animation: String = $AnimatedSprite2D.animation
+	if player_animation == "move_right":
+		$AnimatedSprite2D.play("attack_right")
+		$AnimationPlayer.play("attack_right")
+	elif player_animation == "move_left":
+		$AnimatedSprite2D.play("attack_left")
+		$AnimationPlayer.play("attack_left")
+	elif player_animation == "move_down":
+		$AnimatedSprite2D.play("attack_down")
+		$AnimationPlayer.play("attack_down")
+	elif player_animation == "move_up":
+		$AnimatedSprite2D.play("attack_up")
+		$AnimationPlayer.play("attack_up")
+
+func _on_ninjaku_area_2d_body_entered(body: Node2D) -> void:
+	body.queue_free()
+
+
+func _on_attack_duration_timer_timeout() -> void:
+	$Ninjaku.visible = false
+	%NinjakuArea2D.monitoring = false
+	is_attacking = false
+	var player_animation: String = $AnimatedSprite2D.animation
+	if player_animation == "attack_right":
+		$AnimatedSprite2D.play("move_right")
+	elif player_animation == "attack_left":
+		$AnimatedSprite2D.play("move_left")
+	elif player_animation == "attack_down":
+		$AnimatedSprite2D.play("move_down")
+	elif player_animation == "attack_up":
+		$AnimatedSprite2D.play("move_up")

@@ -1,0 +1,59 @@
+[gd_scene load_steps=8 format=3 uid="uid://bnxnixe62ut56"]
+
+[ext_resource type="Script" uid="uid://cius7auup0jnn" path="res://Scenes/PuzzleButton/puzzle_button.gd" id="1_ushst"]
+[ext_resource type="Texture2D" uid="uid://c2fi5ycedgtsq" path="res://Ninja Adventure - Asset Pack/Backgrounds/Tilesets/TilesetDungeon.png" id="2_a3nsp"]
+[ext_resource type="AudioStream" uid="uid://d156jo20323rv" path="res://Ninja Adventure - Asset Pack/Sounds/Game/Gold2.wav" id="3_lffmm"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_pgvsm"]
+size = Vector2(12, 12)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vb8f5"]
+atlas = ExtResource("2_a3nsp")
+region = Rect2(16, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tpns5"]
+atlas = ExtResource("2_a3nsp")
+region = Rect2(0, 16, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_xvw3q"]
+animations = [{
+"frames": [],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vb8f5")
+}],
+"loop": true,
+"name": &"pressed",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tpns5")
+}],
+"loop": true,
+"name": &"unpressed",
+"speed": 5.0
+}]
+
+[node name="PuzzleButton" type="Area2D"]
+collision_layer = 4
+collision_mask = 14
+script = ExtResource("1_ushst")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_pgvsm")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_xvw3q")
+animation = &"unpressed"
+autoplay = "unpressed"
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_lffmm")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="body_exited" from="." to="." method="_on_body_exited"]
