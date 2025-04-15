@@ -415,7 +415,6 @@ motion_mode = 1
 script = ExtResource("1_yfx64")
 move_speed = 60.0
 push_strength = 300.0
-acceleration = null
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, -1)
