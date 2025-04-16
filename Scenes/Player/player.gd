@@ -124,8 +124,11 @@ func _on_ninjaku_area_2d_body_entered(body: Node2D) -> void:
 	body.velocity += knockback_direction * knockback_strength
 	
 	body.HP -= 1
+	print(body.HP)
 	if body.HP <= 0:
-		body.queue_free()
+		if body.has_method("death"):
+			body.death()
+			
 
 
 func _on_attack_duration_timer_timeout() -> void:

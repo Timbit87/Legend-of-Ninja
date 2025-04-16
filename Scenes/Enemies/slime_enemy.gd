@@ -4,6 +4,7 @@ extends CharacterBody2D
 @export var acceleration: float = 5
 @export var HP: int = 2
 var target: Node2D
+var is_dead = false
 
 func _physics_process(delta: float) -> void:
 	chase_target()
@@ -14,13 +15,14 @@ func _physics_process(delta: float) -> void:
 	
 		
 func chase_target():
-	if target:
-		var distance_to_payer: Vector2
-		distance_to_payer = target.global_position - global_position
+	if not is_dead:
+		if target:
+			var distance_to_payer: Vector2
+			distance_to_payer = target.global_position - global_position
 		
-		var direction_normal: Vector2 = distance_to_payer.normalized()
+			var direction_normal: Vector2 = distance_to_payer.normalized()
 		
-		velocity = velocity.move_toward(direction_normal * speed, acceleration)
+			velocity = velocity.move_toward(direction_normal * speed, acceleration)
 
 func animate_enemy():
 	var normal_velocity: Vector2 = velocity.normalized()
@@ -34,7 +36,12 @@ func animate_enemy():
 		$AnimatedSprite2D.play("move_up")
 		
 func death():
+	is_dead = true
+	velocity = Vector2.ZERO
 	$AnimatedSprite2D.play("death")
+	await $AnimatedSprite2D.animation_finished
+	queue_free()
+	
 
 func _on_player_detect_area_2d_body_entered(body: Node2D) -> void:
 	if body is Player:

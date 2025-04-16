@@ -821,6 +821,7 @@ tile_set = SubResource("TileSet_qdetr")
 
 [node name="Player" parent="ObstacleLayer" instance=ExtResource("1_wyptg")]
 position = Vector2(0, 0)
+acceleration = 10.0
 
 [node name="Camera2D" type="Camera2D" parent="ObstacleLayer/Player"]
 zoom = Vector2(4, 4)
@@ -892,6 +893,9 @@ parameters/looping = false
 
 [node name="SlimeEnemy" parent="." instance=ExtResource("14_bkvnf")]
 position = Vector2(-64, 21)
+speed = 30.0
+acceleration = 5.0
+HP = 2
 
 [connection signal="pressed" from="PuzzleButton" to="LockedDoor" method="_on_puzzle_button_pressed"]
 [connection signal="unpressed" from="PuzzleButton" to="LockedDoor" method="_on_puzzle_button_unpressed"]

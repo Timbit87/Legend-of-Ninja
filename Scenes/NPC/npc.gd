@@ -5,8 +5,7 @@ var can_interact: bool = false
 @export var dialogue_index: int = 0
 
 func _ready() -> void:
-	print(dialogue_lines[0])
-	print(dialogue_lines[2])
+	pass
 	
 func _process(delta: float) -> void:
 	if Input.is_action_just_pressed("Interact") and can_interact:

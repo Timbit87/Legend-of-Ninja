@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=3 uid="uid://djqgww8x51jx3"]
+[gd_scene load_steps=32 format=3 uid="uid://djqgww8x51jx3"]
 
 [ext_resource type="Script" uid="uid://cix2f5qywyvau" path="res://Scenes/Enemies/slime_enemy.gd" id="1_5uyk1"]
 [ext_resource type="Texture2D" uid="uid://qvsu03tm1i86" path="res://Ninja Adventure - Asset Pack/Actor/Monsters/Slime3/Slime3.png" id="1_p6sbt"]
@@ -26,6 +26,10 @@ region = Rect2(0, 0, 32, 32)
 [sub_resource type="AtlasTexture" id="AtlasTexture_5uyk1"]
 atlas = ExtResource("1_p6sbt")
 region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bnysn"]
+atlas = ExtResource("1_p6sbt")
+region = Rect2(0, 48, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_sv1en"]
 atlas = ExtResource("1_p6sbt")
@@ -105,18 +109,27 @@ animations = [{
 }, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_lvc1q")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6qitd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lvc1q")
 }],
-"loop": true,
+"loop": false,
 "name": &"death",
-"speed": 5.0
+"speed": 3.0
 }, {
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_5uyk1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bnysn")
 }],
 "loop": true,
 "name": &"default",
-"speed": 5.0
+"speed": 2.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -190,13 +203,58 @@ animations = [{
 [sub_resource type="CircleShape2D" id="CircleShape2D_1u7tg"]
 radius = 8.0
 
+[sub_resource type="Animation" id="Animation_sv1en"]
+resource_name = "death"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [3, 3]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AnimatedSprite2D:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(),
+"transitions": PackedFloat32Array(),
+"update": 0,
+"values": []
+}
+
+[sub_resource type="Animation" id="Animation_1u7tg"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [3]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_jwhlm"]
+_data = {
+&"RESET": SubResource("Animation_1u7tg"),
+&"death": SubResource("Animation_sv1en")
+}
+
 [node name="SlimeEnemy" type="CharacterBody2D"]
 collision_layer = 16
 motion_mode = 1
 script = ExtResource("1_5uyk1")
-speed = null
-acceleration = null
-HP = null
 
 [node name="PlayerDetectArea2D" type="Area2D" parent="."]
 collision_layer = 16
@@ -210,10 +268,15 @@ debug_color = Color(0.290373, 0.618208, 0.351587, 0.42)
 sprite_frames = SubResource("SpriteFrames_sv1en")
 animation = &"death"
 autoplay = "default"
-frame_progress = 0.0630097
+frame = 3
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, 2)
 shape = SubResource("CircleShape2D_1u7tg")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_jwhlm")
+}
 
 [connection signal="body_entered" from="PlayerDetectArea2D" to="." method="_on_player_detect_area_2d_body_entered"]
