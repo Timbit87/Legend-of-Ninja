@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://c057wvlwyxqrn"
+path="res://.godot/imported/zapsplat_cartoon_squelch_wet_drop_003_47586.mp3-1f38b468df256cddbe5b475ae7272c5f.mp3str"
+
+[deps]
+
+source_file="res://Ninja Adventure - Asset Pack/Sounds/Zappsplat Sounds/zapsplat_cartoon_squelch_wet_drop_003_47586.mp3"
+dest_files=["res://.godot/imported/zapsplat_cartoon_squelch_wet_drop_003_47586.mp3-1f38b468df256cddbe5b475ae7272c5f.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

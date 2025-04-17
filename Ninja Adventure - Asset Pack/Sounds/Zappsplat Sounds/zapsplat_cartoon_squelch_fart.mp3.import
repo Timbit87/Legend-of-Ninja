@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://ncq1013ib43i"
+path="res://.godot/imported/zapsplat_cartoon_squelch_fart.mp3-09f179eb33f1926d012ed7d93a95de8d.mp3str"
+
+[deps]
+
+source_file="res://Ninja Adventure - Asset Pack/Sounds/Zappsplat Sounds/zapsplat_cartoon_squelch_fart.mp3"
+dest_files=["res://.godot/imported/zapsplat_cartoon_squelch_fart.mp3-09f179eb33f1926d012ed7d93a95de8d.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

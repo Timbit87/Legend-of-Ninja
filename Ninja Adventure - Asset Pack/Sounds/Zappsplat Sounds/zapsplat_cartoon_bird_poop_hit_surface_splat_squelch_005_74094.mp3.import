@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://dot2b3owkvvvo"
+path="res://.godot/imported/zapsplat_cartoon_bird_poop_hit_surface_splat_squelch_005_74094.mp3-b654462c2789f65240c58aa09611dcef.mp3str"
+
+[deps]
+
+source_file="res://Ninja Adventure - Asset Pack/Sounds/Zappsplat Sounds/zapsplat_cartoon_bird_poop_hit_surface_splat_squelch_005_74094.mp3"
+dest_files=["res://.godot/imported/zapsplat_cartoon_bird_poop_hit_surface_splat_squelch_005_74094.mp3-b654462c2789f65240c58aa09611dcef.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

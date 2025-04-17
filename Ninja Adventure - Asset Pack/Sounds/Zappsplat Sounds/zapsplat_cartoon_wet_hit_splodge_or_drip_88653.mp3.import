@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://cirn18twqybqf"
+path="res://.godot/imported/zapsplat_cartoon_wet_hit_splodge_or_drip_88653.mp3-dff480f6ec129d635128123b0eb09490.mp3str"
+
+[deps]
+
+source_file="res://Ninja Adventure - Asset Pack/Sounds/Zappsplat Sounds/zapsplat_cartoon_wet_hit_splodge_or_drip_88653.mp3"
+dest_files=["res://.godot/imported/zapsplat_cartoon_wet_hit_splodge_or_drip_88653.mp3-dff480f6ec129d635128123b0eb09490.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

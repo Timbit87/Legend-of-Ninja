@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://cmaj301iflu6t"
+path="res://.godot/imported/zapsplat_cartoon_pull_suck_wet_foam_squelch_47294.mp3-1968cae4ef3a031b85683cb01bfaeb5f.mp3str"
+
+[deps]
+
+source_file="res://Ninja Adventure - Asset Pack/Sounds/Zappsplat Sounds/zapsplat_cartoon_pull_suck_wet_foam_squelch_47294.mp3"
+dest_files=["res://.godot/imported/zapsplat_cartoon_pull_suck_wet_foam_squelch_47294.mp3-1968cae4ef3a031b85683cb01bfaeb5f.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

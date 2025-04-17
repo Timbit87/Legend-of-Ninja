@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://dynoih5d4088t"
+path="res://.godot/imported/zapsplat_cartoon_splat_squelch_wet_001_47581.mp3-74b55f91156da7f91de0c37648208198.mp3str"
+
+[deps]
+
+source_file="res://Ninja Adventure - Asset Pack/Sounds/Zappsplat Sounds/zapsplat_cartoon_splat_squelch_wet_001_47581.mp3"
+dest_files=["res://.godot/imported/zapsplat_cartoon_splat_squelch_wet_001_47581.mp3-74b55f91156da7f91de0c37648208198.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4
