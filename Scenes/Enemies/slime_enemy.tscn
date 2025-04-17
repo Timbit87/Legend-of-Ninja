@@ -294,6 +294,7 @@ libraries = {
 
 [node name="SlimeStepPlayer" type="AudioStreamPlayer3D" parent="."]
 stream = ExtResource("4_1u7tg")
+area_mask = 18
 
 [node name="SlimeStepTimer" type="Timer" parent="."]
 wait_time = 0.04

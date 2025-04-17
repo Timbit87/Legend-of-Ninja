@@ -66,4 +66,5 @@ func _on_player_detect_area_2d_body_entered(body: Node2D) -> void:
 
 
 func _on_slime_step_timer_timeout() -> void:
-	pass # Replace with function body.
+	$SlimeStepPlayer.pitch_scale = randf_range(0.8, 1.2)
+	$SlimeStepPlayer.play()
