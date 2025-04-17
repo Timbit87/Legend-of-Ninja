@@ -39,6 +39,7 @@ func death():
 	is_dead = true
 	velocity = Vector2.ZERO
 	$AnimatedSprite2D.play("death")
+	$AnimationPlayer.play("death")
 	await $AnimatedSprite2D.animation_finished
 	queue_free()
 	
