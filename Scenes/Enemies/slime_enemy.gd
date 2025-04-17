@@ -6,6 +6,8 @@ extends CharacterBody2D
 var target: Node2D
 var is_dead = false
 var detection_area: Area2D
+var is_timer_playing := false
+@export var slime_sounds: Array = []
 
 func _ready():
 	# Get the detection area node if not already assigned
@@ -21,10 +23,12 @@ func _physics_process(delta: float) -> void:
 	move_and_slide()
 
 	if velocity.length() > 2:
-		if $SlimeStepTimer.is_stopped():
+		if not is_timer_playing:
 			$SlimeStepTimer.start()
+			is_timer_playing = true
 	else:
 		$SlimeStepTimer.stop()
+		is_timer_playing = false
 	
 	
 		
@@ -42,12 +46,16 @@ func animate_enemy():
 	var normal_velocity: Vector2 = velocity.normalized()
 	if normal_velocity.x > 0.707:
 		$AnimatedSprite2D.play("move_right")
+		$SlimeStepPlayer.pitch_scale = 1.5
 	elif normal_velocity.x < -0.707:
 		$AnimatedSprite2D.play("move_left")
+		$SlimeStepPlayer.pitch_scale = 1.5
 	elif normal_velocity.y > 0.707:
 		$AnimatedSprite2D.play("move_down")
+		$SlimeStepPlayer.pitch_scale = 1.5
 	elif normal_velocity.y < -0.707:
 		$AnimatedSprite2D.play("move_up")
+		$SlimeStepPlayer.pitch_scale = 1.5
 		
 func death():
 	is_dead = true
@@ -56,6 +64,8 @@ func death():
 	$CollisionShape2D.disabled = true
 	$AnimatedSprite2D.play("death")
 	$AnimationPlayer.play("death")
+	$SlimeStepPlayer.stop()
+	$SlimeDeathPlayer.play()
 	await $AnimatedSprite2D.animation_finished
 	queue_free()
 	
@@ -66,5 +76,11 @@ func _on_player_detect_area_2d_body_entered(body: Node2D) -> void:
 
 
 func _on_slime_step_timer_timeout() -> void:
-	$SlimeStepPlayer.pitch_scale = randf_range(0.8, 1.2)
-	$SlimeStepPlayer.play()
+	if is_dead == true:	
+		$SlimeStepPlayer.stop()
+	else:
+		if !$SlimeStepPlayer.playing:
+			var random_sound = slime_sounds[randi() % slime_sounds.size()]
+			$SlimeStepPlayer.stream = random_sound
+			$SlimeStepPlayer.pitch_scale = randf_range(0.8, 1.2)
+			$SlimeStepPlayer.play()

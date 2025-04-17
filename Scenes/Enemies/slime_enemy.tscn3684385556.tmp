@@ -1,13 +1,10 @@
-[gd_scene load_steps=37 format=3 uid="uid://djqgww8x51jx3"]
+[gd_scene load_steps=34 format=3 uid="uid://djqgww8x51jx3"]
 
 [ext_resource type="Script" uid="uid://cix2f5qywyvau" path="res://Scenes/Enemies/slime_enemy.gd" id="1_5uyk1"]
 [ext_resource type="Texture2D" uid="uid://qvsu03tm1i86" path="res://Ninja Adventure - Asset Pack/Actor/Monsters/Slime3/Slime3.png" id="1_p6sbt"]
 [ext_resource type="Texture2D" uid="uid://cikskesdj081s" path="res://Ninja Adventure - Asset Pack/FX/Magic/Circle/SpriteSheetOrange.png" id="2_sv1en"]
 [ext_resource type="AudioStream" uid="uid://tqcxxov71cup" path="res://Ninja Adventure - Asset Pack/Sounds/Zappsplat Sounds/zapsplat_cartoon_bird_poop_hit_surface_splat_squelch_002_74091.mp3" id="3_jwhlm"]
 [ext_resource type="AudioStream" uid="uid://cfb0cgrhmspno" path="res://Ninja Adventure - Asset Pack/Sounds/Zappsplat Sounds/zapsplat_cartoon_bird_poop_hit_surface_splat_squelch_001_74090.mp3" id="4_1u7tg"]
-[ext_resource type="AudioStream" uid="uid://e1p7ras72e5d" path="res://Ninja Adventure - Asset Pack/Sounds/Zappsplat Sounds/zapsplat_cartoon_bird_poop_hit_surface_splat_squelch_003_74092.mp3" id="4_n4i4n"]
-[ext_resource type="AudioStream" uid="uid://dpm2ed8d7e8vu" path="res://Ninja Adventure - Asset Pack/Sounds/Zappsplat Sounds/zapsplat_cartoon_bird_poop_hit_surface_splat_squelch_004_74093.mp3" id="5_ld0qu"]
-[ext_resource type="AudioStream" uid="uid://diiwjtp4aokyf" path="res://Ninja Adventure - Asset Pack/Sounds/Zappsplat Sounds/zapsplat_cartoon_squelch_gulp_fart.mp3" id="8_ld0qu"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_sv1en"]
 radius = 45.0444
@@ -272,7 +269,7 @@ _data = {
 collision_layer = 16
 motion_mode = 1
 script = ExtResource("1_5uyk1")
-slime_sounds = [ExtResource("4_1u7tg"), ExtResource("3_jwhlm"), ExtResource("4_n4i4n"), ExtResource("5_ld0qu")]
+slime_sounds = [ExtResource("4_1u7tg"), ExtResource("3_jwhlm")]
 
 [node name="PlayerDetectArea2D" type="Area2D" parent="."]
 collision_layer = 16
@@ -303,9 +300,6 @@ wait_time = 0.04
 [node name="SlimeStepPlayer" type="AudioStreamPlayer2D" parent="."]
 max_distance = 500.0
 area_mask = 19
-
-[node name="SlimeDeathPlayer" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource("8_ld0qu")
 
 [connection signal="body_entered" from="PlayerDetectArea2D" to="." method="_on_player_detect_area_2d_body_entered"]
 [connection signal="timeout" from="SlimeStepTimer" to="." method="_on_slime_step_timer_timeout"]
