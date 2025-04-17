@@ -1,4 +1,4 @@
-[gd_scene load_steps=32 format=3 uid="uid://djqgww8x51jx3"]
+[gd_scene load_steps=33 format=3 uid="uid://djqgww8x51jx3"]
 
 [ext_resource type="Script" uid="uid://cix2f5qywyvau" path="res://Scenes/Enemies/slime_enemy.gd" id="1_5uyk1"]
 [ext_resource type="Texture2D" uid="uid://qvsu03tm1i86" path="res://Ninja Adventure - Asset Pack/Actor/Monsters/Slime3/Slime3.png" id="1_p6sbt"]
@@ -263,6 +263,8 @@ _data = {
 &"death": SubResource("Animation_sv1en")
 }
 
+[sub_resource type="AudioStream" id="AudioStream_sv1en"]
+
 [node name="SlimeEnemy" type="CharacterBody2D"]
 collision_layer = 16
 motion_mode = 1
@@ -290,5 +292,8 @@ shape = SubResource("CircleShape2D_1u7tg")
 libraries = {
 &"": SubResource("AnimationLibrary_jwhlm")
 }
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = SubResource("AudioStream_sv1en")
 
 [connection signal="body_entered" from="PlayerDetectArea2D" to="." method="_on_player_detect_area_2d_body_entered"]

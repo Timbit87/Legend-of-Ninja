@@ -66,6 +66,8 @@ func update_trasure_label():
 
 
 func _on_hit_box_area_2d_body_entered(body):
+	if body is CharacterBody2D and "is_dead" in body and body.is_dead:
+		return
 	$PlayerDamageAudioStreamPlayer2D.play()
 	SceneManager.player_hp -= 1
 	update_hp_bar()
