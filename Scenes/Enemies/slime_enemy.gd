@@ -20,6 +20,11 @@ func _physics_process(delta: float) -> void:
 	animate_enemy()
 	move_and_slide()
 
+	if velocity.length() > 2:
+		if $SlimeStepTimer.is_stopped():
+			$SlimeStepTimer.start()
+	else:
+		$SlimeStepTimer.stop()
 	
 	
 		
@@ -51,7 +56,6 @@ func death():
 	$CollisionShape2D.disabled = true
 	$AnimatedSprite2D.play("death")
 	$AnimationPlayer.play("death")
-	$AudioStreamPlayer2D.play()
 	await $AnimatedSprite2D.animation_finished
 	queue_free()
 	
@@ -59,3 +63,7 @@ func death():
 func _on_player_detect_area_2d_body_entered(body: Node2D) -> void:
 	if body is Player and not is_dead:
 		target = body
+
+
+func _on_slime_step_timer_timeout() -> void:
+	pass # Replace with function body.
