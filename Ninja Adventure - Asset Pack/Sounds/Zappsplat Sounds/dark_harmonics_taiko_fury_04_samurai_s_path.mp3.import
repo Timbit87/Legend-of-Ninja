@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://cd6pih2o2jenu"
+path="res://.godot/imported/dark_harmonics_taiko_fury_04_samurai_s_path.mp3-4b1a336d1bc989a95bc505e925c306f5.mp3str"
+
+[deps]
+
+source_file="res://Ninja Adventure - Asset Pack/Sounds/Zappsplat Sounds/dark_harmonics_taiko_fury_04_samurai_s_path.mp3"
+dest_files=["res://.godot/imported/dark_harmonics_taiko_fury_04_samurai_s_path.mp3-4b1a336d1bc989a95bc505e925c306f5.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

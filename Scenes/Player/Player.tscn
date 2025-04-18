@@ -1,13 +1,15 @@
-[gd_scene load_steps=46 format=3 uid="uid://ckpmajjjqcrg5"]
+[gd_scene load_steps=51 format=3 uid="uid://ckpmajjjqcrg5"]
 
 [ext_resource type="Script" uid="uid://bd6slj6g1dena" path="res://Scenes/Player/player.gd" id="1_yfx64"]
 [ext_resource type="Texture2D" uid="uid://dif6thu3mt724" path="res://Ninja Adventure - Asset Pack/Actor/Characters/NinjaRed2/SeparateAnim/Walk.png" id="2_5jgnp"]
 [ext_resource type="Texture2D" uid="uid://4gky85vmnhxt" path="res://Ninja Adventure - Asset Pack/Actor/Characters/NinjaRed2/SeparateAnim/Attack.png" id="2_fk5o5"]
+[ext_resource type="Texture2D" uid="uid://0cr51gqlje8s" path="res://Ninja Adventure - Asset Pack/Actor/Characters/NinjaRed2/SpriteSheet.png" id="3_825xp"]
 [ext_resource type="Texture2D" uid="uid://b6j550427ypfv" path="res://Ninja Adventure - Asset Pack/Items/Scroll/ScrollEmpty.png" id="3_h54ih"]
 [ext_resource type="AudioStream" uid="uid://csb553wtj3dqj" path="res://Ninja Adventure - Asset Pack/Sounds/Game/Hit.wav" id="4_ude3g"]
 [ext_resource type="AudioStream" uid="uid://w5wwo444wekl" path="res://Ninja Adventure - Asset Pack/Sounds/Game/Explosion2.wav" id="5_jmcll"]
 [ext_resource type="Texture2D" uid="uid://crtkq7vh7p5mb" path="res://Ninja Adventure - Asset Pack/Items/Weapons/Ninjaku/Sprite.png" id="5_t26db"]
 [ext_resource type="Texture2D" uid="uid://dlf3qpyd2xt48" path="res://Ninja Adventure - Asset Pack/Ui/LifeReceptacle/heart_2.png" id="6_4wape"]
+[ext_resource type="AudioStream" uid="uid://bhx0chhwdlqdi" path="res://Ninja Adventure - Asset Pack/Sounds/Zappsplat Sounds/warfare_weapon_shuriken_flying_star_throw_kung_fu_002.mp3" id="10_ji083"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_0kmp4"]
 atlas = ExtResource("2_fk5o5")
@@ -24,6 +26,18 @@ region = Rect2(48, 0, 16, 16)
 [sub_resource type="AtlasTexture" id="AtlasTexture_0u84n"]
 atlas = ExtResource("2_fk5o5")
 region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_esmjy"]
+atlas = ExtResource("3_825xp")
+region = Rect2(0, 96, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6tu5v"]
+atlas = ExtResource("3_825xp")
+region = Rect2(32, 96, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_spxdj"]
+atlas = ExtResource("3_825xp")
+region = Rect2(0, 96, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_2m7fd"]
 atlas = ExtResource("2_5jgnp")
@@ -121,6 +135,20 @@ animations = [{
 }],
 "loop": true,
 "name": &"attack_up",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_esmjy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6tu5v")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_spxdj")
+}],
+"loop": false,
+"name": &"death",
 "speed": 5.0
 }, {
 "frames": [{
@@ -419,7 +447,7 @@ push_strength = 300.0
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, -1)
 sprite_frames = SubResource("SpriteFrames_qd3fr")
-animation = &"attack_left"
+animation = &"move_down"
 autoplay = "move_down"
 offset = Vector2(0, -5)
 
@@ -506,8 +534,16 @@ libraries = {
 &"": SubResource("AnimationLibrary_ji083")
 }
 
+[node name="DeathTimer" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
+
+[node name="NunchukStrike" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("10_ji083")
+
 [connection signal="body_entered" from="InteractArea2D" to="." method="_on_area_2d_body_entered"]
 [connection signal="body_exited" from="InteractArea2D" to="." method="_on_area_2d_body_exited"]
 [connection signal="body_entered" from="HitBoxArea2D" to="." method="_on_hit_box_area_2d_body_entered"]
 [connection signal="body_entered" from="Ninjaku/NinjakuArea2D" to="." method="_on_ninjaku_area_2d_body_entered"]
 [connection signal="timeout" from="AttackDurationTimer" to="." method="_on_attack_duration_timer_timeout"]
+[connection signal="timeout" from="DeathTimer" to="." method="_on_death_timer_timeout"]

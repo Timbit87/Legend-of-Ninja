@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://bhx0chhwdlqdi"
+path="res://.godot/imported/warfare_weapon_shuriken_flying_star_throw_kung_fu_002.mp3-262335e715a00dc39e7ad58fdecfa3ca.mp3str"
+
+[deps]
+
+source_file="res://Ninja Adventure - Asset Pack/Sounds/Zappsplat Sounds/warfare_weapon_shuriken_flying_star_throw_kung_fu_002.mp3"
+dest_files=["res://.godot/imported/warfare_weapon_shuriken_flying_star_throw_kung_fu_002.mp3-262335e715a00dc39e7ad58fdecfa3ca.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

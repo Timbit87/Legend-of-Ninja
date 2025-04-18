@@ -5,7 +5,9 @@ class_name Player
 @export var push_strength: float = 150
 @export var acceleration: float = 10
 
+var original_colour: Color = Color(1,1,1)
 var is_attacking: bool = false
+var can_interact: bool = false
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	update_trasure_label()
@@ -15,12 +17,14 @@ func _ready() -> void:
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta: float) -> void:
+	if SceneManager.player_hp <=0:
+		return
 	if not is_attacking:
 		move_player()
 	push_blocks()
 	move_and_slide()
 	update_trasure_label()
-	if Input.is_action_just_pressed("Interact"):
+	if Input.is_action_just_pressed("Interact") and not can_interact:
 		attack()
 	
 func move_player():
@@ -53,11 +57,13 @@ func push_blocks():
 
 func _on_area_2d_body_entered(body: Node2D) -> void:
 	if body.is_in_group("Interactable"):
+		can_interact = true
 		body.can_interact = true
 
 
 func _on_area_2d_body_exited(body: Node2D) -> void:
 	if body.is_in_group("Interactable"):
+		can_interact = false
 		body.can_interact = false
 
 func update_trasure_label():
@@ -81,8 +87,21 @@ func _on_hit_box_area_2d_body_entered(body):
 	
 	velocity += knockback_direction * knockback_strength
 	
+	var flash_white_colour: Color = Color(50, 50, 50)
+	
+	for i in range(2):
+		modulate = flash_white_colour	
+		await get_tree().create_timer(0.05).timeout	
+		modulate = original_colour
+		await get_tree().create_timer(0.05).timeout	
+	
 	
 func die():
+	if $DeathTimer.is_stopped():
+		$DeathTimer.start()
+	$AnimatedSprite2D.play("death")
+
+func _on_death_timer_timeout() -> void:
 	SceneManager.player_hp = 3
 	get_tree().call_deferred("reload_current_scene")
 	
@@ -97,10 +116,13 @@ func update_hp_bar():
 		%HPBar.play("0_hp")
 
 func attack():
+	if not $AttackDurationTimer.is_stopped():
+		return
 	is_attacking = true
 	$Ninjaku.visible = true
 	%NinjakuArea2D.monitoring = true
 	$AttackDurationTimer.start()
+	$NunchukStrike.play()
 	velocity = Vector2(0,0)
 	
 	var player_animation: String = $AnimatedSprite2D.animation
@@ -125,12 +147,7 @@ func _on_ninjaku_area_2d_body_entered(body: Node2D) -> void:
 	
 	body.velocity += knockback_direction * knockback_strength
 	
-	body.HP -= 1
-	print(body.HP)
-	if body.HP <= 0:
-		if body.has_method("death"):
-			body.death()
-			
+	body.take_damage()
 
 
 func _on_attack_duration_timer_timeout() -> void:

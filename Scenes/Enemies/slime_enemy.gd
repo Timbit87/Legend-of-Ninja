@@ -62,14 +62,29 @@ func death():
 	velocity = Vector2.ZERO
 	detection_area.monitoring = false 
 	$CollisionShape2D.disabled = true
-	$AnimatedSprite2D.play("death")
-	$AnimationPlayer.play("death")
+	$GPUParticles2D.emitting = true
 	$SlimeStepPlayer.stop()
 	$SlimeDeathPlayer.play()
-	await $AnimatedSprite2D.animation_finished
-	queue_free()
+	$AnimatedSprite2D.visible = false
+	
+func take_damage():
+	HP -= 1
+	if HP <= 0:
+		death()
+	var flash_red_colour: Color = Color(50, .1, .1)
+	var original_colour: Color = Color(1, 1, 1)
+	
+	for i in range(2):
+		modulate = flash_red_colour
+		await get_tree().create_timer(0.05).timeout	
+		modulate = original_colour
+		await get_tree().create_timer(0.05).timeout	
+	
 	
 
+	play_damage_sfx()		
+	
+	
 func _on_player_detect_area_2d_body_entered(body: Node2D) -> void:
 	if body is Player and not is_dead:
 		target = body
@@ -84,3 +99,7 @@ func _on_slime_step_timer_timeout() -> void:
 			$SlimeStepPlayer.stream = random_sound
 			$SlimeStepPlayer.pitch_scale = randf_range(0.8, 1.2)
 			$SlimeStepPlayer.play()
+
+func play_damage_sfx():
+	$DamageSFX.play()
+	

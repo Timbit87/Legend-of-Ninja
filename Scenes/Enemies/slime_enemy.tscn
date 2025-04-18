@@ -1,32 +1,16 @@
-[gd_scene load_steps=37 format=3 uid="uid://djqgww8x51jx3"]
+[gd_scene load_steps=34 format=3 uid="uid://djqgww8x51jx3"]
 
 [ext_resource type="Script" uid="uid://cix2f5qywyvau" path="res://Scenes/Enemies/slime_enemy.gd" id="1_5uyk1"]
 [ext_resource type="Texture2D" uid="uid://qvsu03tm1i86" path="res://Ninja Adventure - Asset Pack/Actor/Monsters/Slime3/Slime3.png" id="1_p6sbt"]
-[ext_resource type="Texture2D" uid="uid://cikskesdj081s" path="res://Ninja Adventure - Asset Pack/FX/Magic/Circle/SpriteSheetOrange.png" id="2_sv1en"]
 [ext_resource type="AudioStream" uid="uid://tqcxxov71cup" path="res://Ninja Adventure - Asset Pack/Sounds/Zappsplat Sounds/zapsplat_cartoon_bird_poop_hit_surface_splat_squelch_002_74091.mp3" id="3_jwhlm"]
 [ext_resource type="AudioStream" uid="uid://cfb0cgrhmspno" path="res://Ninja Adventure - Asset Pack/Sounds/Zappsplat Sounds/zapsplat_cartoon_bird_poop_hit_surface_splat_squelch_001_74090.mp3" id="4_1u7tg"]
 [ext_resource type="AudioStream" uid="uid://e1p7ras72e5d" path="res://Ninja Adventure - Asset Pack/Sounds/Zappsplat Sounds/zapsplat_cartoon_bird_poop_hit_surface_splat_squelch_003_74092.mp3" id="4_n4i4n"]
 [ext_resource type="AudioStream" uid="uid://dpm2ed8d7e8vu" path="res://Ninja Adventure - Asset Pack/Sounds/Zappsplat Sounds/zapsplat_cartoon_bird_poop_hit_surface_splat_squelch_004_74093.mp3" id="5_ld0qu"]
 [ext_resource type="AudioStream" uid="uid://diiwjtp4aokyf" path="res://Ninja Adventure - Asset Pack/Sounds/Zappsplat Sounds/zapsplat_cartoon_squelch_gulp_fart.mp3" id="8_ld0qu"]
+[ext_resource type="AudioStream" uid="uid://bynjpiltp062s" path="res://Ninja Adventure - Asset Pack/Sounds/Zappsplat Sounds/zapsplat_cartoon_spit_sqeulch_splat_liquid_75174.mp3" id="9_cmhxm"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_sv1en"]
 radius = 45.0444
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_vx8ge"]
-atlas = ExtResource("2_sv1en")
-region = Rect2(96, 0, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_wp8oh"]
-atlas = ExtResource("2_sv1en")
-region = Rect2(64, 0, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_6qitd"]
-atlas = ExtResource("2_sv1en")
-region = Rect2(32, 0, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_lvc1q"]
-atlas = ExtResource("2_sv1en")
-region = Rect2(0, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_5uyk1"]
 atlas = ExtResource("1_p6sbt")
@@ -102,29 +86,6 @@ region = Rect2(16, 48, 16, 16)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_sv1en"]
 animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_vx8ge")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_wp8oh")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_6qitd")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_lvc1q")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_6qitd")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_lvc1q")
-}],
-"loop": false,
-"name": &"death",
-"speed": 3.0
-}, {
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_5uyk1")
@@ -268,6 +229,15 @@ _data = {
 &"death": SubResource("Animation_sv1en")
 }
 
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_ld0qu"]
+particle_flag_disable_z = true
+spread = 180.0
+initial_velocity_min = 30.0
+initial_velocity_max = 60.0
+scale_min = 2.0
+scale_max = 3.0
+color = Color(0.591903, 0.879535, 0.952378, 1)
+
 [node name="SlimeEnemy" type="CharacterBody2D"]
 collision_layer = 16
 motion_mode = 1
@@ -284,9 +254,8 @@ debug_color = Color(0.290373, 0.618208, 0.351587, 0.42)
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_sv1en")
-animation = &"death"
 autoplay = "default"
-frame = 3
+frame = 1
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, 2)
@@ -306,6 +275,16 @@ area_mask = 19
 
 [node name="SlimeDeathPlayer" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("8_ld0qu")
+
+[node name="DamageSFX" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("9_cmhxm")
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="."]
+emitting = false
+amount = 60
+one_shot = true
+explosiveness = 0.8
+process_material = SubResource("ParticleProcessMaterial_ld0qu")
 
 [connection signal="body_entered" from="PlayerDetectArea2D" to="." method="_on_player_detect_area_2d_body_entered"]
 [connection signal="timeout" from="SlimeStepTimer" to="." method="_on_slime_step_timer_timeout"]
