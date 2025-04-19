@@ -5,15 +5,21 @@ extends CharacterBody2D
 @export var HP: int = 2
 var target: Node2D
 var is_dead = false
-var detection_area: Area2D
 var is_timer_playing := false
+var chase_zone: Area2D
+var is_chasing = false
 @export var slime_sounds: Array = []
+@onready var detection_area: Area2D = $PlayerDetectArea2D
+@onready var chase_zone_area: Area2D = $ChaseZoneArea2D
 
 func _ready():
 	# Get the detection area node if not already assigned
-	detection_area = $PlayerDetectArea2D  # Make sure to set this to the correct Area2D node
 	# Initially, make sure it's monitoring the player.
 	detection_area.monitoring = true
+	
+	detection_area.connect("body_entered", Callable(self, "_on_player_entered"))
+	chase_zone_area.connect("body_exited", Callable(self, "_on_chase_zone_area_2d_body_exited"))
+	chase_zone_area.connect("body_entered", Callable(self, "_on_chase_zone_area_2d_body_entered"))
 	
 func _physics_process(delta: float) -> void:
 	if is_dead:
@@ -33,14 +39,12 @@ func _physics_process(delta: float) -> void:
 	
 		
 func chase_target():
-	if not is_dead:
-		if target:
-			var distance_to_payer: Vector2
-			distance_to_payer = target.global_position - global_position
-		
-			var direction_normal: Vector2 = distance_to_payer.normalized()
-		
-			velocity = velocity.move_toward(direction_normal * speed, acceleration)
+	if is_chasing and target:
+		var distance_to_player = target.global_position - global_position
+		var direction_normal = distance_to_player.normalized()
+		velocity = velocity.move_toward(direction_normal * speed, acceleration)
+	else:
+		velocity = Vector2.ZERO
 
 func animate_enemy():
 	var normal_velocity: Vector2 = velocity.normalized()
@@ -88,6 +92,14 @@ func take_damage():
 func _on_player_detect_area_2d_body_entered(body: Node2D) -> void:
 	if body is Player and not is_dead:
 		target = body
+		is_chasing = true
+
+func _on_chase_zone_area_2d_body_exited(body: Node2D) -> void:
+	if body is Player and not is_dead:
+		print("Player exited chase zone")
+		is_chasing = false
+		target = null
+
 
 
 func _on_slime_step_timer_timeout() -> void:
@@ -103,3 +115,8 @@ func _on_slime_step_timer_timeout() -> void:
 func play_damage_sfx():
 	$DamageSFX.play()
 	
+
+
+func _on_chase_zone_area_2d_body_entered(body: Node2D) -> void:
+	if body is Player:
+		print("Player entered chase zone")

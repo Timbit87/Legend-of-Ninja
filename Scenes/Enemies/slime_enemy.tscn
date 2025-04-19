@@ -1,4 +1,4 @@
-[gd_scene load_steps=34 format=3 uid="uid://djqgww8x51jx3"]
+[gd_scene load_steps=35 format=3 uid="uid://djqgww8x51jx3"]
 
 [ext_resource type="Script" uid="uid://cix2f5qywyvau" path="res://Scenes/Enemies/slime_enemy.gd" id="1_5uyk1"]
 [ext_resource type="Texture2D" uid="uid://qvsu03tm1i86" path="res://Ninja Adventure - Asset Pack/Actor/Monsters/Slime3/Slime3.png" id="1_p6sbt"]
@@ -11,6 +11,9 @@
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_sv1en"]
 radius = 45.0444
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ld0qu"]
+radius = 195.064
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_5uyk1"]
 atlas = ExtResource("1_p6sbt")
@@ -252,6 +255,16 @@ collision_mask = 2
 shape = SubResource("CircleShape2D_sv1en")
 debug_color = Color(0.290373, 0.618208, 0.351587, 0.42)
 
+[node name="ChaseZoneArea2D" type="Area2D" parent="."]
+light_mask = 16
+visibility_layer = 2
+collision_layer = 16
+collision_mask = 2
+
+[node name="ChaseShape" type="CollisionShape2D" parent="ChaseZoneArea2D"]
+shape = SubResource("CircleShape2D_ld0qu")
+debug_color = Color(0.932176, 0.204303, 0.41562, 0.42)
+
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_sv1en")
 autoplay = "default"
@@ -287,4 +300,7 @@ explosiveness = 0.8
 process_material = SubResource("ParticleProcessMaterial_ld0qu")
 
 [connection signal="body_entered" from="PlayerDetectArea2D" to="." method="_on_player_detect_area_2d_body_entered"]
+[connection signal="body_exited" from="PlayerDetectArea2D" to="." method="_on_player_detect_area_2d_body_exited"]
+[connection signal="body_entered" from="ChaseZoneArea2D" to="." method="_on_chase_zone_area_2d_body_entered"]
+[connection signal="body_exited" from="ChaseZoneArea2D" to="." method="_on_chase_zone_area_2d_body_exited"]
 [connection signal="timeout" from="SlimeStepTimer" to="." method="_on_slime_step_timer_timeout"]

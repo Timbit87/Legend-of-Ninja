@@ -1,5 +1,6 @@
-[gd_scene load_steps=25 format=4 uid="uid://ds4wi3ljqapp7"]
+[gd_scene load_steps=26 format=4 uid="uid://ds4wi3ljqapp7"]
 
+[ext_resource type="Script" uid="uid://dctcs2allji8v" path="res://Scenes/DungeonScene/dungeon_scene.gd" id="1_in6yy"]
 [ext_resource type="PackedScene" uid="uid://ckpmajjjqcrg5" path="res://Scenes/Player/Player.tscn" id="1_xtt26"]
 [ext_resource type="PackedScene" uid="uid://l5pj8ldyvcsw" path="res://Scenes/SceneEntrance/scene_entrance.tscn" id="2_d3w8b"]
 [ext_resource type="Texture2D" uid="uid://b1b538og4ya5p" path="res://Ninja Adventure - Asset Pack/Backgrounds/Tilesets/Interior/TilesetWallSimple.png" id="3_qbxo0"]
@@ -834,6 +835,7 @@ font_size = 38
 font_color = Color(0, 0, 0, 1)
 
 [node name="DungeonScene" type="Node2D"]
+script = ExtResource("1_in6yy")
 
 [node name="SceneEntrance" parent="." instance=ExtResource("2_d3w8b")]
 position = Vector2(0, 55)
