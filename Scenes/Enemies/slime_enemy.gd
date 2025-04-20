@@ -99,6 +99,7 @@ func _on_chase_zone_area_2d_body_exited(body: Node2D) -> void:
 		print("Player exited chase zone")
 		is_chasing = false
 		target = null
+		$AnimatedSprite2D.play("default")
 
 
 
