@@ -245,9 +245,6 @@ color = Color(0.591903, 0.879535, 0.952378, 1)
 collision_layer = 16
 motion_mode = 1
 script = ExtResource("1_5uyk1")
-speed = null
-acceleration = null
-HP = null
 slime_sounds = [ExtResource("4_1u7tg"), ExtResource("3_jwhlm"), ExtResource("4_n4i4n"), ExtResource("5_ld0qu")]
 
 [node name="PlayerDetectArea2D" type="Area2D" parent="."]

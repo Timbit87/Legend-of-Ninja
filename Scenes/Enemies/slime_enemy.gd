@@ -15,14 +15,10 @@ var random_movement
 var random_movement_direction = 1
 
 func _ready():
-	# Get the detection area node if not already assigned
-	# Initially, make sure it's monitoring the player.
 	detection_area.monitoring = true
-	
 	detection_area.connect("body_entered", Callable(self, "_on_player_entered"))
 	chase_zone_area.connect("body_exited", Callable(self, "_on_chase_zone_area_2d_body_exited"))
 	chase_zone_area.connect("body_entered", Callable(self, "_on_chase_zone_area_2d_body_entered"))
-	
 	idle_movement()
 	
 func _physics_process(delta: float) -> void:
@@ -129,6 +125,8 @@ func _on_chase_zone_area_2d_body_entered(body: Node2D) -> void:
 		pass
 
 func _on_random_movement_timer_timeout() -> void:
+	var min_time = 1.0
+	var max_time = 5.0
 	velocity = Vector2.ZERO
-	$RandomMovementTimer.wait_time(rand)
+	$RandomMovementTimer.wait_time = randf_range(min_time, max_time)
 	$RandomMovementTimer.start()
