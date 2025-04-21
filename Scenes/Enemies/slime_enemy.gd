@@ -133,6 +133,7 @@ func _on_random_movement_timer_timeout() -> void:
 	var min_time = 1.0
 	var max_time = 5.0
 	if not is_chasing:
+		is_ideling = true
 		idle_movement()
 	velocity = Vector2.ZERO
 	$RandomMovementTimer.wait_time = randf_range(min_time, max_time)
