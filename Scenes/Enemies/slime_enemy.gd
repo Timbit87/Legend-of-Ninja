@@ -46,7 +46,7 @@ func chase_target():
 		var direction_normal = distance_to_player.normalized()
 		velocity = velocity.move_toward(direction_normal * speed, acceleration)
 	else:
-		velocity = Vector2.ZERO
+		idle_movement()
 
 func animate_enemy():
 	var normal_velocity: Vector2 = velocity.normalized()
