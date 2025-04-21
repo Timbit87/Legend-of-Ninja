@@ -1,7 +1,7 @@
 [gd_scene load_steps=24 format=4 uid="uid://3hm6vjtwxrpq"]
 
 [ext_resource type="Texture2D" uid="uid://c706xf8syt7dw" path="res://Ninja Adventure - Asset Pack/Backgrounds/Tilesets/TilesetFloor.png" id="1_8wq8i"]
-[ext_resource type="Script" uid="uid://b14pmxl8uno3m" path="res://Scenes/GameScene/game_scene.gd" id="1_rpdpv"]
+[ext_resource type="Script" path="res://Scenes/GameScene/game_scene.gd" id="1_rpdpv"]
 [ext_resource type="PackedScene" uid="uid://ckpmajjjqcrg5" path="res://Scenes/Player/Player.tscn" id="1_wyptg"]
 [ext_resource type="Texture2D" uid="uid://c7xxq1dmqc48" path="res://Ninja Adventure - Asset Pack/Backgrounds/Tilesets/TilesetNature.png" id="2_dn5vj"]
 [ext_resource type="Texture2D" uid="uid://ygnpl1881ome" path="res://Ninja Adventure - Asset Pack/Backgrounds/Tilesets/TilesetReliefDetail.png" id="3_4vbrq"]
@@ -893,7 +893,7 @@ autoplay = true
 parameters/looping = false
 
 [node name="SlimeEnemy" parent="." instance=ExtResource("14_bkvnf")]
-position = Vector2(-246, -24)
+position = Vector2(-21, 59)
 
 [connection signal="pressed" from="PuzzleButton" to="LockedDoor" method="_on_puzzle_button_pressed"]
 [connection signal="unpressed" from="PuzzleButton" to="LockedDoor" method="_on_puzzle_button_unpressed"]

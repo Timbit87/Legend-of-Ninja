@@ -11,6 +11,8 @@ var is_chasing = false
 @export var slime_sounds: Array = []
 @onready var detection_area: Area2D = $PlayerDetectArea2D
 @onready var chase_zone_area: Area2D = $ChaseZoneArea2D
+var random_movement
+var random_movement_direction = 1
 
 func _ready():
 	# Get the detection area node if not already assigned
@@ -20,6 +22,8 @@ func _ready():
 	detection_area.connect("body_entered", Callable(self, "_on_player_entered"))
 	chase_zone_area.connect("body_exited", Callable(self, "_on_chase_zone_area_2d_body_exited"))
 	chase_zone_area.connect("body_entered", Callable(self, "_on_chase_zone_area_2d_body_entered"))
+	
+	idle_movement()
 	
 func _physics_process(delta: float) -> void:
 	if is_dead:
@@ -36,6 +40,8 @@ func _physics_process(delta: float) -> void:
 		$SlimeStepTimer.stop()
 		is_timer_playing = false
 	
+func idle_movement():
+		velocity.x = random_movement_direction * speed
 	
 		
 func chase_target():
@@ -120,4 +126,9 @@ func play_damage_sfx():
 
 func _on_chase_zone_area_2d_body_entered(body: Node2D) -> void:
 	if body is Player:
-		print("Player entered chase zone")
+		pass
+
+func _on_random_movement_timer_timeout() -> void:
+	velocity = Vector2.ZERO
+	$RandomMovementTimer.wait_time(rand)
+	$RandomMovementTimer.start()
