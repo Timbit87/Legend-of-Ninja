@@ -13,8 +13,10 @@ var is_chasing = false
 @onready var chase_zone_area: Area2D = $ChaseZoneArea2D
 var random_movement
 var random_movement_direction = 1
+var is_ideling = true
 
 func _ready():
+	randomize()
 	detection_area.monitoring = true
 	detection_area.connect("body_entered", Callable(self, "_on_player_entered"))
 	chase_zone_area.connect("body_exited", Callable(self, "_on_chase_zone_area_2d_body_exited"))
@@ -42,11 +44,14 @@ func idle_movement():
 		
 func chase_target():
 	if is_chasing and target:
+		is_ideling = false
 		var distance_to_player = target.global_position - global_position
 		var direction_normal = distance_to_player.normalized()
 		velocity = velocity.move_toward(direction_normal * speed, acceleration)
+	elif is_ideling:
+		pass
 	else:
-		idle_movement()
+		velocity = Vector2.ZERO
 
 func animate_enemy():
 	var normal_velocity: Vector2 = velocity.normalized()
@@ -127,6 +132,8 @@ func _on_chase_zone_area_2d_body_entered(body: Node2D) -> void:
 func _on_random_movement_timer_timeout() -> void:
 	var min_time = 1.0
 	var max_time = 5.0
+	if not is_chasing:
+		idle_movement()
 	velocity = Vector2.ZERO
 	$RandomMovementTimer.wait_time = randf_range(min_time, max_time)
 	$RandomMovementTimer.start()
