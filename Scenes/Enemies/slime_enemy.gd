@@ -14,19 +14,23 @@ var is_chasing = false
 var random_movement
 var random_movement_direction = 1
 var is_ideling = true
+var steps_remaining = 0
+@export var step_duration := 0.2
+@export var step_distance := 10
 
 func _ready():
 	randomize()
+	$StepTimer.timeout.connect(_on_step_timer_timeout)
 	detection_area.monitoring = true
 	detection_area.connect("body_entered", Callable(self, "_on_player_entered"))
 	chase_zone_area.connect("body_exited", Callable(self, "_on_chase_zone_area_2d_body_exited"))
 	chase_zone_area.connect("body_entered", Callable(self, "_on_chase_zone_area_2d_body_entered"))
-	idle_movement()
-	
+
 func _physics_process(delta: float) -> void:
 	if is_dead:
 		return
-	chase_target()
+	if not is_ideling:
+		chase_target()
 	animate_enemy()
 	move_and_slide()
 
@@ -37,9 +41,6 @@ func _physics_process(delta: float) -> void:
 	else:
 		$SlimeStepTimer.stop()
 		is_timer_playing = false
-	
-func idle_movement():
-		velocity.x = random_movement_direction * speed
 	
 		
 func chase_target():
@@ -67,6 +68,8 @@ func animate_enemy():
 	elif normal_velocity.y < -0.707:
 		$AnimatedSprite2D.play("move_up")
 		$SlimeStepPlayer.pitch_scale = 1.5
+	else:
+		$AnimatedSprite2D.play("idle")
 		
 func death():
 	is_dead = true
@@ -100,14 +103,23 @@ func _on_player_detect_area_2d_body_entered(body: Node2D) -> void:
 	if body is Player and not is_dead:
 		target = body
 		is_chasing = true
+		is_ideling = false
+		$StepTimer.stop()
+		velocity = Vector2.ZERO
 
 func _on_chase_zone_area_2d_body_exited(body: Node2D) -> void:
 	if body is Player and not is_dead:
-		print("Player exited chase zone")
 		is_chasing = false
 		target = null
-		$AnimatedSprite2D.play("default")
-
+		is_ideling = true
+		steps_remaining = randi() % 3 + 1
+		random_movement_direction = Vector2(
+		[-1, 0, 1].pick_random(),
+		[-1, 0, 1].pick_random()
+		).normalized()
+		$StepTimer.start(step_duration)
+		$RandomMovementTimer.wait_time = randf_range(1.0, 5.0)
+		$RandomMovementTimer.start()
 
 
 func _on_slime_step_timer_timeout() -> void:
@@ -134,7 +146,20 @@ func _on_random_movement_timer_timeout() -> void:
 	var max_time = 5.0
 	if not is_chasing:
 		is_ideling = true
-		idle_movement()
-	velocity = Vector2.ZERO
+		steps_remaining = randi() % 4
+		random_movement_direction = Vector2(
+		[-1, 0, 1].pick_random(),
+		[-1, 0, 1].pick_random()
+		).normalized()
+		$StepTimer.start(step_duration) 
 	$RandomMovementTimer.wait_time = randf_range(min_time, max_time)
 	$RandomMovementTimer.start()
+
+func _on_step_timer_timeout() -> void:
+	if steps_remaining > 0 and not is_chasing:
+		velocity = random_movement_direction * step_distance
+		move_and_slide()
+		steps_remaining -= 1
+		$StepTimer.start(step_duration) 
+	else:
+		velocity = Vector2.ZERO

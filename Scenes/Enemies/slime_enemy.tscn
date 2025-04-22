@@ -97,7 +97,7 @@ animations = [{
 "texture": SubResource("AtlasTexture_bnysn")
 }],
 "loop": true,
-"name": &"default",
+"name": &"idle",
 "speed": 2.0
 }, {
 "frames": [{
@@ -267,7 +267,8 @@ debug_color = Color(0.932176, 0.204303, 0.41562, 0.42)
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_sv1en")
-autoplay = "default"
+animation = &"idle"
+autoplay = "idle"
 frame = 1
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -301,6 +302,9 @@ process_material = SubResource("ParticleProcessMaterial_ld0qu")
 
 [node name="RandomMovementTimer" type="Timer" parent="."]
 autostart = true
+
+[node name="StepTimer" type="Timer" parent="."]
+one_shot = true
 
 [connection signal="body_entered" from="PlayerDetectArea2D" to="." method="_on_player_detect_area_2d_body_entered"]
 [connection signal="body_exited" from="PlayerDetectArea2D" to="." method="_on_player_detect_area_2d_body_exited"]
