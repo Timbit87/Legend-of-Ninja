@@ -11,7 +11,6 @@ var is_chasing = false
 @export var slime_sounds: Array = []
 @onready var detection_area: Area2D = $PlayerDetectArea2D
 @onready var chase_zone_area: Area2D = $ChaseZoneArea2D
-var random_movement
 var random_movement_direction = 1
 var is_ideling = true
 var steps_remaining = 0
@@ -38,7 +37,7 @@ func _physics_process(delta: float) -> void:
 		if not is_timer_playing:
 			$SlimeStepTimer.start()
 			is_timer_playing = true
-	else:
+	elif is_timer_playing:
 		$SlimeStepTimer.stop()
 		is_timer_playing = false
 	
@@ -134,12 +133,6 @@ func _on_slime_step_timer_timeout() -> void:
 
 func play_damage_sfx():
 	$DamageSFX.play()
-	
-
-
-func _on_chase_zone_area_2d_body_entered(body: Node2D) -> void:
-	if body is Player:
-		pass
 
 func _on_random_movement_timer_timeout() -> void:
 	var min_time = 1.0
@@ -158,7 +151,6 @@ func _on_random_movement_timer_timeout() -> void:
 func _on_step_timer_timeout() -> void:
 	if steps_remaining > 0 and not is_chasing:
 		velocity = random_movement_direction * step_distance
-		move_and_slide()
 		steps_remaining -= 1
 		$StepTimer.start(step_duration) 
 	else:
