@@ -79,6 +79,8 @@ func death():
 	$SlimeStepPlayer.stop()
 	$SlimeDeathPlayer.play()
 	$AnimatedSprite2D.visible = false
+	await get_tree().create_timer(1.0).timeout
+	queue_free()
 	
 func take_damage():
 	HP -= 1

@@ -9,6 +9,10 @@ radius = 3.99989
 height = 15.9995
 
 [node name="Kunai" type="Area2D"]
+light_mask = 2
+visibility_layer = 16
+collision_layer = 2
+collision_mask = 29
 script = ExtResource("1_tsyko")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

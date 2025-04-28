@@ -208,6 +208,5 @@ func throw_kunai():
 	var kunai_offset = 8
 	kunai_instance.global_position = self.global_position + kunai_instance.throw_direction * kunai_offset
 	get_parent().add_child(kunai_instance)
-	kunai_instance.kunai_sound.play()
 	$ThrowKunaiTimer.start()
 	is_attacking = false
