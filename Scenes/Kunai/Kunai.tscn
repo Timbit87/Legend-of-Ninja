@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://clfuovyrgbogf" path="res://Scenes/Kunai/kunai.gd" id="1_tsyko"]
 [ext_resource type="Texture2D" uid="uid://bphjxovnd5okl" path="res://Ninja Adventure - Asset Pack/FX/Projectile/Kunai.png" id="2_t7npy"]
-[ext_resource type="AudioStream" uid="uid://dlliv4drc3fg4" path="res://Ninja Adventure - Asset Pack/Sounds/Game/Coin.wav" id="3_t7npy"]
+[ext_resource type="AudioStream" uid="uid://fhbqob83jb4f" path="res://Ninja Adventure - Asset Pack/Sounds/Game/Sword2.wav" id="3_t7npy"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_67d4l"]
 radius = 3.99989
