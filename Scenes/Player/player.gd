@@ -167,8 +167,10 @@ func _on_attack_duration_timer_timeout() -> void:
 		$AnimatedSprite2D.play("move_up")
 		
 func throw_kunai():
-	if not $AttackDurationTimer.is_stopped():
+	if not $ThrowKunaiTimer.is_stopped() or is_attacking:
 		return
+	is_attacking = true
+	velocity = Vector2.ZERO
 	var kunai_instance = preload("res://Scenes/Kunai/Kunai.tscn").instantiate()
 	kunai_instance.global_position = self.global_position
 	var player_anim = $AnimatedSprite2D.animation
@@ -206,3 +208,5 @@ func throw_kunai():
 	var kunai_offset = 8
 	kunai_instance.global_position = self.global_position + kunai_instance.throw_direction * kunai_offset
 	get_parent().add_child(kunai_instance)
+	$ThrowKunaiTimer.start()
+	is_attacking = false

@@ -541,6 +541,9 @@ one_shot = true
 [node name="NunchukStrike" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("10_ji083")
 
+[node name="ThrowKunaiTimer" type="Timer" parent="."]
+one_shot = true
+
 [connection signal="body_entered" from="InteractArea2D" to="." method="_on_area_2d_body_entered"]
 [connection signal="body_exited" from="InteractArea2D" to="." method="_on_area_2d_body_exited"]
 [connection signal="body_entered" from="HitBoxArea2D" to="." method="_on_hit_box_area_2d_body_entered"]
