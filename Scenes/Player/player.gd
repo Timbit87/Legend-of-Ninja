@@ -26,6 +26,8 @@ func _physics_process(delta: float) -> void:
 	update_trasure_label()
 	if Input.is_action_just_pressed("Interact") and not can_interact:
 		attack()
+	if Input.is_action_just_pressed("Throw") and not can_interact:
+		throw_kunai()
 	
 func move_player():
 	var move_vector: Vector2 = Input.get_vector("move_left", "move_right","move_up","move_down")
@@ -163,3 +165,22 @@ func _on_attack_duration_timer_timeout() -> void:
 		$AnimatedSprite2D.play("move_down")
 	elif player_animation == "attack_up":
 		$AnimatedSprite2D.play("move_up")
+		
+func throw_kunai():
+	if not $AttackDurationTimer.is_stopped():
+		return
+	var kunai_instance = preload("res://Scenes/Kunai/Kunai.tscn").instantiate()
+	kunai_instance.global_position = self.global_position
+	var player_anim = $AnimatedSprite2D.animation
+	match player_anim:
+		"move_right", "attack_right":
+			kunai_instance.throw_direction = Vector2.RIGHT
+		"move_left", "attack_left":
+			kunai_instance.throw_direction = Vector2.LEFT
+		"move_up", "attack_up":
+			kunai_instance.throw_direction = Vector2.UP
+		"move_down", "attack_down":
+			kunai_instance.throw_direction = Vector2.DOWN
+		_:
+			kunai_instance.throw_direction = Vector2.RIGHT
+	get_parent().add_child(kunai_instance)

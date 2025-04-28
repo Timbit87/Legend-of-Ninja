@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://db51bbyc6q00g"]
+[gd_scene load_steps=5 format=3 uid="uid://db51bbyc6q00g"]
 
-[ext_resource type="Script" uid="uid://dr5gy1n00ijh7" path="res://Scenes/Kunai/sai.gd" id="1_tsyko"]
+[ext_resource type="Script" uid="uid://clfuovyrgbogf" path="res://Scenes/Kunai/kunai.gd" id="1_tsyko"]
 [ext_resource type="Texture2D" uid="uid://bphjxovnd5okl" path="res://Ninja Adventure - Asset Pack/FX/Projectile/Kunai.png" id="2_t7npy"]
+[ext_resource type="AudioStream" uid="uid://dlliv4drc3fg4" path="res://Ninja Adventure - Asset Pack/Sounds/Game/Coin.wav" id="3_t7npy"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_67d4l"]
 radius = 3.99989
@@ -20,3 +21,6 @@ texture = ExtResource("2_t7npy")
 [node name="SaiTimeoutTimer" type="Timer" parent="."]
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_t7npy")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
