@@ -175,12 +175,34 @@ func throw_kunai():
 	match player_anim:
 		"move_right", "attack_right":
 			kunai_instance.throw_direction = Vector2.RIGHT
+			$AnimatedSprite2D.play("attack_right")
+			$AnimationPlayer.play("attack_right")
+			await $AnimationPlayer.animation_finished
+			$AnimatedSprite2D.play("move_right")
 		"move_left", "attack_left":
 			kunai_instance.throw_direction = Vector2.LEFT
+			$AnimatedSprite2D.play("attack_left")
+			$AnimationPlayer.play("attack_left")
+			await $AnimationPlayer.animation_finished
+			$AnimatedSprite2D.play("move_left")
 		"move_up", "attack_up":
 			kunai_instance.throw_direction = Vector2.UP
+			$AnimatedSprite2D.play("attack_up")
+			$AnimationPlayer.play("attack_up")
+			await $AnimationPlayer.animation_finished
+			$AnimatedSprite2D.play("move_up")
 		"move_down", "attack_down":
 			kunai_instance.throw_direction = Vector2.DOWN
+			$AnimatedSprite2D.play("attack_down")
+			$AnimationPlayer.play("attack_down")
+			await $AnimationPlayer.animation_finished
+			$AnimatedSprite2D.play("move_down")
 		_:
 			kunai_instance.throw_direction = Vector2.RIGHT
+			$AnimatedSprite2D.play("attack_right")
+			$AnimationPlayer.play("attack_right")
+			await $AnimationPlayer.animation_finished
+			$AnimatedSprite2D.play("move_right")
+	var kunai_offset = 8
+	kunai_instance.global_position = self.global_position + kunai_instance.throw_direction * kunai_offset
 	get_parent().add_child(kunai_instance)
