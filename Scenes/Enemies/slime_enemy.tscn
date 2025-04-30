@@ -1,4 +1,4 @@
-[gd_scene load_steps=35 format=3 uid="uid://djqgww8x51jx3"]
+[gd_scene load_steps=34 format=3 uid="uid://djqgww8x51jx3"]
 
 [ext_resource type="Script" uid="uid://cix2f5qywyvau" path="res://Scenes/Enemies/slime_enemy.gd" id="1_5uyk1"]
 [ext_resource type="Texture2D" uid="uid://qvsu03tm1i86" path="res://Ninja Adventure - Asset Pack/Actor/Monsters/Slime3/Slime3.png" id="1_p6sbt"]
@@ -8,9 +8,6 @@
 [ext_resource type="AudioStream" uid="uid://dpm2ed8d7e8vu" path="res://Ninja Adventure - Asset Pack/Sounds/Zappsplat Sounds/zapsplat_cartoon_bird_poop_hit_surface_splat_squelch_004_74093.mp3" id="5_ld0qu"]
 [ext_resource type="AudioStream" uid="uid://diiwjtp4aokyf" path="res://Ninja Adventure - Asset Pack/Sounds/Zappsplat Sounds/zapsplat_cartoon_squelch_gulp_fart.mp3" id="8_ld0qu"]
 [ext_resource type="AudioStream" uid="uid://bynjpiltp062s" path="res://Ninja Adventure - Asset Pack/Sounds/Zappsplat Sounds/zapsplat_cartoon_spit_sqeulch_splat_liquid_75174.mp3" id="9_cmhxm"]
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_sv1en"]
-radius = 45.0444
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_ld0qu"]
 radius = 195.064
@@ -251,17 +248,23 @@ slime_sounds = [ExtResource("4_1u7tg"), ExtResource("3_jwhlm"), ExtResource("4_n
 collision_layer = 16
 collision_mask = 2
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerDetectArea2D"]
-shape = SubResource("CircleShape2D_sv1en")
-debug_color = Color(0.290373, 0.618208, 0.351587, 0.42)
+[node name="DirectionNode2D" type="Node2D" parent="PlayerDetectArea2D"]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="PlayerDetectArea2D/DirectionNode2D"]
+position = Vector2(17, 10)
+rotation = -3.14159
+scale = Vector2(1, 1.83523)
+polygon = PackedVector2Array(-3.00017, -20.161, 35.9998, -20.1611, 25, 4.35908, 9.00003, 4.35911)
 
 [node name="ChaseZoneArea2D" type="Area2D" parent="."]
+visible = false
 light_mask = 16
 visibility_layer = 2
 collision_layer = 16
 collision_mask = 2
 
 [node name="ChaseShape" type="CollisionShape2D" parent="ChaseZoneArea2D"]
+position = Vector2(0, 1)
 shape = SubResource("CircleShape2D_ld0qu")
 debug_color = Color(0.932176, 0.204303, 0.41562, 0.42)
 

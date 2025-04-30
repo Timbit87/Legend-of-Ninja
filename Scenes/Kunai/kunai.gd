@@ -20,6 +20,8 @@ func _on_body_entered(body: Node2D) -> void:
 		
 		body.velocity += knockback_direction * knockback_strength
 		body.take_damage()
+	elif body.has_method("hit_by_kunai"):
+		body.hit_by_kunai()
 	
 	queue_free() # Destroy self immediately on *any* hit
 

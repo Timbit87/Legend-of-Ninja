@@ -40,8 +40,8 @@ func _physics_process(delta: float) -> void:
 	elif is_timer_playing:
 		$SlimeStepTimer.stop()
 		is_timer_playing = false
-	
-		
+
+
 func chase_target():
 	if is_chasing and target:
 		is_ideling = false
@@ -58,17 +58,19 @@ func animate_enemy():
 	if normal_velocity.x > 0.707:
 		$AnimatedSprite2D.play("move_right")
 		$SlimeStepPlayer.pitch_scale = 1.5
+		$PlayerDetectArea2D/DirectionNode2D.rotation = 0.0
 	elif normal_velocity.x < -0.707:
 		$AnimatedSprite2D.play("move_left")
 		$SlimeStepPlayer.pitch_scale = 1.5
+		$PlayerDetectArea2D/DirectionNode2D.rotation = PI 
 	elif normal_velocity.y > 0.707:
 		$AnimatedSprite2D.play("move_down")
 		$SlimeStepPlayer.pitch_scale = 1.5
+		$PlayerDetectArea2D/DirectionNode2D.rotation = PI / 2
 	elif normal_velocity.y < -0.707:
 		$AnimatedSprite2D.play("move_up")
 		$SlimeStepPlayer.pitch_scale = 1.5
-	else:
-		$AnimatedSprite2D.play("idle")
+		$PlayerDetectArea2D/DirectionNode2D.rotation = -PI / 2
 		
 func death():
 	is_dead = true

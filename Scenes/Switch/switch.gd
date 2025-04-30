@@ -23,4 +23,8 @@ func deactivate_switch():
 			$AnimatedSprite2D.play("deactivated")
 			switch_deactivated.emit()
 			is_activated = false
-	
+func hit_by_kunai():
+	if not is_activated:
+		activate_switch()
+	elif is_activated:
+		deactivate_switch()
