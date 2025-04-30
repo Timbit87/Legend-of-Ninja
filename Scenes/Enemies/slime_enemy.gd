@@ -58,19 +58,19 @@ func animate_enemy():
 	if normal_velocity.x > 0.707:
 		$AnimatedSprite2D.play("move_right")
 		$SlimeStepPlayer.pitch_scale = 1.5
-		$PlayerDetectArea2D/DirectionNode2D.rotation = 0.0
+		$PlayerDetectArea2D.rotation = deg_to_rad(-90)
 	elif normal_velocity.x < -0.707:
 		$AnimatedSprite2D.play("move_left")
 		$SlimeStepPlayer.pitch_scale = 1.5
-		$PlayerDetectArea2D/DirectionNode2D.rotation = PI 
+		$PlayerDetectArea2D.rotation = deg_to_rad(90)
 	elif normal_velocity.y > 0.707:
 		$AnimatedSprite2D.play("move_down")
 		$SlimeStepPlayer.pitch_scale = 1.5
-		$PlayerDetectArea2D/DirectionNode2D.rotation = PI / 2
+		$PlayerDetectArea2D.rotation = deg_to_rad(0)
 	elif normal_velocity.y < -0.707:
 		$AnimatedSprite2D.play("move_up")
 		$SlimeStepPlayer.pitch_scale = 1.5
-		$PlayerDetectArea2D/DirectionNode2D.rotation = -PI / 2
+		$PlayerDetectArea2D.rotation = deg_to_rad(180)
 		
 func death():
 	is_dead = true

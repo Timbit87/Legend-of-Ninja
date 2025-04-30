@@ -250,14 +250,13 @@ collision_mask = 2
 
 [node name="DirectionNode2D" type="Node2D" parent="PlayerDetectArea2D"]
 
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="PlayerDetectArea2D/DirectionNode2D"]
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="PlayerDetectArea2D"]
 position = Vector2(17, 10)
-rotation = -3.14159
+rotation = 3.14159
 scale = Vector2(1, 1.83523)
 polygon = PackedVector2Array(-3.00017, -20.161, 35.9998, -20.1611, 25, 4.35908, 9.00003, 4.35911)
 
 [node name="ChaseZoneArea2D" type="Area2D" parent="."]
-visible = false
 light_mask = 16
 visibility_layer = 2
 collision_layer = 16
