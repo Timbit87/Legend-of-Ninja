@@ -4,6 +4,8 @@ class_name Player
 @export var move_speed: float = 150
 @export var push_strength: float = 150
 @export var acceleration: float = 10
+@export var damage := 2
+@export var knockback_force := 50
 
 var original_colour: Color = Color(1,1,1)
 var is_attacking: bool = false
@@ -145,11 +147,10 @@ func _on_ninjaku_area_2d_body_entered(body: Node2D) -> void:
 	var distance_to_enemy: Vector2 = body.global_position - global_position
 	var knockback_direction: Vector2 = distance_to_enemy.normalized()
 	
-	var knockback_strength: float = 150
 	
-	body.velocity += knockback_direction * knockback_strength
+	body.velocity += knockback_direction * knockback_force
 	
-	body.take_damage()
+	body.take_damage(damage, self)
 
 
 func _on_attack_duration_timer_timeout() -> void:

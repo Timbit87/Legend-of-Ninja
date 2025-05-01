@@ -2,7 +2,7 @@ extends CharacterBody2D
 
 @export var speed: float = 30
 @export var acceleration: float = 5
-@export var HP: int = 2
+@export var HP: int = 4
 var target: Node2D
 var is_dead = false
 var is_timer_playing := false
@@ -84,8 +84,12 @@ func death():
 	await get_tree().create_timer(1.0).timeout
 	queue_free()
 	
-func take_damage():
-	HP -= 1
+func take_damage(amount: int = 1, attacker: Node2D = null):
+	HP -= amount
+	if attacker != null:
+		target = attacker
+		is_chasing = true
+		is_ideling = false
 	if HP <= 0:
 		death()
 	var flash_red_colour: Color = Color(50, .1, .1)
