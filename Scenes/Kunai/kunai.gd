@@ -4,6 +4,7 @@ var throw_direction = Vector2.RIGHT
 var throw_speed = 100
 @export var damage := 1
 @export var knockback_force := 10
+var thrower: Node2D
 
 func _ready() -> void:
 	$Sprite2D.rotation = throw_direction.angle()
@@ -21,7 +22,7 @@ func _on_body_entered(body: Node2D) -> void:
 		var knockback_strength: float = 75
 		
 		body.velocity += knockback_direction * knockback_strength
-		body.take_damage(damage, owner)
+		body.take_damage(damage, thrower)
 	elif body.has_method("hit_by_kunai"):
 		body.hit_by_kunai()
 	

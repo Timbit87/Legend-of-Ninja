@@ -10,6 +10,8 @@ class_name Player
 var original_colour: Color = Color(1,1,1)
 var is_attacking: bool = false
 var can_interact: bool = false
+
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	update_trasure_label()
@@ -168,12 +170,14 @@ func _on_attack_duration_timer_timeout() -> void:
 		$AnimatedSprite2D.play("move_up")
 		
 func throw_kunai():
+	
 	if not $ThrowKunaiTimer.is_stopped() or is_attacking:
 		return
 	is_attacking = true
 	velocity = Vector2.ZERO
 	var kunai_instance = preload("res://Scenes/Kunai/Kunai.tscn").instantiate()
 	kunai_instance.global_position = self.global_position
+	kunai_instance.thrower = self
 	var player_anim = $AnimatedSprite2D.animation
 	match player_anim:
 		"move_right", "attack_right":

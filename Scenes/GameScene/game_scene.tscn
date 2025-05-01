@@ -895,7 +895,4 @@ parameters/looping = false
 [node name="SlimeEnemy" parent="." instance=ExtResource("14_bkvnf")]
 position = Vector2(-21, 59)
 
-[connection signal="pressed" from="PuzzleButton" to="LockedDoor" method="_on_puzzle_button_pressed"]
-[connection signal="unpressed" from="PuzzleButton" to="LockedDoor" method="_on_puzzle_button_unpressed"]
-
 [editable path="ObstacleLayer/NPC2"]
