@@ -37,11 +37,12 @@ texture = ExtResource("2_t7npy")
 stream = ExtResource("3_t7npy")
 
 [node name="GPUParticles2D" type="GPUParticles2D" parent="."]
+position = Vector2(5, 0)
 emitting = false
 amount = 80
 lifetime = 0.5
 one_shot = true
-explosiveness = 0.8
+explosiveness = 1.0
 process_material = SubResource("ParticleProcessMaterial_t7npy")
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
