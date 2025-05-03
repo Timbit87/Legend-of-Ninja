@@ -1,4 +1,4 @@
-extends "res://Enemy.gd"
+extends "res://scenes/enemy/enemy.gd"
 
 
 @export var step_duration := 0.2
@@ -13,6 +13,8 @@ var steps_remaining = 0
 
 @onready var detection_area: Area2D = $PlayerDetectArea2D
 @onready var chase_zone_area: Area2D = $ChaseZoneArea2D
+@onready var slime_sprite: AnimatedSprite2D = $AnimatedSprite2D
+@onready var slime_step_player: AudioStreamPlayer2D = $SlimeStepPlayer
 
 
 func _ready():
@@ -48,21 +50,19 @@ func chase_target():
 		velocity = Vector2.ZERO
 
 func animate_enemy():
+	super.animate_enemy()
 	var normal_velocity: Vector2 = velocity.normalized()
 	if normal_velocity.x > 0.707:
-		$AnimatedSprite2D.play("move_right")
 		$PlayerDetectArea2D.rotation = deg_to_rad(-90)
 	elif normal_velocity.x < -0.707:
-		$AnimatedSprite2D.play("move_left")
 		$PlayerDetectArea2D.rotation = deg_to_rad(90)
 	elif normal_velocity.y > 0.707:
-		$AnimatedSprite2D.play("move_down")
 		$PlayerDetectArea2D.rotation = deg_to_rad(0)
 	elif normal_velocity.y < -0.707:
-		$AnimatedSprite2D.play("move_up")
 		$PlayerDetectArea2D.rotation = deg_to_rad(180)
 	
 	$SlimeStepPlayer.pitch_scale = 1.5
+	
 func death():
 	super()
 	detection_area.monitoring = false 

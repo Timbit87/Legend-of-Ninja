@@ -8,6 +8,9 @@ extends CharacterBody2D
 @export var death_particles: PackedScene
 @export var sounds: Array[AudioStream] = []
 
+@onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
+@onready var step_sound_player: AudioStreamPlayer2D = $AudioStreamPlayer2D
+
 var target: Node2D
 var is_dead = false
 
@@ -44,23 +47,15 @@ func _physics_process(delta):
 	if not is_dead:
 		chase_target()
 		move_and_slide()
+		animate_enemy()
 		
 func animate_enemy():
 	var normal_velocity: Vector2 = velocity.normalized()
 	if normal_velocity.x > 0.707:
 		$AnimatedSprite2D.play("move_right")
-		$SlimeStepPlayer.pitch_scale = 1.5
-		$PlayerDetectArea2D.rotation = deg_to_rad(-90)
 	elif normal_velocity.x < -0.707:
 		$AnimatedSprite2D.play("move_left")
-		$SlimeStepPlayer.pitch_scale = 1.5
-		$PlayerDetectArea2D.rotation = deg_to_rad(90)
 	elif normal_velocity.y > 0.707:
 		$AnimatedSprite2D.play("move_down")
-		$SlimeStepPlayer.pitch_scale = 1.5
-		$PlayerDetectArea2D.rotation = deg_to_rad(0)
 	elif normal_velocity.y < -0.707:
 		$AnimatedSprite2D.play("move_up")
-		$SlimeStepPlayer.pitch_scale = 1.5
-		$PlayerDetectArea2D.rotation = deg_to_rad(180)
-		
