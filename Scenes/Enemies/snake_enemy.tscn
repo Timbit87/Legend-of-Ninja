@@ -1,10 +1,8 @@
-[gd_scene load_steps=34 format=3 uid="uid://duqsx2dsrpunk"]
+[gd_scene load_steps=32 format=3 uid="uid://duqsx2dsrpunk"]
 
-[ext_resource type="Script" uid="uid://cix2f5qywyvau" path="res://Scenes/Enemies/slime_enemy.gd" id="1_4o3pu"]
-[ext_resource type="AudioStream" uid="uid://cfb0cgrhmspno" path="res://Ninja Adventure - Asset Pack/Sounds/Zappsplat Sounds/zapsplat_cartoon_bird_poop_hit_surface_splat_squelch_001_74090.mp3" id="2_4xfww"]
-[ext_resource type="AudioStream" uid="uid://tqcxxov71cup" path="res://Ninja Adventure - Asset Pack/Sounds/Zappsplat Sounds/zapsplat_cartoon_bird_poop_hit_surface_splat_squelch_002_74091.mp3" id="3_0xk4o"]
-[ext_resource type="AudioStream" uid="uid://e1p7ras72e5d" path="res://Ninja Adventure - Asset Pack/Sounds/Zappsplat Sounds/zapsplat_cartoon_bird_poop_hit_surface_splat_squelch_003_74092.mp3" id="4_owdg4"]
-[ext_resource type="AudioStream" uid="uid://dpm2ed8d7e8vu" path="res://Ninja Adventure - Asset Pack/Sounds/Zappsplat Sounds/zapsplat_cartoon_bird_poop_hit_surface_splat_squelch_004_74093.mp3" id="5_rn32v"]
+[ext_resource type="Script" uid="uid://bwnq4yk8mqe3o" path="res://Scenes/Enemies/snake_enemy.gd" id="1_5vbq6"]
+[ext_resource type="AudioStream" uid="uid://ky4sbyuirncy" path="res://Ninja Adventure - Asset Pack/Sounds/Zappsplat Sounds/zapsplat_cartoon_forced_squeeze_squelch_002_41906.mp3" id="2_54utv"]
+[ext_resource type="AudioStream" uid="uid://bbbw2euvoixj5" path="res://Ninja Adventure - Asset Pack/Sounds/Zappsplat Sounds/zapsplat_cartoon_dribble_squelch.mp3" id="3_4o3pu"]
 [ext_resource type="Texture2D" uid="uid://bon8bwa3tnt2u" path="res://Ninja Adventure - Asset Pack/Actor/Monsters/Snake2/Snake2.png" id="6_4o3pu"]
 [ext_resource type="AudioStream" uid="uid://diiwjtp4aokyf" path="res://Ninja Adventure - Asset Pack/Sounds/Zappsplat Sounds/zapsplat_cartoon_squelch_gulp_fart.mp3" id="7_jgv5h"]
 [ext_resource type="AudioStream" uid="uid://bynjpiltp062s" path="res://Ninja Adventure - Asset Pack/Sounds/Zappsplat Sounds/zapsplat_cartoon_spit_sqeulch_splat_liquid_75174.mp3" id="8_q8ft8"]
@@ -241,11 +239,8 @@ color = Color(0.591903, 0.879535, 0.952378, 1)
 [node name="SnakeEnemy" type="CharacterBody2D"]
 collision_layer = 16
 motion_mode = 1
-script = ExtResource("1_4o3pu")
-slime_sounds = [ExtResource("2_4xfww"), ExtResource("3_0xk4o"), ExtResource("4_owdg4"), ExtResource("5_rn32v")]
-HP = 2
-damage = 2
-speed = 25.0
+script = ExtResource("1_5vbq6")
+snake_sounds = [ExtResource("2_54utv"), ExtResource("3_4o3pu")]
 
 [node name="PlayerDetectArea2D" type="Area2D" parent="."]
 collision_layer = 16
