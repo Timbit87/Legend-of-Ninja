@@ -10,6 +10,7 @@ class_name Player
 var original_colour: Color = Color(1,1,1)
 var is_attacking: bool = false
 var can_interact: bool = false
+var already_hit_enemies := {}
 
 
 # Called when the node enters the scene tree for the first time.
@@ -122,6 +123,7 @@ func update_hp_bar():
 		%HPBar.play("0_hp")
 
 func attack():
+	already_hit_enemies.clear()
 	if not $AttackDurationTimer.is_stopped():
 		return
 	is_attacking = true
@@ -146,13 +148,16 @@ func attack():
 		$AnimationPlayer.play("attack_up")
 
 func _on_ninjaku_area_2d_body_entered(body: Node2D) -> void:
-	var distance_to_enemy: Vector2 = body.global_position - global_position
-	var knockback_direction: Vector2 = distance_to_enemy.normalized()
-	
-	
-	body.velocity += knockback_direction * knockback_force
-	
-	body.take_damage(damage, self)
+	if body in already_hit_enemies:
+		return
+		
+	if "velocity" in body:
+		var distance_to_enemy: Vector2 = body.global_position - global_position
+		var knockback_direction: Vector2 = distance_to_enemy.normalized()
+		body.velocity += knockback_direction * knockback_force
+	if "take_damage" in body:
+		body.take_damage(damage, self)
+		already_hit_enemies[body] = true
 
 
 func _on_attack_duration_timer_timeout() -> void:

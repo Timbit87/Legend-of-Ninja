@@ -1,4 +1,4 @@
-extends "res://scenes/enemy/enemy.gd"
+extends "res://Scenes/Enemy/enemy.gd"
 
 
 @export var step_duration := 0.2
@@ -64,13 +64,20 @@ func animate_enemy():
 	$SlimeStepPlayer.pitch_scale = 1.5
 	
 func death():
-	super()
+	is_dead = true
+	set_process(false)
+	set_physics_process(false)
+	
 	detection_area.monitoring = false 
 	$CollisionShape2D.disabled = true
 	$GPUParticles2D.emitting = true
+	$PlayerDetectArea2D.monitoring = false
+	$AnimatedSprite2D.visible = false
+	
 	$SlimeStepPlayer.stop()
 	$SlimeDeathPlayer.play()
-	$AnimatedSprite2D.visible = false
+	$GPUParticles2D.emitting = true
+	
 	await get_tree().create_timer(1.0).timeout
 	queue_free()
 	
