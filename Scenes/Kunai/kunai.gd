@@ -26,8 +26,9 @@ func _on_body_entered(body: Node2D) -> void:
 	elif body.has_method("hit_by_kunai"):
 		body.hit_by_kunai()
 	$Sprite2D.visible = false
-	$CollisionShape2D.disabled = true
+	$CollisionShape2D.set_deferred("disabled", true)
 	$GPUParticles2D.emitting = true
+	$KunaiDestructionPlayer.play()
 	await get_tree().create_timer(1.0).timeout
 	queue_free() # Destroy self immediately on *any* hit
 
