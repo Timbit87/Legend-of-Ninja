@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://5ne1ar6p6mdd"
+path="res://.godot/imported/zapsplat_animals_snake_hiss_short_14693.mp3-4139906c917a5c5bb6e4abb1074633dc.mp3str"
+
+[deps]
+
+source_file="res://Ninja Adventure - Asset Pack/Sounds/Zappsplat Sounds/zapsplat_animals_snake_hiss_short_14693.mp3"
+dest_files=["res://.godot/imported/zapsplat_animals_snake_hiss_short_14693.mp3-4139906c917a5c5bb6e4abb1074633dc.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

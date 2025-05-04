@@ -4,7 +4,7 @@
 [ext_resource type="AudioStream" uid="uid://ky4sbyuirncy" path="res://Ninja Adventure - Asset Pack/Sounds/Zappsplat Sounds/zapsplat_cartoon_forced_squeeze_squelch_002_41906.mp3" id="2_54utv"]
 [ext_resource type="AudioStream" uid="uid://bbbw2euvoixj5" path="res://Ninja Adventure - Asset Pack/Sounds/Zappsplat Sounds/zapsplat_cartoon_dribble_squelch.mp3" id="3_4o3pu"]
 [ext_resource type="Texture2D" uid="uid://bon8bwa3tnt2u" path="res://Ninja Adventure - Asset Pack/Actor/Monsters/Snake2/Snake2.png" id="6_4o3pu"]
-[ext_resource type="AudioStream" uid="uid://diiwjtp4aokyf" path="res://Ninja Adventure - Asset Pack/Sounds/Zappsplat Sounds/zapsplat_cartoon_squelch_gulp_fart.mp3" id="7_jgv5h"]
+[ext_resource type="AudioStream" uid="uid://5ne1ar6p6mdd" path="res://Ninja Adventure - Asset Pack/Sounds/Zappsplat Sounds/zapsplat_animals_snake_hiss_short_14693.mp3" id="7_54utv"]
 [ext_resource type="AudioStream" uid="uid://bynjpiltp062s" path="res://Ninja Adventure - Asset Pack/Sounds/Zappsplat Sounds/zapsplat_cartoon_spit_sqeulch_splat_liquid_75174.mp3" id="8_q8ft8"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_ld0qu"]
@@ -287,10 +287,16 @@ max_distance = 500.0
 area_mask = 19
 
 [node name="SnakeDeathPlayer" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource("7_jgv5h")
+stream = ExtResource("7_54utv")
 
 [node name="DamageSFX" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("8_q8ft8")
+
+[node name="RandomMovementTimer" type="Timer" parent="."]
+autostart = true
+
+[node name="StepTimer" type="Timer" parent="."]
+one_shot = true
 
 [node name="GPUParticles2D" type="GPUParticles2D" parent="."]
 emitting = false
@@ -299,11 +305,8 @@ one_shot = true
 explosiveness = 0.8
 process_material = SubResource("ParticleProcessMaterial_ld0qu")
 
-[node name="RandomMovementTimer" type="Timer" parent="."]
-autostart = true
-
-[node name="StepTimer" type="Timer" parent="."]
-one_shot = true
+[node name="AttackNoisePlayer" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("7_54utv")
 
 [connection signal="body_entered" from="PlayerDetectArea2D" to="." method="_on_player_detect_area_2d_body_entered"]
 [connection signal="body_exited" from="PlayerDetectArea2D" to="." method="_on_player_detect_area_2d_body_exited"]

@@ -44,6 +44,7 @@ func chase_target():
 		var distance_to_player = target.global_position - global_position
 		var direction_normal = distance_to_player.normalized()
 		velocity = velocity.move_toward(direction_normal * speed, acceleration)
+		$AttackNoisePlayer
 	elif is_ideling:
 		pass
 	else:

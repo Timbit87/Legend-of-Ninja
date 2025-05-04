@@ -7,6 +7,7 @@ signal opened_door
 
 func _on_puzzle_button_pressed() -> void:
 	buttons_pressed += 1
+	print(buttons_pressed)
 	if buttons_pressed >= buttons_needed:
 		visible = false
 		$CollisionShape2D.set_deferred("disabled", true)

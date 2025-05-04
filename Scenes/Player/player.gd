@@ -5,7 +5,7 @@ class_name Player
 @export var push_strength: float = 150
 @export var acceleration: float = 10
 @export var damage := 2
-@export var knockback_force := 50
+@export var knockback_force := 150
 
 var original_colour: Color = Color(1,1,1)
 var is_attacking: bool = false
