@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=4 uid="uid://3hm6vjtwxrpq"]
+[gd_scene load_steps=25 format=4 uid="uid://3hm6vjtwxrpq"]
 
 [ext_resource type="Texture2D" uid="uid://c706xf8syt7dw" path="res://Ninja Adventure - Asset Pack/Backgrounds/Tilesets/TilesetFloor.png" id="1_8wq8i"]
 [ext_resource type="Script" uid="uid://b14pmxl8uno3m" path="res://Scenes/GameScene/game_scene.gd" id="1_rpdpv"]
@@ -15,6 +15,7 @@
 [ext_resource type="PackedScene" uid="uid://mklpiu6mqtso" path="res://Scenes/Switch/switch.tscn" id="12_3yc2v"]
 [ext_resource type="AudioStream" uid="uid://bhpofjssxto2b" path="res://Ninja Adventure - Asset Pack/Musics/11 - Clearing.ogg" id="13_njm7v"]
 [ext_resource type="PackedScene" uid="uid://djqgww8x51jx3" path="res://Scenes/Enemies/slime_enemy.tscn" id="14_bkvnf"]
+[ext_resource type="PackedScene" uid="uid://duqsx2dsrpunk" path="res://Scenes/Enemies/snake_enemy.tscn" id="16_6dkqd"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_xbukn"]
 texture = ExtResource("1_8wq8i")
@@ -894,5 +895,11 @@ parameters/looping = false
 
 [node name="SlimeEnemy" parent="." instance=ExtResource("14_bkvnf")]
 position = Vector2(-21, 59)
+
+[node name="SnakeEnemy" parent="." instance=ExtResource("16_6dkqd")]
+position = Vector2(-26, -174)
+
+[connection signal="pressed" from="PuzzleButton" to="LockedDoor" method="_on_puzzle_button_pressed"]
+[connection signal="unpressed" from="PuzzleButton" to="LockedDoor" method="_on_puzzle_button_unpressed"]
 
 [editable path="ObstacleLayer/NPC2"]

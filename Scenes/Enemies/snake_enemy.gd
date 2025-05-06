@@ -3,7 +3,7 @@ extends "res://Scenes/Enemy/enemy.gd"
 
 @export var step_duration := 0.2
 @export var step_distance := 10
-@export var slime_sounds: Array = []
+@export var snake_sounds: Array = []
 
 var is_timer_playing := false
 var is_ideling = true
@@ -13,8 +13,8 @@ var steps_remaining = 0
 
 @onready var detection_area: Area2D = $PlayerDetectArea2D
 @onready var chase_zone_area: Area2D = $ChaseZoneArea2D
-@onready var slime_sprite: AnimatedSprite2D = $AnimatedSprite2D
-@onready var slime_step_player: AudioStreamPlayer2D = $SlimeStepPlayer
+@onready var snake_sprite: AnimatedSprite2D = $AnimatedSprite2D
+@onready var snake_step_player: AudioStreamPlayer2D = $SnakeStepPlayer
 
 
 func _ready():
@@ -28,13 +28,13 @@ func _ready():
 func _physics_process(delta: float) -> void:
 	super._physics_process(delta)
 
-	# Slime-specific footstep logic
+	# Snake-specific footstep logic
 	if velocity.length() > 2:
 		if not is_timer_playing:
-			$SlimeStepTimer.start()
+			$SnakeStepTimer.start()
 			is_timer_playing = true
 	elif is_timer_playing:
-		$SlimeStepTimer.stop()
+		$SnakeStepTimer.stop()
 		is_timer_playing = false
 
 
@@ -44,6 +44,7 @@ func chase_target():
 		var distance_to_player = target.global_position - global_position
 		var direction_normal = distance_to_player.normalized()
 		velocity = velocity.move_toward(direction_normal * speed, acceleration)
+		$AttackNoisePlayer
 	elif is_ideling:
 		pass
 	else:
@@ -61,7 +62,7 @@ func animate_enemy():
 	elif normal_velocity.y < -0.707:
 		$PlayerDetectArea2D.rotation = deg_to_rad(180)
 	
-	$SlimeStepPlayer.pitch_scale = 1.5
+	$SnakeStepPlayer.pitch_scale = 1.5
 	
 func death():
 	is_dead = true
@@ -74,8 +75,8 @@ func death():
 	$PlayerDetectArea2D.monitoring = false
 	$AnimatedSprite2D.visible = false
 	
-	$SlimeStepPlayer.stop()
-	$SlimeDeathPlayer.play()
+	$SnakeStepPlayer.stop()
+	$SnakeDeathPlayer.play()
 	$GPUParticles2D.emitting = true
 	
 	await get_tree().create_timer(1.0).timeout
@@ -108,15 +109,15 @@ func _on_chase_zone_area_2d_body_exited(body: Node2D) -> void:
 		start_random_movement()
 
 
-func _on_slime_step_timer_timeout() -> void:
+func _on_snake_step_timer_timeout() -> void:
 	if is_dead == true:	
-		$SlimeStepPlayer.stop()
+		$SnakeStepPlayer.stop()
 	else:
-		if !$SlimeStepPlayer.playing:
-			var random_sound = slime_sounds[randi() % slime_sounds.size()]
-			$SlimeStepPlayer.stream = random_sound
-			$SlimeStepPlayer.pitch_scale = randf_range(0.8, 1.2)
-			$SlimeStepPlayer.play()
+		if !$SnakeStepPlayer.playing:
+			var random_sound = snake_sounds[randi() % snake_sounds.size()]
+			$SnakeStepPlayer.stream = random_sound
+			$SnakeStepPlayer.pitch_scale = randf_range(0.8, 1.2)
+			$SnakeStepPlayer.play()
 
 func _on_random_movement_timer_timeout() -> void:
 	var min_time = 1.0
