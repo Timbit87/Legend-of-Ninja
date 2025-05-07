@@ -260,6 +260,7 @@ debug_color = Color(0.932176, 0.204303, 0.41562, 0.42)
 sprite_frames = SubResource("SpriteFrames_sv1en")
 animation = &"move_up"
 autoplay = "idle"
+frame = 3
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, 2)

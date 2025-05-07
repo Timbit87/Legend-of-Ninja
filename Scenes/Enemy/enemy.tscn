@@ -18,7 +18,7 @@ script = ExtResource("1_mw074")
 
 [node name="Area2D" type="Area2D" parent="."]
 
-[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+[node name="StepPlayer2D" type="AudioStreamPlayer2D" parent="."]
 
 [node name="BloodParticles" type="GPUParticles2D" parent="."]
 emitting = false

@@ -7,10 +7,10 @@ extends CharacterBody2D
 @export var acceleration: float = 5
 @export var return_speed := 60.0
 @export var death_particles: PackedScene
-@export var sounds: Array[AudioStream] = []
+@export var step_sounds: Array[AudioStream] = []
 
 @onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
-@onready var step_sound_player: AudioStreamPlayer2D = $AudioStreamPlayer2D
+@onready var step_player: AudioStreamPlayer2D = $StepPlayer2D
 @onready var particles = $BloodParticles
 
 var target: Node2D
@@ -71,7 +71,7 @@ func _physics_process(delta):
 	if not is_dead:
 		chase_target()
 		animate_enemy()
-	move_and_slide()
+		move_and_slide()
 		
 func animate_enemy():
 	var normal_velocity: Vector2 = velocity.normalized()
@@ -83,9 +83,11 @@ func animate_enemy():
 		$AnimatedSprite2D.play("move_down")
 	elif normal_velocity.y < -0.707:
 		$AnimatedSprite2D.play("move_up")
+		
 
 func emit_blood_splatter():
 	var particles = $BloodParticles
+	var angle = deg_to_rad(randf_range(-45, 45))
 	if !particles:
 		return
 	if particles.process_material == null:
@@ -93,5 +95,15 @@ func emit_blood_splatter():
 
 	var material = particles.process_material as ParticleProcessMaterial
 	if material != null:
-		material.direction = randf_range(-45, 45)
+		material.direction = deg_to_rad(randf_range(-45, 45))
+		material.direction = Vector3(cos(angle), sin(angle), 0)
 	particles.restart()
+
+func play_step_sounds():
+	if step_sounds.size() == 0:
+		return
+	if not step_player.playing:
+		var random_step_sound = step_sounds[randi() % step_sounds.size()]
+		step_player.stream = random_step_sound
+		step_player.pitch_scale = randf_range(0.9, 1.2)
+		step_player.play()

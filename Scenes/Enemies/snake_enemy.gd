@@ -51,18 +51,8 @@ func chase_target():
 		velocity = Vector2.ZERO
 
 func animate_enemy():
-	super.animate_enemy()
-	var normal_velocity: Vector2 = velocity.normalized()
-	if normal_velocity.x > 0.707:
-		$PlayerDetectArea2D.rotation = deg_to_rad(-90)
-	elif normal_velocity.x < -0.707:
-		$PlayerDetectArea2D.rotation = deg_to_rad(90)
-	elif normal_velocity.y > 0.707:
-		$PlayerDetectArea2D.rotation = deg_to_rad(0)
-	elif normal_velocity.y < -0.707:
-		$PlayerDetectArea2D.rotation = deg_to_rad(180)
-	
-	$SnakeStepPlayer.pitch_scale = 1.5
+	super.animate_enemy()	
+	play_step_sounds()
 	
 func death():
 	is_dead = true
@@ -71,13 +61,11 @@ func death():
 	
 	detection_area.monitoring = false 
 	$CollisionShape2D.disabled = true
-	$GPUParticles2D.emitting = true
 	$PlayerDetectArea2D.monitoring = false
 	$AnimatedSprite2D.visible = false
 	
 	$SnakeStepPlayer.stop()
 	$SnakeDeathPlayer.play()
-	$GPUParticles2D.emitting = true
 	
 	await get_tree().create_timer(1.0).timeout
 	queue_free()
@@ -89,6 +77,7 @@ func take_damage(amount: int = 1, attacker: Node2D = null):
 		is_chasing = true
 		is_ideling = false
 	play_damage_sfx()
+	emit_blood_splatter()
 
 func play_damage_sfx():
 	$DamageSFX.play()	
@@ -100,7 +89,6 @@ func _on_player_detect_area_2d_body_entered(body: Node2D) -> void:
 		is_chasing = true
 		is_ideling = false
 		$StepTimer.stop()
-		velocity = Vector2.ZERO
 
 func _on_chase_zone_area_2d_body_exited(body: Node2D) -> void:
 	if body is Player and not is_dead:
