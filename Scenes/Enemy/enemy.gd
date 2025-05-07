@@ -5,6 +5,7 @@ extends CharacterBody2D
 @export var damage: int = 1
 @export var speed: float = 30
 @export var acceleration: float = 5
+@export var return_speed := 60.0
 @export var death_particles: PackedScene
 @export var sounds: Array[AudioStream] = []
 
@@ -14,10 +15,26 @@ extends CharacterBody2D
 var target: Node2D
 var is_dead = false
 var spawn_position: Vector2
+var returning_to_spawn := false
+
 
 func _ready() -> void:
 	spawn_position = global_position
-
+	
+	
+func return_to_spawn(delta) -> void:
+	if returning_to_spawn:
+		var distance_to_spawn = spawn_position - global_position
+		if distance_to_spawn.length() < 4:
+			global_position = spawn_position
+			velocity = Vector2.ZERO
+			returning_to_spawn = false
+		else:
+			var direction = distance_to_spawn.normalized()
+			velocity = direction * return_speed
+	
+	
+	
 func take_damage(amount: int = 1, attacker: Node2D = null):
 	if is_dead:
 		return
@@ -48,10 +65,12 @@ func chase_target():
 		velocity = velocity.move_toward(dir * speed, acceleration)
 		
 func _physics_process(delta):
+	if returning_to_spawn:
+		return_to_spawn(delta)
 	if not is_dead:
 		chase_target()
-		move_and_slide()
 		animate_enemy()
+	move_and_slide()
 		
 func animate_enemy():
 	var normal_velocity: Vector2 = velocity.normalized()

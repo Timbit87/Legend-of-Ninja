@@ -106,6 +106,7 @@ func _on_chase_zone_area_2d_body_exited(body: Node2D) -> void:
 	if body is Player and not is_dead:
 		is_chasing = false
 		target = null
+		returning_to_spawn = true
 		start_random_movement()
 
 

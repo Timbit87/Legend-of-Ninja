@@ -229,12 +229,12 @@ _data = {
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_ld0qu"]
 particle_flag_disable_z = true
-spread = 180.0
+spread = 30.0
 initial_velocity_min = 30.0
 initial_velocity_max = 60.0
 scale_min = 2.0
 scale_max = 3.0
-color = Color(0.591903, 0.879535, 0.952378, 1)
+color = Color(0.861553, 0.241736, 0.191367, 1)
 
 [node name="SnakeEnemy" type="CharacterBody2D"]
 collision_layer = 16
