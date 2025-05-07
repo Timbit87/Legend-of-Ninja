@@ -45,11 +45,20 @@ func chase_target():
 		velocity = velocity.move_toward(dir * speed, acceleration)
 		$AttackNoisePlayer
 	else:
-		velocity = Vector2.ZERO
+		is_ideling = true
 
 func animate_enemy():
 	super.animate_enemy()	
-	play_step_sounds()
+	play_step_sounds()		
+	var normal_velocity: Vector2 = velocity.normalized()
+	if normal_velocity.x > 0.707:
+		$PlayerDetectArea2D.rotation = deg_to_rad(-90)
+	elif normal_velocity.x < -0.707:
+		$PlayerDetectArea2D.rotation = deg_to_rad(90)
+	elif normal_velocity.y > 0.707:
+		$PlayerDetectArea2D.rotation = deg_to_rad(0)
+	elif normal_velocity.y < -0.707:
+		$PlayerDetectArea2D.rotation = deg_to_rad(180)
 	
 func death():
 	is_dead = true
@@ -68,13 +77,13 @@ func death():
 	queue_free()
 	
 func take_damage(amount: int = 1, attacker: Node2D = null):
+	# emit_blood_splatter()
 	super(amount, attacker)
 	if attacker != null:
 		target = attacker
 		is_chasing = true
 		is_ideling = false
 	play_damage_sfx()
-	emit_blood_splatter()
 
 func play_damage_sfx():
 	$DamageSFX.play()	
@@ -99,8 +108,6 @@ func _on_snake_step_timer_timeout() -> void:
 		$SnakeStepPlayer.stop()
 	else:
 		if !$SnakeStepPlayer.playing:
-			var random_sound = snake_sounds[randi() % snake_sounds.size()]
-			$SnakeStepPlayer.stream = random_sound
 			$SnakeStepPlayer.pitch_scale = randf_range(0.8, 1.2)
 			$SnakeStepPlayer.play()
 
@@ -128,3 +135,7 @@ func start_random_movement():
 	$StepTimer.start(step_duration)
 	$RandomMovementTimer.wait_time = randf_range(1.0, 5.0)
 	$RandomMovementTimer.start()
+
+
+func _on_area_2d_area_entered(area: Area2D) -> void:
+	pass

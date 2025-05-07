@@ -73,8 +73,8 @@ func _physics_process(delta):
 		return_to_spawn(delta)
 	if not is_dead:
 		chase_target()
-		animate_enemy()
 		move_and_slide()
+		animate_enemy()
 		
 func animate_enemy():
 	var normal_velocity: Vector2 = velocity.normalized()

@@ -1,10 +1,11 @@
-[gd_scene load_steps=30 format=3 uid="uid://dsb1qkkibwqkw"]
+[gd_scene load_steps=32 format=3 uid="uid://dsb1qkkibwqkw"]
 
 [ext_resource type="PackedScene" uid="uid://b6sb1y6le0aqo" path="res://Scenes/Enemy/enemy.tscn" id="1_olrea"]
 [ext_resource type="Script" uid="uid://bwnq4yk8mqe3o" path="res://Scenes/Enemies/snake_enemy.gd" id="2_x0bgp"]
 [ext_resource type="AudioStream" uid="uid://5ne1ar6p6mdd" path="res://Ninja Adventure - Asset Pack/Sounds/Zappsplat Sounds/zapsplat_animals_snake_hiss_short_14693.mp3" id="3_r878a"]
 [ext_resource type="Texture2D" uid="uid://bon8bwa3tnt2u" path="res://Ninja Adventure - Asset Pack/Actor/Monsters/Snake2/Snake2.png" id="4_2lny3"]
 [ext_resource type="AudioStream" uid="uid://bynjpiltp062s" path="res://Ninja Adventure - Asset Pack/Sounds/Zappsplat Sounds/zapsplat_cartoon_spit_sqeulch_splat_liquid_75174.mp3" id="5_76crs"]
+[ext_resource type="AudioStream" uid="uid://bsdijlhy3vq42" path="res://Ninja Adventure - Asset Pack/Sounds/Zappsplat Sounds/zapsplat_cartoon_fart_airy_squench_41880.mp3" id="5_r878a"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_x0bgp"]
 atlas = ExtResource("4_2lny3")
@@ -160,11 +161,13 @@ animations = [{
 "speed": 10.0
 }]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_0p2w4"]
-radius = 195.064
+[sub_resource type="CircleShape2D" id="CircleShape2D_r878a"]
+radius = 13.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_c57an"]
-radius = 8.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_0p2w4"]
+radius = 195.064
 
 [sub_resource type="Animation" id="Animation_1u7tg"]
 length = 0.001
@@ -227,6 +230,7 @@ _data = {
 }
 
 [node name="Enemy" instance=ExtResource("1_olrea")]
+collision_layer = 16
 script = ExtResource("2_x0bgp")
 step_duration = 0.2
 step_distance = 10
@@ -239,10 +243,17 @@ autoplay = "idle"
 frame = 1
 
 [node name="Area2D" parent="." index="1"]
-monitoring = false
-monitorable = false
+collision_layer = 16
+collision_mask = 2
 
-[node name="PlayerDetectArea2D" type="Area2D" parent="." index="4"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" index="0"]
+shape = SubResource("CircleShape2D_r878a")
+debug_color = Color(0.279651, 0.622014, 0.318424, 0.42)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." index="2"]
+shape = SubResource("CircleShape2D_c57an")
+
+[node name="PlayerDetectArea2D" type="Area2D" parent="." index="5"]
 collision_layer = 16
 collision_mask = 2
 
@@ -254,7 +265,7 @@ rotation = 3.14159
 scale = Vector2(1, 1.83523)
 polygon = PackedVector2Array(-2.99986, -31.0588, 37.0001, -31.0587, 32, 7.08362, 23.9999, 11.4427, 10.9999, 11.4427, 3.99997, 6.5387)
 
-[node name="ChaseZoneArea2D" type="Area2D" parent="." index="5"]
+[node name="ChaseZoneArea2D" type="Area2D" parent="." index="6"]
 light_mask = 16
 visibility_layer = 2
 collision_layer = 16
@@ -268,10 +279,6 @@ position = Vector2(0, 1)
 shape = SubResource("CircleShape2D_0p2w4")
 debug_color = Color(0.932176, 0.204303, 0.41562, 0.42)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="." index="6"]
-position = Vector2(0, 2)
-shape = SubResource("CircleShape2D_c57an")
-
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." index="7"]
 libraries = {
 &"": SubResource("AnimationLibrary_jwhlm")
@@ -281,6 +288,7 @@ libraries = {
 wait_time = 0.04
 
 [node name="SnakeStepPlayer" type="AudioStreamPlayer2D" parent="." index="9"]
+stream = ExtResource("5_r878a")
 max_distance = 500.0
 area_mask = 19
 
@@ -295,3 +303,8 @@ autostart = true
 
 [node name="StepTimer" type="Timer" parent="." index="13"]
 one_shot = true
+
+[connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]
+[connection signal="timeout" from="SnakeStepTimer" to="." method="_on_snake_step_timer_timeout"]
+[connection signal="timeout" from="RandomMovementTimer" to="." method="_on_random_movement_timer_timeout"]
+[connection signal="timeout" from="StepTimer" to="." method="_on_step_timer_timeout"]
