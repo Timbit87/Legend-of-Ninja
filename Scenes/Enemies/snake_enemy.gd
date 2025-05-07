@@ -41,12 +41,9 @@ func _physics_process(delta: float) -> void:
 func chase_target():
 	if is_chasing and target:
 		is_ideling = false
-		var distance_to_player = target.global_position - global_position
-		var direction_normal = distance_to_player.normalized()
-		velocity = velocity.move_toward(direction_normal * speed, acceleration)
+		var dir = get_direction_to_target()
+		velocity = velocity.move_toward(dir * speed, acceleration)
 		$AttackNoisePlayer
-	elif is_ideling:
-		pass
 	else:
 		velocity = Vector2.ZERO
 

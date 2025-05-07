@@ -61,9 +61,12 @@ func death():
 	queue_free()
 
 func chase_target():
-	if target and not is_dead:
-		var dir = (target.global_position - global_position).normalized()
-		velocity = velocity.move_toward(dir * speed, acceleration)
+	pass
+	
+func get_direction_to_target():
+	if target:
+		return(target.global_position - global_position).normalized()
+	return Vector2.ZERO
 		
 func _physics_process(delta):
 	if returning_to_spawn:
