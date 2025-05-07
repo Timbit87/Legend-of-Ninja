@@ -11,6 +11,7 @@ extends CharacterBody2D
 
 @onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
 @onready var step_sound_player: AudioStreamPlayer2D = $AudioStreamPlayer2D
+@onready var particles = $BloodParticles
 
 var target: Node2D
 var is_dead = false
@@ -82,3 +83,15 @@ func animate_enemy():
 		$AnimatedSprite2D.play("move_down")
 	elif normal_velocity.y < -0.707:
 		$AnimatedSprite2D.play("move_up")
+
+func emit_blood_splatter():
+	var particles = $BloodParticles
+	if !particles:
+		return
+	if particles.process_material == null:
+		particles.process_material = ParticleProcessMaterial.new()
+
+	var material = particles.process_material as ParticleProcessMaterial
+	if material != null:
+		material.direction = randf_range(-45, 45)
+	particles.restart()
