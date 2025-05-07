@@ -162,9 +162,8 @@ animations = [{
 }]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_r878a"]
-radius = 13.0
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_c57an"]
+[sub_resource type="CircleShape2D" id="CircleShape2D_2lny3"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_0p2w4"]
 radius = 195.064
@@ -231,6 +230,7 @@ _data = {
 
 [node name="Enemy" instance=ExtResource("1_olrea")]
 collision_layer = 16
+motion_mode = 1
 script = ExtResource("2_x0bgp")
 step_duration = 0.2
 step_distance = 10
@@ -244,14 +244,12 @@ frame = 1
 
 [node name="Area2D" parent="." index="1"]
 collision_layer = 16
-collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" index="0"]
 shape = SubResource("CircleShape2D_r878a")
-debug_color = Color(0.279651, 0.622014, 0.318424, 0.42)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." index="2"]
-shape = SubResource("CircleShape2D_c57an")
+shape = SubResource("CircleShape2D_2lny3")
 
 [node name="PlayerDetectArea2D" type="Area2D" parent="." index="5"]
 collision_layer = 16
@@ -304,7 +302,6 @@ autostart = true
 [node name="StepTimer" type="Timer" parent="." index="13"]
 one_shot = true
 
-[connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]
 [connection signal="timeout" from="SnakeStepTimer" to="." method="_on_snake_step_timer_timeout"]
 [connection signal="timeout" from="RandomMovementTimer" to="." method="_on_random_movement_timer_timeout"]
 [connection signal="timeout" from="StepTimer" to="." method="_on_step_timer_timeout"]

@@ -20,6 +20,7 @@ var steps_remaining = 0
 func _ready():
 	randomize()
 	$StepTimer.timeout.connect(_on_step_timer_timeout)
+	$RandomMovementTimer.timeout.connect(_on_random_movement_timer_timeout)
 	detection_area.monitoring = true
 	detection_area.connect("body_entered", Callable(self, "_on_player_detect_area_2d_body_entered"))
 	chase_zone_area.connect("body_exited", Callable(self, "_on_chase_zone_area_2d_body_exited"))
@@ -77,8 +78,14 @@ func death():
 	queue_free()
 	
 func take_damage(amount: int = 1, attacker: Node2D = null):
+	if attacker == null:
+		return
 	# emit_blood_splatter()
 	super(amount, attacker)
+	
+	if not (attacker.name.contains("Nunchuck") or attacker.name.contains("Kunai")):
+		print("Ignored damage from: ", attacker.name)
+		return
 	if attacker != null:
 		target = attacker
 		is_chasing = true
@@ -100,6 +107,7 @@ func _on_chase_zone_area_2d_body_exited(body: Node2D) -> void:
 	if body is Player and not is_dead:
 		is_chasing = false
 		target = null
+		returning_to_spawn = true
 		start_random_movement()
 
 
@@ -135,7 +143,3 @@ func start_random_movement():
 	$StepTimer.start(step_duration)
 	$RandomMovementTimer.wait_time = randf_range(1.0, 5.0)
 	$RandomMovementTimer.start()
-
-
-func _on_area_2d_area_entered(area: Area2D) -> void:
-	pass
