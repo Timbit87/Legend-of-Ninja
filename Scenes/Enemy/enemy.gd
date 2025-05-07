@@ -13,6 +13,10 @@ extends CharacterBody2D
 
 var target: Node2D
 var is_dead = false
+var spawn_position: Vector2
+
+func _ready() -> void:
+	spawn_position = global_position
 
 func take_damage(amount: int = 1, attacker: Node2D = null):
 	if is_dead:

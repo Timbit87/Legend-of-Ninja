@@ -18,6 +18,7 @@ var steps_remaining = 0
 
 
 func _ready():
+	super._ready()
 	randomize()
 	$StepTimer.timeout.connect(_on_step_timer_timeout)
 	detection_area.monitoring = true
