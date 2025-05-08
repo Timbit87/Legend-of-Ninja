@@ -447,7 +447,7 @@ push_strength = 300.0
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, -1)
 sprite_frames = SubResource("SpriteFrames_qd3fr")
-animation = &"move_down"
+animation = &"attack_down"
 autoplay = "move_down"
 offset = Vector2(0, -5)
 

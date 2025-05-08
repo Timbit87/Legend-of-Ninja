@@ -123,11 +123,9 @@ func attack():
 	if not $AttackDurationTimer.is_stopped():
 		return
 	is_attacking = true
-	$Ninjaku.visible = true
-	%NinjakuArea2D.monitoring = true
+	velocity = Vector2.ZERO
 	$AttackDurationTimer.start()
-	$NunchukStrike.play()
-	velocity = Vector2(0,0)
+	var nunchuck = preload("res://Scenes/Nunchuck/nunchuck.tscn").instantiate()
 	
 	var player_animation: String = $AnimatedSprite2D.animation
 	if player_animation == "move_right":
