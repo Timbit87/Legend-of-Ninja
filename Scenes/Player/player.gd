@@ -8,6 +8,7 @@ class_name Player
 var original_colour: Color = Color(1,1,1)
 var is_attacking: bool = false
 var can_interact: bool = false
+var last_move_direction: Vector2 = Vector2.RIGHT
 
 
 # Called when the node enters the scene tree for the first time.
@@ -33,6 +34,8 @@ func _physics_process(delta: float) -> void:
 	
 func move_player():
 	var move_vector: Vector2 = Input.get_vector("move_left", "move_right","move_up","move_down")
+	if move_vector != Vector2.ZERO:
+		last_move_direction = move_vector.normalized()
 	velocity = velocity.move_toward(move_vector * move_speed, acceleration)
 	if velocity.x > 0:
 		$AnimatedSprite2D.play("move_right")
@@ -125,29 +128,32 @@ func attack():
 	is_attacking = true
 	velocity = Vector2.ZERO
 	$AttackDurationTimer.start()
+		
 	var nunchuck = preload("res://Scenes/Nunchuck/nunchuck.tscn").instantiate()
-	
-	var player_animation: String = $AnimatedSprite2D.animation
-	if player_animation == "move_right":
-		$AnimatedSprite2D.play("attack_right")
-		$AnimationPlayer.play("attack_right")
-	elif player_animation == "move_left":
-		$AnimatedSprite2D.play("attack_left")
-		$AnimationPlayer.play("attack_left")
-	elif player_animation == "move_down":
-		$AnimatedSprite2D.play("attack_down")
-		$AnimationPlayer.play("attack_down")
-	elif player_animation == "move_up":
-		$AnimatedSprite2D.play("attack_up")
-		$AnimationPlayer.play("attack_up")
+	var direction = last_move_direction
+	match $AnimatedSprite2D.animation:
+		"move_right", "attack_right":
+			direction = Vector2.RIGHT
+			$AnimatedSprite2D.play("attack_right")
+		"move_left", "attack_left":
+			direction = Vector2.LEFT
+			$AnimatedSprite2D.play("attack_left")
+		"move_down", "attack_down":
+			direction = Vector2.DOWN
+			$AnimatedSprite2D.play("attack_down")
+		"move_up", "attack_up":
+			direction = Vector2.UP
+			$AnimatedSprite2D.play("attack_up")
+	nunchuck.play_spin_animation(direction)
+	var offset = 2
+	nunchuck.global_position = global_position + direction * offset
+	get_tree().current_scene.add_child(nunchuck)
 
 func _on_ninjaku_area_2d_body_entered(body: Node2D) -> void:
 	pass
 
 
 func _on_attack_duration_timer_timeout() -> void:
-	$Ninjaku.visible = false
-	%NinjakuArea2D.monitoring = false
 	is_attacking = false
 	var player_animation: String = $AnimatedSprite2D.animation
 	if player_animation == "attack_right":
@@ -173,32 +179,27 @@ func throw_kunai():
 		"move_right", "attack_right":
 			kunai_instance.throw_direction = Vector2.RIGHT
 			$AnimatedSprite2D.play("attack_right")
-			$AnimationPlayer.play("attack_right")
-			await $AnimationPlayer.animation_finished
+			await get_tree().create_timer(0.2).timeout
 			$AnimatedSprite2D.play("move_right")
 		"move_left", "attack_left":
 			kunai_instance.throw_direction = Vector2.LEFT
 			$AnimatedSprite2D.play("attack_left")
-			$AnimationPlayer.play("attack_left")
-			await $AnimationPlayer.animation_finished
+			await get_tree().create_timer(0.2).timeout
 			$AnimatedSprite2D.play("move_left")
 		"move_up", "attack_up":
 			kunai_instance.throw_direction = Vector2.UP
 			$AnimatedSprite2D.play("attack_up")
-			$AnimationPlayer.play("attack_up")
-			await $AnimationPlayer.animation_finished
+			await get_tree().create_timer(0.2).timeout
 			$AnimatedSprite2D.play("move_up")
 		"move_down", "attack_down":
 			kunai_instance.throw_direction = Vector2.DOWN
 			$AnimatedSprite2D.play("attack_down")
-			$AnimationPlayer.play("attack_down")
-			await $AnimationPlayer.animation_finished
+			await get_tree().create_timer(0.2).timeout
 			$AnimatedSprite2D.play("move_down")
 		_:
 			kunai_instance.throw_direction = Vector2.RIGHT
 			$AnimatedSprite2D.play("attack_right")
-			$AnimationPlayer.play("attack_right")
-			await $AnimationPlayer.animation_finished
+			await get_tree().create_timer(0.2).timeout
 			$AnimatedSprite2D.play("move_right")
 	var kunai_offset = 8
 	kunai_instance.global_position = self.global_position + kunai_instance.throw_direction * kunai_offset
