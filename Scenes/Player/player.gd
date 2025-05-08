@@ -156,7 +156,7 @@ func _on_ninjaku_area_2d_body_entered(body: Node2D) -> void:
 		var knockback_direction: Vector2 = distance_to_enemy.normalized()
 		body.velocity += knockback_direction * knockback_force
 	if "take_damage" in body:
-		body.take_damage(damage, self)
+		body.take_damage(damage, get_parent())
 		already_hit_enemies[body] = true
 
 
