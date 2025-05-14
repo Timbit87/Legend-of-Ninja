@@ -161,9 +161,9 @@ animations = [{
 "speed": 10.0
 }]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_r878a"]
-
 [sub_resource type="CircleShape2D" id="CircleShape2D_2lny3"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_r878a"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_0p2w4"]
 radius = 195.064
@@ -236,20 +236,20 @@ step_duration = 0.2
 step_distance = 10
 snake_sounds = []
 
-[node name="AnimatedSprite2D" parent="." index="0"]
+[node name="AnimatedSprite2D" parent="." index="1"]
 sprite_frames = SubResource("SpriteFrames_pu2wv")
 animation = &"idle"
 autoplay = "idle"
 frame = 1
 
-[node name="Area2D" parent="." index="1"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." index="2"]
+shape = SubResource("CircleShape2D_2lny3")
+
+[node name="Area2D" parent="." index="3"]
 collision_layer = 16
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" index="0"]
 shape = SubResource("CircleShape2D_r878a")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="." index="2"]
-shape = SubResource("CircleShape2D_2lny3")
 
 [node name="PlayerDetectArea2D" type="Area2D" parent="." index="5"]
 collision_layer = 16

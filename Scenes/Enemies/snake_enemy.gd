@@ -41,6 +41,9 @@ func _physics_process(delta: float) -> void:
 
 
 func chase_target():
+	if returning_to_spawn:
+		return
+
 	if is_chasing and target:
 		is_ideling = false
 		var dir = get_direction_to_target()
@@ -110,6 +113,7 @@ func _on_chase_zone_area_2d_body_exited(body: Node2D) -> void:
 			is_chasing = false
 			target = null
 			returning_to_spawn = true
+			nav_agent.target_position = spawn_position
 	start_random_movement()
 
 

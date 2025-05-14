@@ -12,6 +12,7 @@ extends CharacterBody2D
 @onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
 @onready var step_player: AudioStreamPlayer2D = $StepPlayer2D
 @onready var particles = $BloodParticles
+@onready var nav_agent: NavigationAgent2D = $NavigationAgent2D
 
 var target: Node2D
 var is_dead = false
@@ -21,20 +22,8 @@ var returning_to_spawn := false
 
 func _ready() -> void:
 	spawn_position = global_position
-	
-	
-func return_to_spawn(delta) -> void:
-	if returning_to_spawn:
-		var distance_to_spawn = spawn_position - global_position
-		if distance_to_spawn.length() < 4:
-			global_position = spawn_position
-			velocity = Vector2.ZERO
-			returning_to_spawn = false
-		else:
-			var direction = distance_to_spawn.normalized()
-			velocity = direction * return_speed
-	
-	
+	nav_agent.path_desired_distance = 4.0
+	nav_agent.target_desired_distance = 4.0
 	
 func take_damage(amount: int = 1, attacker: Node2D = null):
 	if is_dead:
@@ -61,7 +50,9 @@ func death():
 	queue_free()
 
 func chase_target():
-	pass
+	if target and not returning_to_spawn:
+		var direction = (target.global_position - global_position).normalized()
+		velocity = direction * speed
 	
 func get_direction_to_target():
 	if target:
@@ -69,12 +60,22 @@ func get_direction_to_target():
 	return Vector2.ZERO
 		
 func _physics_process(delta):
+	if is_dead:
+		return
+		
 	if returning_to_spawn:
-		return_to_spawn(delta)
-	if not is_dead:
+		if nav_agent.is_navigation_finished():
+			returning_to_spawn = false
+			velocity = Vector2.ZERO
+		else:
+			var next_position = nav_agent.get_next_path_position()
+			var direction = (next_position - global_position).normalized()
+			velocity = direction * return_speed
+	else:
 		chase_target()
-		move_and_slide()
-		animate_enemy()
+	move_and_slide()
+	animate_enemy()
+	
 		
 func animate_enemy():
 	var normal_velocity: Vector2 = velocity.normalized()
@@ -110,3 +111,8 @@ func play_step_sounds():
 		step_player.stream = random_step_sound
 		step_player.pitch_scale = randf_range(0.9, 1.2)
 		step_player.play()
+
+func get_move_velocity() -> Vector2:
+	var next_path_position = nav_agent.get_next_path_position()
+	var direction = (next_path_position - global_position).normalized()
+	return direction * return_speed

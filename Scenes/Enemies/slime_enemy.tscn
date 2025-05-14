@@ -244,6 +244,9 @@ motion_mode = 1
 script = ExtResource("1_5uyk1")
 slime_sounds = [ExtResource("4_1u7tg"), ExtResource("3_jwhlm"), ExtResource("4_n4i4n"), ExtResource("5_ld0qu")]
 
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+avoidance_enabled = true
+
 [node name="PlayerDetectArea2D" type="Area2D" parent="."]
 collision_layer = 16
 collision_mask = 2
