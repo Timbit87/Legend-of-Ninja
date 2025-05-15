@@ -1,0 +1,19 @@
+[gd_scene load_steps=3 format=3 uid="uid://bkjrbgr0uap1m"]
+
+[ext_resource type="Texture2D" uid="uid://c7xxq1dmqc48" path="res://Ninja Adventure - Asset Pack/Backgrounds/Tilesets/TilesetNature.png" id="1_4foeo"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_a7ite"]
+
+[node name="ObstacleTree" type="StaticBody2D"]
+
+[node name="NavigationObstacle2D" type="NavigationObstacle2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="NavigationObstacle2D"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_a7ite")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_4foeo")
+region_enabled = true
+region_rect = Rect2(-1, 31.6663, 65.1663, 48.6667)

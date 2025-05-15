@@ -1,4 +1,4 @@
-[gd_scene load_steps=40 format=4 uid="uid://3hm6vjtwxrpq"]
+[gd_scene load_steps=36 format=4 uid="uid://3hm6vjtwxrpq"]
 
 [ext_resource type="Texture2D" uid="uid://c706xf8syt7dw" path="res://Ninja Adventure - Asset Pack/Backgrounds/Tilesets/TilesetFloor.png" id="1_8wq8i"]
 [ext_resource type="Script" path="res://Scenes/GameScene/game_scene.gd" id="1_rpdpv"]
@@ -955,45 +955,18 @@ sources/0 = SubResource("TileSetAtlasSource_xbukn")
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_up7ow"]
 
-[sub_resource type="NavigationPolygon" id="NavigationPolygon_air7h"]
-vertices = PackedVector2Array(8, 8, -8, 8, -8, -8, 8, -8)
-polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
-outlines = Array[PackedVector2Array]([PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)])
-agent_radius = 0.0
-
-[sub_resource type="NavigationPolygon" id="NavigationPolygon_glqu0"]
-vertices = PackedVector2Array(8, 8, -8, 8, -8, -8, 8, -8)
-polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
-outlines = Array[PackedVector2Array]([PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)])
-agent_radius = 0.0
-
-[sub_resource type="NavigationPolygon" id="NavigationPolygon_bknev"]
-vertices = PackedVector2Array(8, 8, -8, 8, -8, -8, 8, -8)
-polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
-outlines = Array[PackedVector2Array]([PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)])
-agent_radius = 0.0
-
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_2fi12"]
 texture = ExtResource("2_dn5vj")
 2:0/size_in_atlas = Vector2i(2, 2)
 2:0/0 = 0
 2:0/0/texture_origin = Vector2i(0, 14)
 2:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-16, -8, -16, 0, 16, 0, 16, -8)
-2:0/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_bknev")
 0:2/size_in_atlas = Vector2i(4, 3)
 0:2/0 = 0
 0:2/0/physics_layer_0/linear_velocity = Vector2(0, 14)
 0:2/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, 24, 32, 24, 32, 12, 12, 0, -8, 0, -32, 12)
-0:2/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_air7h")
 18:9/0 = 0
 18:9/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
-18:9/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_glqu0")
-
-[sub_resource type="NavigationPolygon" id="NavigationPolygon_egwpe"]
-vertices = PackedVector2Array(8, 8, -8, 8, -8, -8, 8, -8)
-polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
-outlines = Array[PackedVector2Array]([PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)])
-agent_radius = 0.0
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_jidwa"]
 texture = ExtResource("3_4vbrq")
@@ -1001,11 +974,9 @@ texture = ExtResource("3_4vbrq")
 0:7/0 = 0
 0:7/0/texture_origin = Vector2i(0, 15)
 0:7/0/physics_layer_0/polygon_0/points = PackedVector2Array(-24, 0, -8, 0, -8, -16, 8, -16, 8, 0, 24, 0, 24, -24, -24, -24)
-0:7/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_egwpe")
 
 [sub_resource type="TileSet" id="TileSet_qdetr"]
 physics_layer_0/collision_layer = 1
-navigation_layer_0/layers = 1
 sources/0 = SubResource("TileSetAtlasSource_2fi12")
 sources/1 = SubResource("TileSetAtlasSource_jidwa")
 
