@@ -85,7 +85,7 @@ func take_damage(amount: int = 1, attacker: Node2D = null):
 	if attacker == null:
 		return
 	# emit_blood_splatter()
-	super(amount, attacker)
+	super.take_damage(amount, attacker)
 	
 	if not (attacker.name.contains("Nunchuck") or attacker.name.contains("Kunai")):
 		print("Ignored damage from: ", attacker.name)

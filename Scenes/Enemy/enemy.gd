@@ -68,6 +68,7 @@ func _physics_process(delta):
 			returning_to_spawn = false
 			velocity = Vector2.ZERO
 		else:
+			nav_agent.set_target_position(nav_agent.target_position)
 			var next_position = nav_agent.get_next_path_position()
 			var direction = (next_position - global_position).normalized()
 			velocity = direction * return_speed
