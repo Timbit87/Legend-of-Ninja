@@ -92,7 +92,6 @@ func animate_enemy():
 
 func emit_blood_splatter():
 	var particles = $BloodParticles
-	var angle = deg_to_rad(randf_range(-45, 45))
 	if !particles:
 		return
 	if particles.process_material == null:
@@ -100,7 +99,7 @@ func emit_blood_splatter():
 
 	var material = particles.process_material as ParticleProcessMaterial
 	if material != null:
-		material.direction = deg_to_rad(randf_range(-45, 45))
+		var angle = deg_to_rad(randf_range(0, 360))
 		material.direction = Vector3(cos(angle), sin(angle), 0)
 	particles.restart()
 

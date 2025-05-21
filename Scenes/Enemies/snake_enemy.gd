@@ -83,12 +83,16 @@ func death():
 	
 func take_damage(amount: int = 1, attacker: Node2D = null):
 	if attacker == null:
+		print("No attacker passed!")
 		return
-	# emit_blood_splatter()
+
+	print("Attacker name: ", attacker.name)
+	print("Attacker class: ", attacker.get_class())
+	print("Attacker script: ", attacker.get_script())
 	super.take_damage(amount, attacker)
-	
-	if not (attacker.name.contains("Nunchuck") or attacker.name.contains("Kunai")):
-		print("Ignored damage from: ", attacker.name)
+	emit_blood_splatter()
+		
+	if not (attacker is Player):
 		return
 	if attacker != null:
 		target = attacker

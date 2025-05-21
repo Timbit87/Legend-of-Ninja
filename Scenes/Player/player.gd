@@ -128,8 +128,10 @@ func attack():
 	is_attacking = true
 	velocity = Vector2.ZERO
 	$AttackDurationTimer.start()
+	
 		
 	var nunchuck = preload("res://Scenes/Nunchuck/nunchuck.tscn").instantiate()
+	nunchuck.thrower = self
 	var direction = last_move_direction
 	match $AnimatedSprite2D.animation:
 		"move_right", "attack_right":

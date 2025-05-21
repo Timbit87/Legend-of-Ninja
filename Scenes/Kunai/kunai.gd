@@ -1,3 +1,4 @@
+class_name Kunai
 extends Area2D
 
 var throw_direction = Vector2.RIGHT

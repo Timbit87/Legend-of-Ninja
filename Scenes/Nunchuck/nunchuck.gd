@@ -1,8 +1,10 @@
+class_name Nunchuck
 extends Node2D
 
 @export var damage := 2
 @export var knockback_force := 150
 var already_hit_enemies := {}
+var thrower: Node2D
 
 func _ready():
 	%NunchuckArea2D.connect("body_entered", Callable(self, "on_hitbox_body_entered"))
@@ -16,7 +18,7 @@ func on_hitbox_body_entered(body: Node2D) -> void:
 		var knockback_direction: Vector2 = distance_to_enemy.normalized()
 		body.velocity += knockback_direction * knockback_force
 	if "take_damage" in body:
-		body.take_damage(damage, self)
+		body.take_damage(damage, thrower)
 		already_hit_enemies[body] = true
 
 func play_spin_animation(direction: Vector2):
