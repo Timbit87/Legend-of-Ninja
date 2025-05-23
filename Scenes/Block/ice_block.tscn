@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://7gje2hk78076"]
+[gd_scene load_steps=6 format=3 uid="uid://7gje2hk78076"]
 
 [ext_resource type="PackedScene" uid="uid://cvnxwpgteteo8" path="res://Scenes/Block/block.tscn" id="1_xeed5"]
 [ext_resource type="Texture2D" uid="uid://c2fi5ycedgtsq" path="res://Ninja Adventure - Asset Pack/Backgrounds/Tilesets/TilesetDungeon.png" id="2_lro2g"]
+[ext_resource type="AudioStream" uid="uid://bduis7m01wdq" path="res://Ninja Adventure - Asset Pack/Sounds/Zappsplat Sounds/zapsplat_nature_ice_block_slide_on_ice_003_13497.mp3" id="3_5yqkf"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_5x6si"]
 bounce = 0.06
@@ -16,3 +17,6 @@ linear_damp = 0.2
 
 [node name="Sprite2D" parent="." index="1"]
 texture = SubResource("AtlasTexture_gus1t")
+
+[node name="AudioStreamPlayer2D" parent="." index="2"]
+stream = ExtResource("3_5yqkf")

@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://bduis7m01wdq"
+path="res://.godot/imported/zapsplat_nature_ice_block_slide_on_ice_003_13497.mp3-bdc5c337634985a70a8fbf8a26b0c1d3.mp3str"
+
+[deps]
+
+source_file="res://Ninja Adventure - Asset Pack/Sounds/Zappsplat Sounds/zapsplat_nature_ice_block_slide_on_ice_003_13497.mp3"
+dest_files=["res://.godot/imported/zapsplat_nature_ice_block_slide_on_ice_003_13497.mp3-bdc5c337634985a70a8fbf8a26b0c1d3.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

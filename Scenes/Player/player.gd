@@ -59,6 +59,8 @@ func push_blocks():
 		if collider_node.is_in_group("Pushable"):
 			var collision_normal: Vector2 = collision.get_normal()
 			collider_node.apply_central_force(-collision_normal * push_strength )
+			if "play_scrape_sound" in collider_node:
+				collider_node.play_scrape_sound()
 				
 
 

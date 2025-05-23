@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://bq3hqgbwtwk1h"
+path="res://.godot/imported/zapsplat_foley_stone_slab_movement_slide_scrape_hard_surface_short_001_111134.mp3-41ec587a658b9939468b3889e7871642.mp3str"
+
+[deps]
+
+source_file="res://Ninja Adventure - Asset Pack/Sounds/Zappsplat Sounds/zapsplat_foley_stone_slab_movement_slide_scrape_hard_surface_short_001_111134.mp3"
+dest_files=["res://.godot/imported/zapsplat_foley_stone_slab_movement_slide_scrape_hard_surface_short_001_111134.mp3-41ec587a658b9939468b3889e7871642.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

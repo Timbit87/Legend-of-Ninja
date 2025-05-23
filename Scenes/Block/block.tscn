@@ -1,6 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://cvnxwpgteteo8"]
+[gd_scene load_steps=7 format=3 uid="uid://cvnxwpgteteo8"]
 
+[ext_resource type="Script" uid="uid://cbk5ky2i34ohj" path="res://Scenes/Block/block.gd" id="1_67lhi"]
 [ext_resource type="Texture2D" uid="uid://c2fi5ycedgtsq" path="res://Ninja Adventure - Asset Pack/Backgrounds/Tilesets/TilesetDungeon.png" id="1_rnv0g"]
+[ext_resource type="AudioStream" uid="uid://bq3hqgbwtwk1h" path="res://Ninja Adventure - Asset Pack/Sounds/Zappsplat Sounds/zapsplat_foley_stone_slab_movement_slide_scrape_hard_surface_short_001_111134.mp3" id="3_4mqmb"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_w6i0u"]
 bounce = 0.8
@@ -19,6 +21,7 @@ physics_material_override = SubResource("PhysicsMaterial_w6i0u")
 gravity_scale = 0.0
 lock_rotation = true
 linear_damp = 15.0
+script = ExtResource("1_67lhi")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_yhwhx")
@@ -27,3 +30,6 @@ shape = SubResource("RectangleShape2D_yhwhx")
 position = Vector2(0, -2.38419e-07)
 scale = Vector2(1, 1.06667)
 texture = SubResource("AtlasTexture_5kdbf")
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_4mqmb")

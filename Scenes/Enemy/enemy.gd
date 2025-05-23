@@ -82,12 +82,16 @@ func animate_enemy():
 	var normal_velocity: Vector2 = velocity.normalized()
 	if normal_velocity.x > 0.707:
 		$AnimatedSprite2D.play("move_right")
+		play_step_sounds()
 	elif normal_velocity.x < -0.707:
 		$AnimatedSprite2D.play("move_left")
+		play_step_sounds()
 	elif normal_velocity.y > 0.707:
 		$AnimatedSprite2D.play("move_down")
+		play_step_sounds()
 	elif normal_velocity.y < -0.707:
 		$AnimatedSprite2D.play("move_up")
+		play_step_sounds()
 		
 
 func emit_blood_splatter():
