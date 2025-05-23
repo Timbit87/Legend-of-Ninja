@@ -3,7 +3,6 @@ extends "res://Scenes/Enemy/enemy.gd"
 
 @export var step_duration := 0.2
 @export var step_distance := 10
-@export var snake_sounds: Array = []
 
 var is_timer_playing := false
 var is_ideling = true
@@ -14,8 +13,6 @@ var steps_remaining = 0
 @onready var detection_area: Area2D = $PlayerDetectArea2D
 @onready var chase_zone_area: Area2D = $ChaseZoneArea2D
 @onready var snake_sprite: AnimatedSprite2D = $AnimatedSprite2D
-@onready var snake_step_player: AudioStreamPlayer2D = $SnakeStepPlayer
-
 
 func _ready():
 	super._ready()
@@ -33,10 +30,10 @@ func _physics_process(delta: float) -> void:
 	# Snake-specific footstep logic
 	if velocity.length() > 2:
 		if not is_timer_playing:
-			$SnakeStepTimer.start()
+			$StepPlayer2D.play()
 			is_timer_playing = true
 	elif is_timer_playing:
-		$SnakeStepTimer.stop()
+		$StepPlayer2D.stop()
 		is_timer_playing = false
 
 
@@ -54,7 +51,6 @@ func chase_target():
 
 func animate_enemy():
 	super.animate_enemy()	
-	play_step_sounds()		
 	var normal_velocity: Vector2 = velocity.normalized()
 	if normal_velocity.x > 0.707:
 		$PlayerDetectArea2D.rotation = deg_to_rad(-90)
@@ -75,7 +71,7 @@ func death():
 	$PlayerDetectArea2D.monitoring = false
 	$AnimatedSprite2D.visible = false
 	
-	$SnakeStepPlayer.stop()
+	$StepPlayer2D.stop()
 	$SnakeDeathPlayer.play()
 	
 	await get_tree().create_timer(1.0).timeout
@@ -122,12 +118,11 @@ func _on_chase_zone_area_2d_body_exited(body: Node2D) -> void:
 
 
 func _on_snake_step_timer_timeout() -> void:
-	if is_dead == true:	
-		$SnakeStepPlayer.stop()
+	if is_dead:	
+		return
 	else:
-		if !$SnakeStepPlayer.playing:
-			$SnakeStepPlayer.pitch_scale = randf_range(0.8, 1.2)
-			$SnakeStepPlayer.play()
+		if velocity.length() > 2:
+			play_step_sounds()
 
 func _on_random_movement_timer_timeout() -> void:
 	var min_time = 1.0

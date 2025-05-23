@@ -234,7 +234,7 @@ motion_mode = 1
 script = ExtResource("2_x0bgp")
 step_duration = 0.2
 step_distance = 10
-snake_sounds = []
+step_sounds = Array[AudioStream]([ExtResource("5_r878a")])
 
 [node name="AnimatedSprite2D" parent="." index="1"]
 sprite_frames = SubResource("SpriteFrames_pu2wv")
@@ -282,26 +282,17 @@ libraries = {
 &"": SubResource("AnimationLibrary_jwhlm")
 }
 
-[node name="SnakeStepTimer" type="Timer" parent="." index="8"]
-wait_time = 0.04
-
-[node name="SnakeStepPlayer" type="AudioStreamPlayer2D" parent="." index="9"]
-stream = ExtResource("5_r878a")
-max_distance = 500.0
-area_mask = 19
-
-[node name="SnakeDeathPlayer" type="AudioStreamPlayer2D" parent="." index="10"]
+[node name="SnakeDeathPlayer" type="AudioStreamPlayer2D" parent="." index="8"]
 stream = ExtResource("3_r878a")
 
-[node name="DamageSFX" type="AudioStreamPlayer2D" parent="." index="11"]
+[node name="DamageSFX" type="AudioStreamPlayer2D" parent="." index="9"]
 stream = ExtResource("5_76crs")
 
-[node name="RandomMovementTimer" type="Timer" parent="." index="12"]
+[node name="RandomMovementTimer" type="Timer" parent="." index="10"]
 autostart = true
 
-[node name="StepTimer" type="Timer" parent="." index="13"]
+[node name="StepTimer" type="Timer" parent="." index="11"]
 one_shot = true
 
-[connection signal="timeout" from="SnakeStepTimer" to="." method="_on_snake_step_timer_timeout"]
 [connection signal="timeout" from="RandomMovementTimer" to="." method="_on_random_movement_timer_timeout"]
 [connection signal="timeout" from="StepTimer" to="." method="_on_step_timer_timeout"]
