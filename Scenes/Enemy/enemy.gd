@@ -1,12 +1,9 @@
 extends CharacterBody2D
 
 
-@export var HP: int = 6
+@export var HP: int = 4
 @export var damage: int = 1
 @export var speed: float = 30
-@export var charge_speed: float = 600
-@export var charge_duration := 0.5
-@export var charge_cooldown := 2.0
 @export var acceleration: float = 5
 @export var return_speed := 60.0
 @export var death_particles: PackedScene
@@ -19,7 +16,6 @@ extends CharacterBody2D
 
 var target: Node2D
 var is_dead = false
-var is_charging = false
 var spawn_position: Vector2
 var returning_to_spawn := false
 

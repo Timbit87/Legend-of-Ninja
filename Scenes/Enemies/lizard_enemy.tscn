@@ -3,7 +3,6 @@
 [ext_resource type="PackedScene" uid="uid://b6sb1y6le0aqo" path="res://Scenes/Enemy/enemy.tscn" id="1_nioob"]
 [ext_resource type="Script" uid="uid://lnro3vhtl88n" path="res://Scenes/Enemies/lizard_enemy.gd" id="2_f2577"]
 [ext_resource type="Texture2D" uid="uid://b54lskednk6f2" path="res://Ninja Adventure - Asset Pack/Actor/Monsters/Lizard/Lizard.png" id="2_l75lr"]
-[ext_resource type="AudioStream" uid="uid://c72atrlbjb2g0" path="res://Ninja Adventure - Asset Pack/Sounds/Zappsplat Sounds/zapsplat_comedy_squelch_wet.mp3" id="4_f2577"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_f2577"]
 atlas = ExtResource("2_l75lr")
@@ -159,6 +158,8 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="AudioStream" id="AudioStream_l75lr"]
+
 [node name="Enemy" instance=ExtResource("1_nioob")]
 script = ExtResource("2_f2577")
 step_duration = 0.2
@@ -170,7 +171,7 @@ sprite_frames = SubResource("SpriteFrames_2lb5f")
 animation = &"idle"
 
 [node name="StepPlayer2D" parent="." index="3"]
-stream = ExtResource("4_f2577")
+stream = SubResource("AudioStream_l75lr")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." index="5"]
 
