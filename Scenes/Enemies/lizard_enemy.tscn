@@ -165,6 +165,11 @@ script = ExtResource("2_f2577")
 step_duration = 0.2
 step_distance = 10
 snake_sounds = []
+charge_speed = 400.0
+charge_duration = 0.4
+charge_cooldown = 1.0
+windup_time = 0.5
+stun_duration = 1.5
 
 [node name="AnimatedSprite2D" parent="." index="1"]
 sprite_frames = SubResource("SpriteFrames_2lb5f")

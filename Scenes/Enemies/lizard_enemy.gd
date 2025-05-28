@@ -4,13 +4,23 @@ extends "res://Scenes/Enemy/enemy.gd"
 @export var step_duration := 0.2
 @export var step_distance := 10
 @export var snake_sounds: Array = []
+@export var charge_speed := 400.0
+@export var charge_duration := 0.4
+@export var charge_cooldown := 1.0
+@export var windup_time := 0.5
+@export var stun_duration := 1.5
 
+var is_charging := false
+var is_winding_up := false
+var last_known_player_position := Vector2.ZERO
 var is_timer_playing := false
 var is_ideling = true
 var is_chasing = false
 var random_movement_direction = Vector2.ZERO
 var steps_remaining = 0
 
+@onready var charge_timer := Timer.new()
+@onready var stun_timer := Timer.new()
 @onready var detection_area: Area2D = $PlayerDetectArea2D
 @onready var chase_zone_area: Area2D = $ChaseZoneArea2D
 @onready var snake_sprite: AnimatedSprite2D = $AnimatedSprite2D
