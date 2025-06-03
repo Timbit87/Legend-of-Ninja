@@ -3,7 +3,7 @@ extends "res://Scenes/Enemy/enemy.gd"
 
 @export var step_duration := 0.2
 @export var step_distance := 10
-@export var snake_sounds: Array = []
+@export var lizard_sounds: Array = []
 @export var charge_speed := 400.0
 @export var charge_duration := 0.4
 @export var charge_cooldown := 1.0
@@ -23,8 +23,6 @@ var steps_remaining = 0
 @onready var stun_timer := Timer.new()
 @onready var detection_area: Area2D = $PlayerDetectArea2D
 @onready var chase_zone_area: Area2D = $ChaseZoneArea2D
-@onready var snake_sprite: AnimatedSprite2D = $AnimatedSprite2D
-@onready var snake_step_player: AudioStreamPlayer2D = $SnakeStepPlayer
 
 
 func _ready():
@@ -55,7 +53,7 @@ func _physics_process(delta: float) -> void:
 		velocity = direction * charge_speed
 		move_and_slide()
 		#regular attack at close range
-		if global_position.distance_to(last_known_player_position) < 10:
+		if global_position.distance_to(last_known_player_position) < 5:
 			stop_charging()
 		return
 	super._physics_process(delta)
@@ -67,7 +65,7 @@ func _physics_process(delta: float) -> void:
 	elif is_timer_playing:
 		$LizardStepTimer.stop()
 		is_timer_playing = false
-
+	animate_enemy()
 
 func chase_target():
 	if returning_to_spawn:
@@ -104,8 +102,7 @@ func death():
 	$PlayerDetectArea2D.monitoring = false
 	$AnimatedSprite2D.visible = false
 	
-	$SnakeStepPlayer.stop()
-	$SnakeDeathPlayer.play()
+	$StepPlayer2D.stop()
 	
 	await get_tree().create_timer(1.0).timeout
 	queue_free()

@@ -1,9 +1,10 @@
-[gd_scene load_steps=25 format=3 uid="uid://c5uap4y113pln"]
+[gd_scene load_steps=28 format=3 uid="uid://c5uap4y113pln"]
 
 [ext_resource type="PackedScene" uid="uid://b6sb1y6le0aqo" path="res://Scenes/Enemy/enemy.tscn" id="1_nioob"]
 [ext_resource type="Script" uid="uid://lnro3vhtl88n" path="res://Scenes/Enemies/lizard_enemy.gd" id="2_f2577"]
 [ext_resource type="Texture2D" uid="uid://b54lskednk6f2" path="res://Ninja Adventure - Asset Pack/Actor/Monsters/Lizard/Lizard.png" id="2_l75lr"]
-[ext_resource type="AudioStream" uid="uid://rswnqwfttf4i" path="res://Ninja Adventure - Asset Pack/Sounds/Game/Gold1.wav" id="3_f2577"]
+[ext_resource type="AudioStream" uid="uid://dylxg6qwdwb2v" path="res://Ninja Adventure - Asset Pack/Sounds/Game/Fx.wav" id="3_8hroo"]
+[ext_resource type="AudioStream" uid="uid://bqi6mom0ix5gr" path="res://Ninja Adventure - Asset Pack/Sounds/Game/Fireball2.wav" id="5_8hroo"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_f2577"]
 atlas = ExtResource("2_l75lr")
@@ -159,6 +160,12 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_f2577"]
+radius = 7.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_8hroo"]
+radius = 7.07107
+
 [sub_resource type="CircleShape2D" id="CircleShape2D_l75lr"]
 radius = 195.064
 
@@ -166,7 +173,7 @@ radius = 195.064
 script = ExtResource("2_f2577")
 step_duration = 0.2
 step_distance = 10
-snake_sounds = [ExtResource("3_f2577")]
+lizard_sounds = [ExtResource("3_8hroo")]
 charge_speed = 400.0
 charge_duration = 0.4
 charge_cooldown = 1.0
@@ -176,8 +183,13 @@ stun_duration = 1.5
 [node name="AnimatedSprite2D" parent="." index="1"]
 sprite_frames = SubResource("SpriteFrames_2lb5f")
 animation = &"idle"
+autoplay = "idle"
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="." index="5"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." index="2"]
+shape = SubResource("CircleShape2D_f2577")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" index="0"]
+shape = SubResource("CircleShape2D_8hroo")
 
 [node name="LizardStepTimer" type="Timer" parent="." index="6"]
 wait_time = 0.02
@@ -208,6 +220,9 @@ collision_mask = 2
 position = Vector2(0, 1)
 shape = SubResource("CircleShape2D_l75lr")
 debug_color = Color(0.932176, 0.204303, 0.41562, 0.42)
+
+[node name="DamageSFX" type="AudioStreamPlayer2D" parent="." index="11"]
+stream = ExtResource("5_8hroo")
 
 [connection signal="timeout" from="LizardStepTimer" to="." method="_on_lizard_step_timer_timeout"]
 [connection signal="timeout" from="StepTimer" to="." method="_on_step_timer_timeout"]
