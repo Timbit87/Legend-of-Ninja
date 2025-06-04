@@ -170,6 +170,7 @@ radius = 7.07107
 radius = 195.064
 
 [node name="Enemy" instance=ExtResource("1_nioob")]
+collision_layer = 16
 script = ExtResource("2_f2577")
 step_duration = 0.2
 step_distance = 10
@@ -188,17 +189,13 @@ autoplay = "idle"
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." index="2"]
 shape = SubResource("CircleShape2D_f2577")
 
+[node name="Area2D" parent="." index="3"]
+collision_layer = 16
+
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" index="0"]
 shape = SubResource("CircleShape2D_8hroo")
 
-[node name="LizardStepTimer" type="Timer" parent="." index="6"]
-wait_time = 0.02
-
-[node name="StepTimer" type="Timer" parent="." index="7"]
-
-[node name="RandomMovementTimer" type="Timer" parent="." index="8"]
-
-[node name="PlayerDetectArea2D" type="Area2D" parent="." index="9"]
+[node name="PlayerDetectArea2D" type="Area2D" parent="." index="5"]
 collision_layer = 16
 collision_mask = 2
 
@@ -210,7 +207,7 @@ rotation = 3.14159
 scale = Vector2(1, 1.83523)
 polygon = PackedVector2Array(-2.99986, -31.0588, 37.0001, -31.0587, 32, 7.08362, 23.9999, 11.4427, 10.9999, 11.4427, 3.99997, 6.5387)
 
-[node name="ChaseZoneArea2D" type="Area2D" parent="." index="10"]
+[node name="ChaseZoneArea2D" type="Area2D" parent="." index="6"]
 light_mask = 16
 visibility_layer = 2
 collision_layer = 16
@@ -220,6 +217,13 @@ collision_mask = 2
 position = Vector2(0, 1)
 shape = SubResource("CircleShape2D_l75lr")
 debug_color = Color(0.932176, 0.204303, 0.41562, 0.42)
+
+[node name="LizardStepTimer" type="Timer" parent="." index="8"]
+wait_time = 0.02
+
+[node name="StepTimer" type="Timer" parent="." index="9"]
+
+[node name="RandomMovementTimer" type="Timer" parent="." index="10"]
 
 [node name="DamageSFX" type="AudioStreamPlayer2D" parent="." index="11"]
 stream = ExtResource("5_8hroo")
