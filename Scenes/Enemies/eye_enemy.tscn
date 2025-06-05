@@ -1,8 +1,9 @@
-[gd_scene load_steps=26 format=3 uid="uid://r4ustjlxps1i"]
+[gd_scene load_steps=28 format=3 uid="uid://r4ustjlxps1i"]
 
 [ext_resource type="PackedScene" uid="uid://b6sb1y6le0aqo" path="res://Scenes/Enemy/enemy.tscn" id="1_vahuy"]
 [ext_resource type="Texture2D" uid="uid://dq6ygcdj750e4" path="res://Ninja Adventure - Asset Pack/Actor/Monsters/Eye/Eye.png" id="2_5fjkv"]
 [ext_resource type="Script" uid="uid://cl7rndoji6b7x" path="res://Scenes/Enemies/eye_enemy.gd" id="2_v1gv6"]
+[ext_resource type="AudioStream" uid="uid://d1hdkl1n4yf05" path="res://Ninja Adventure - Asset Pack/Sounds/Game/Alert2.wav" id="3_dutno"]
 [ext_resource type="AudioStream" uid="uid://bqi6mom0ix5gr" path="res://Ninja Adventure - Asset Pack/Sounds/Game/Fireball2.wav" id="4_dutno"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_v1gv6"]
@@ -165,14 +166,21 @@ radius = 9.05539
 [sub_resource type="CircleShape2D" id="CircleShape2D_x8ayy"]
 radius = 195.064
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_rqhhd"]
+radius = 65.9242
+
 [node name="Enemy" instance=ExtResource("1_vahuy")]
 collision_layer = 16
 script = ExtResource("2_v1gv6")
+step_sounds = Array[AudioStream]([ExtResource("3_dutno")])
 
 [node name="AnimatedSprite2D" parent="." index="1"]
 sprite_frames = SubResource("SpriteFrames_megf6")
 animation = &"move_down"
 autoplay = "idle"
+
+[node name="Area2D" parent="." index="2"]
+collision_layer = 16
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" index="0"]
 shape = SubResource("CircleShape2D_vxfvg")
@@ -210,3 +218,9 @@ autostart = true
 
 [node name="DamageSFX" type="AudioStreamPlayer2D" parent="." index="10"]
 stream = ExtResource("4_dutno")
+
+[node name="AvoidPlayerArea" type="Area2D" parent="." index="11"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AvoidPlayerArea" index="0"]
+shape = SubResource("CircleShape2D_rqhhd")
+debug_color = Color(0.679754, 0.501675, 0.127835, 0.42)
