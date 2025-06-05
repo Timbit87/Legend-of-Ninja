@@ -218,7 +218,7 @@ position = Vector2(0, 1)
 shape = SubResource("CircleShape2D_l75lr")
 debug_color = Color(0.932176, 0.204303, 0.41562, 0.42)
 
-[node name="LizardStepTimer" type="Timer" parent="." index="8"]
+[node name="RandomStepTimer" type="Timer" parent="." index="8"]
 wait_time = 0.02
 
 [node name="StepTimer" type="Timer" parent="." index="9"]
@@ -228,6 +228,6 @@ wait_time = 0.02
 [node name="DamageSFX" type="AudioStreamPlayer2D" parent="." index="11"]
 stream = ExtResource("5_8hroo")
 
-[connection signal="timeout" from="LizardStepTimer" to="." method="_on_lizard_step_timer_timeout"]
+[connection signal="timeout" from="RandomStepTimer" to="." method="_on_lizard_step_timer_timeout"]
 [connection signal="timeout" from="StepTimer" to="." method="_on_step_timer_timeout"]
 [connection signal="timeout" from="RandomMovementTimer" to="." method="_on_random_movement_timer_timeout"]

@@ -10,6 +10,9 @@ extends "res://Scenes/Enemy/enemy.gd"
 @export var windup_time := 0.5
 @export var stun_duration := 1.5
 
+
+const MIN_CHARGE_DISTANCE := 100.0
+
 var is_charging := false
 var is_winding_up := false
 var last_known_player_position := Vector2.ZERO
@@ -60,10 +63,10 @@ func _physics_process(delta: float) -> void:
 
 	if velocity.length() > 2:
 		if not is_timer_playing:
-			$LizardStepTimer.start()
+			$RandomStepTimer.start()
 			is_timer_playing = true
 	elif is_timer_playing:
-		$LizardStepTimer.stop()
+		$RandomStepTimer.stop()
 		is_timer_playing = false
 	animate_enemy()
 
@@ -186,7 +189,7 @@ func _on_charge_timer_timeout():
 		return
 
 	is_winding_up = true
-	last_known_player_position = target.global_position
+	last_known_player_position = get_adjusted_charge_position(target.global_position)
 	velocity = Vector2.ZERO
 
 	await flash_before_charge(windup_time)
@@ -230,3 +233,13 @@ func flash_before_charge(windup_time: float) -> void:
 		await get_tree().create_timer(t).timeout
 
 	sprite.modulate = Color.WHITE  # Reset
+
+func get_adjusted_charge_position(target_position: Vector2) -> Vector2:
+	var to_target := target_position - global_position
+	var distance := to_target.length()
+	
+	if distance < MIN_CHARGE_DISTANCE:
+		return global_position + to_target.normalized() * MIN_CHARGE_DISTANCE
+	
+	return target_position
+	
