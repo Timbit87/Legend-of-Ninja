@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=3 uid="uid://r4ustjlxps1i"]
+[gd_scene load_steps=29 format=3 uid="uid://r4ustjlxps1i"]
 
 [ext_resource type="PackedScene" uid="uid://b6sb1y6le0aqo" path="res://Scenes/Enemy/enemy.tscn" id="1_vahuy"]
 [ext_resource type="Texture2D" uid="uid://dq6ygcdj750e4" path="res://Ninja Adventure - Asset Pack/Actor/Monsters/Eye/Eye.png" id="2_5fjkv"]
@@ -163,6 +163,8 @@ animations = [{
 [sub_resource type="CircleShape2D" id="CircleShape2D_vxfvg"]
 radius = 9.05539
 
+[sub_resource type="AudioStream" id="AudioStream_dutno"]
+
 [sub_resource type="CircleShape2D" id="CircleShape2D_x8ayy"]
 radius = 195.064
 
@@ -172,6 +174,8 @@ radius = 65.9242
 [node name="Enemy" instance=ExtResource("1_vahuy")]
 collision_layer = 16
 script = ExtResource("2_v1gv6")
+step_duration = 0.2
+step_distance = 10
 step_sounds = Array[AudioStream]([ExtResource("3_dutno")])
 
 [node name="AnimatedSprite2D" parent="." index="1"]
@@ -184,6 +188,9 @@ collision_layer = 16
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" index="0"]
 shape = SubResource("CircleShape2D_vxfvg")
+
+[node name="StepPlayer2D" parent="." index="3"]
+stream = SubResource("AudioStream_dutno")
 
 [node name="PlayerDetectArea2D" type="Area2D" parent="." index="5"]
 collision_layer = 16
@@ -212,6 +219,7 @@ debug_color = Color(0.932176, 0.204303, 0.41562, 0.42)
 wait_time = 0.02
 
 [node name="StepTimer" type="Timer" parent="." index="8"]
+one_shot = true
 
 [node name="RandomMovementTimer" type="Timer" parent="." index="9"]
 autostart = true
