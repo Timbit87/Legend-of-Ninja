@@ -183,7 +183,7 @@ stun_duration = 1.5
 
 [node name="AnimatedSprite2D" parent="." index="1"]
 sprite_frames = SubResource("SpriteFrames_2lb5f")
-animation = &"idle"
+animation = &"move_down"
 autoplay = "idle"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." index="2"]
@@ -222,6 +222,7 @@ debug_color = Color(0.932176, 0.204303, 0.41562, 0.42)
 wait_time = 0.02
 
 [node name="StepTimer" type="Timer" parent="." index="9"]
+one_shot = true
 
 [node name="RandomMovementTimer" type="Timer" parent="." index="10"]
 autostart = true

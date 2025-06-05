@@ -12,6 +12,7 @@ var steps_remaining = 0
 @onready var detection_area: Area2D = $PlayerDetectArea2D
 @onready var chase_zone_area: Area2D = $ChaseZoneArea2D
 @onready var eye_sprite: AnimatedSprite2D = $AnimatedSprite2D
+@onready var avoidance_area: Area2D = $AvoidPlayerArea
 
 func _ready():
 	super._ready()
@@ -26,7 +27,7 @@ func _ready():
 func _physics_process(delta: float) -> void:
 	super._physics_process(delta)
 
-	# Snake-specific footstep logic
+	# footstep logic
 	if velocity.length() > 2:
 		if not is_timer_playing:
 			$StepPlayer2D.play()
@@ -147,3 +148,6 @@ func start_random_movement():
 	$StepTimer.start(step_duration)
 	$RandomMovementTimer.wait_time = randf_range(1.0, 5.0)
 	$RandomMovementTimer.start()
+	
+func _on_avoid_player_area_body_entered(body: Node2D) -> void:
+	pass
