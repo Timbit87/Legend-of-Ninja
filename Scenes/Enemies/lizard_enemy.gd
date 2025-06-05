@@ -49,17 +49,16 @@ func _ready():
 	stun_timer.timeout.connect(_on_stun_timer_timeout)
 	
 func _physics_process(delta: float) -> void:
+	super._physics_process(delta)
 	if is_dead or is_winding_up:
 		return
 	if is_charging:
 		var direction = (last_known_player_position - global_position).normalized()
 		velocity = direction * charge_speed
-		move_and_slide()
 		#regular attack at close range
 		if global_position.distance_to(last_known_player_position) < 5:
 			stop_charging()
 		return
-	super._physics_process(delta)
 
 	if velocity.length() > 2:
 		if not is_timer_playing:
@@ -141,7 +140,7 @@ func _on_player_detect_area_2d_body_entered(body: Node2D) -> void:
 		$StepTimer.stop()
 
 func _on_chase_zone_area_2d_body_exited(body: Node2D) -> void:
-	if body is Player and not is_dead:
+	if body is Player and not is_dead and not is_charging:
 		if is_chasing:
 			is_chasing = false
 			target = null
