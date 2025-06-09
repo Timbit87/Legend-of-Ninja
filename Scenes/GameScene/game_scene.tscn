@@ -1,4 +1,4 @@
-[gd_scene load_steps=37 format=4 uid="uid://3hm6vjtwxrpq"]
+[gd_scene load_steps=38 format=4 uid="uid://3hm6vjtwxrpq"]
 
 [ext_resource type="Texture2D" uid="uid://c706xf8syt7dw" path="res://Ninja Adventure - Asset Pack/Backgrounds/Tilesets/TilesetFloor.png" id="1_8wq8i"]
 [ext_resource type="Script" path="res://Scenes/GameScene/game_scene.gd" id="1_rpdpv"]
@@ -17,6 +17,7 @@
 [ext_resource type="PackedScene" uid="uid://djqgww8x51jx3" path="res://Scenes/Enemies/slime_enemy.tscn" id="14_bkvnf"]
 [ext_resource type="PackedScene" uid="uid://dsb1qkkibwqkw" path="res://Scenes/Enemies/snake_enemy_green.tscn" id="16_6dkqd"]
 [ext_resource type="PackedScene" uid="uid://c5uap4y113pln" path="res://Scenes/Enemies/lizard_enemy.tscn" id="17_jaj74"]
+[ext_resource type="PackedScene" uid="uid://r4ustjlxps1i" path="res://Scenes/Enemies/eye_enemy.tscn" id="18_pyj2o"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_up7ow"]
 parsed_geometry_type = 1
@@ -1091,9 +1092,13 @@ z_index = 10
 position = Vector2(191, -155)
 
 [node name="LizardEnemy" parent="." instance=ExtResource("17_jaj74")]
-z_index = 2
-position = Vector2(-25, 76)
+z_index = 10
+position = Vector2(-374, -2)
 lizard_sounds = []
+
+[node name="Enemy" parent="." instance=ExtResource("18_pyj2o")]
+z_index = 10
+position = Vector2(-15, 69)
 
 [connection signal="pressed" from="PuzzleButton" to="LockedDoor" method="_on_puzzle_button_pressed"]
 [connection signal="unpressed" from="PuzzleButton" to="LockedDoor" method="_on_puzzle_button_unpressed"]

@@ -176,6 +176,7 @@ collision_layer = 16
 script = ExtResource("2_v1gv6")
 step_duration = 0.2
 step_distance = 10
+speed = 20.0
 step_sounds = Array[AudioStream]([ExtResource("3_dutno")])
 
 [node name="AnimatedSprite2D" parent="." index="1"]
@@ -232,3 +233,6 @@ stream = ExtResource("4_dutno")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AvoidPlayerArea" index="0"]
 shape = SubResource("CircleShape2D_rqhhd")
 debug_color = Color(0.679754, 0.501675, 0.127835, 0.42)
+
+[connection signal="body_entered" from="AvoidPlayerArea" to="." method="_on_avoid_player_area_body_entered"]
+[connection signal="body_exited" from="AvoidPlayerArea" to="." method="_on_avoid_player_area_body_exited"]

@@ -8,6 +8,8 @@ var is_ideling = true
 var is_chasing = false
 var random_movement_direction = Vector2.ZERO
 var steps_remaining = 0
+var player_in_avoidance_zone := false
+var player = Node2D
 
 @onready var detection_area: Area2D = $PlayerDetectArea2D
 @onready var chase_zone_area: Area2D = $ChaseZoneArea2D
@@ -150,4 +152,15 @@ func start_random_movement():
 	$RandomMovementTimer.start()
 	
 func _on_avoid_player_area_body_entered(body: Node2D) -> void:
-	pass
+	print("Player should be recognized")
+	if body is Player and not is_dead:
+		player_in_avoidance_zone = true
+		player = body
+		print("Player Entered Zone")
+
+
+func _on_avoid_player_area_body_exited(body: Node2D) -> void:
+	print("Player should be recognized")
+	if body is Player and not is_dead:
+		player_in_avoidance_zone = false
+		print("PLayer left zone")
