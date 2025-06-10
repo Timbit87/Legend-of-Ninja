@@ -1,15 +1,26 @@
 extends "res://Scenes/Enemy/enemy.gd"
 
+enum State {
+	IDLE,
+	CHASING,
+	AVOIDING,
+	WINDUP,
+	FIRING,
+	DEAD
+}
+
 @export var step_duration := 0.2
 @export var step_distance := 10
 
 var is_timer_playing := false
-var is_ideling = true
+var is_idling = true
 var is_chasing = false
 var random_movement_direction = Vector2.ZERO
 var steps_remaining = 0
 var player_in_avoidance_zone := false
 var player = Node2D
+var current_state = State.IDLE
+var state_timer = 0.0
 
 @onready var detection_area: Area2D = $PlayerDetectArea2D
 @onready var chase_zone_area: Area2D = $ChaseZoneArea2D
@@ -27,7 +38,21 @@ func _ready():
 	chase_zone_area.connect("body_entered", Callable(self, "_on_chase_zone_area_2d_body_entered"))
 	
 func _physics_process(delta: float) -> void:
+	match current_state:
+		State.IDLE:
+			handle_idle_state(delta)
+		State.CHASING:
+			handle_chasing_state(delta)
+		State.AVOIDING:
+			handle_avoiding_state(delta)
+		State.WINDUP:
+			handle_windup_state(delta)
+		State.FIRING:
+			handle_firing_state(delta)
+		State.DEAD:
+			pass
 	super._physics_process(delta)
+	animate_enemy()
 
 	# footstep logic
 	if velocity.length() > 2:
@@ -38,18 +63,25 @@ func _physics_process(delta: float) -> void:
 		$StepPlayer2D.stop()
 		is_timer_playing = false
 
+func handle_idle_state(delta):
+	if is_dead:
+		return
+	if velocity == Vector2.ZERO and not $RandomMovementTimer.is_stopped():
+		start_random_movement()
+
+func handle_chasing_state(delta):
+	chase_target()
 
 func chase_target():
 	if returning_to_spawn:
 		return
 
 	if is_chasing and target:
-		is_ideling = false
+		is_idling = false
 		var dir = get_direction_to_target()
 		velocity = velocity.move_toward(dir * speed, acceleration)
-		$AttackNoisePlayer
 	else:
-		is_ideling = true
+		is_idling = true
 
 func animate_enemy():
 	super.animate_enemy()	
@@ -75,6 +107,7 @@ func death():
 	
 	$StepPlayer2D.stop()
 	$SnakeDeathPlayer.play()
+	$StepTimer.stop()
 	
 	await get_tree().create_timer(1.0).timeout
 	queue_free()
@@ -95,7 +128,7 @@ func take_damage(amount: int = 1, attacker: Node2D = null):
 	if attacker != null:
 		target = attacker
 		is_chasing = true
-		is_ideling = false
+		is_idling = false
 	play_damage_sfx()
 
 func play_damage_sfx():
@@ -106,7 +139,7 @@ func _on_player_detect_area_2d_body_entered(body: Node2D) -> void:
 	if body is Player and not is_dead:
 		target = body
 		is_chasing = true
-		is_ideling = false
+		is_idling = false
 		$StepTimer.stop()
 
 func _on_chase_zone_area_2d_body_exited(body: Node2D) -> void:
@@ -141,7 +174,7 @@ func _on_step_timer_timeout() -> void:
 		velocity = Vector2.ZERO
 		
 func start_random_movement():
-	is_ideling = true
+	is_idling = true
 	steps_remaining = randi() % 4 + 1
 	random_movement_direction = Vector2(
 		[-1, 0, 1].pick_random(),

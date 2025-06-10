@@ -1,4 +1,4 @@
-[gd_scene load_steps=29 format=3 uid="uid://r4ustjlxps1i"]
+[gd_scene load_steps=30 format=3 uid="uid://r4ustjlxps1i"]
 
 [ext_resource type="PackedScene" uid="uid://b6sb1y6le0aqo" path="res://Scenes/Enemy/enemy.tscn" id="1_vahuy"]
 [ext_resource type="Texture2D" uid="uid://dq6ygcdj750e4" path="res://Ninja Adventure - Asset Pack/Actor/Monsters/Eye/Eye.png" id="2_5fjkv"]
@@ -160,6 +160,9 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_dutno"]
+radius = 6.08276
+
 [sub_resource type="CircleShape2D" id="CircleShape2D_vxfvg"]
 radius = 9.05539
 
@@ -174,9 +177,13 @@ radius = 65.9242
 [node name="Enemy" instance=ExtResource("1_vahuy")]
 collision_layer = 16
 script = ExtResource("2_v1gv6")
-step_duration = 0.2
-step_distance = 10
+step_duration = null
+step_distance = null
+HP = null
+damage = null
 speed = 20.0
+acceleration = null
+return_speed = null
 step_sounds = Array[AudioStream]([ExtResource("3_dutno")])
 
 [node name="AnimatedSprite2D" parent="." index="1"]
@@ -184,16 +191,19 @@ sprite_frames = SubResource("SpriteFrames_megf6")
 animation = &"move_down"
 autoplay = "idle"
 
-[node name="Area2D" parent="." index="2"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." index="2"]
+shape = SubResource("CircleShape2D_dutno")
+
+[node name="Area2D" parent="." index="3"]
 collision_layer = 16
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" index="0"]
 shape = SubResource("CircleShape2D_vxfvg")
 
-[node name="StepPlayer2D" parent="." index="3"]
+[node name="StepPlayer2D" parent="." index="4"]
 stream = SubResource("AudioStream_dutno")
 
-[node name="PlayerDetectArea2D" type="Area2D" parent="." index="5"]
+[node name="PlayerDetectArea2D" type="Area2D" parent="." index="6"]
 collision_layer = 16
 collision_mask = 2
 
@@ -205,7 +215,7 @@ rotation = 3.14159
 scale = Vector2(1, 1.83523)
 polygon = PackedVector2Array(-2.99986, -31.0588, 37.0001, -31.0587, 32, 7.08362, 23.9999, 11.4427, 10.9999, 11.4427, 3.99997, 6.5387)
 
-[node name="ChaseZoneArea2D" type="Area2D" parent="." index="6"]
+[node name="ChaseZoneArea2D" type="Area2D" parent="." index="7"]
 light_mask = 16
 visibility_layer = 2
 collision_layer = 16
@@ -216,19 +226,19 @@ position = Vector2(0, 1)
 shape = SubResource("CircleShape2D_x8ayy")
 debug_color = Color(0.932176, 0.204303, 0.41562, 0.42)
 
-[node name="RandomStepTimer" type="Timer" parent="." index="7"]
+[node name="RandomStepTimer" type="Timer" parent="." index="8"]
 wait_time = 0.02
 
-[node name="StepTimer" type="Timer" parent="." index="8"]
+[node name="StepTimer" type="Timer" parent="." index="9"]
 one_shot = true
 
-[node name="RandomMovementTimer" type="Timer" parent="." index="9"]
+[node name="RandomMovementTimer" type="Timer" parent="." index="10"]
 autostart = true
 
-[node name="DamageSFX" type="AudioStreamPlayer2D" parent="." index="10"]
+[node name="DamageSFX" type="AudioStreamPlayer2D" parent="." index="11"]
 stream = ExtResource("4_dutno")
 
-[node name="AvoidPlayerArea" type="Area2D" parent="." index="11"]
+[node name="AvoidPlayerArea" type="Area2D" parent="." index="12"]
 collision_layer = 16
 collision_mask = 2
 
