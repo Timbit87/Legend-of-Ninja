@@ -171,6 +171,7 @@ radius = 195.064
 
 [node name="Enemy" instance=ExtResource("1_nioob")]
 collision_layer = 16
+collision_mask = 2
 script = ExtResource("2_f2577")
 step_duration = 0.2
 step_distance = 10
