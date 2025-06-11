@@ -21,6 +21,8 @@ var player_in_avoidance_zone := false
 var player = Node2D
 var current_state = State.IDLE
 var state_timer = 0.0
+var fire_cooldown = 0.0
+var target_position = Vector2.ZERO
 
 @onready var detection_area: Area2D = $PlayerDetectArea2D
 @onready var chase_zone_area: Area2D = $ChaseZoneArea2D
@@ -51,7 +53,6 @@ func _physics_process(delta: float) -> void:
 			handle_firing_state(delta)
 		State.DEAD:
 			pass
-	handle_state_transitions()
 	
 	super._physics_process(delta)
 	animate_enemy()
@@ -64,15 +65,25 @@ func _physics_process(delta: float) -> void:
 	elif is_timer_playing:
 		$StepPlayer2D.stop()
 		is_timer_playing = false
-		
+
 func handle_idle_state(delta):
-	if is_dead:
-		return
-	if velocity == Vector2.ZERO and not $RandomMovementTimer.is_stopped():
+	if is_chasing:
+		current_state = State.CHASING
+	elif player_in_avoidance_zone:
+		current_state = State.AVOIDING
+	elif fire_cooldown <= 0.0:
+		current_state = State.WINDUP
+	else:
+		fire_cooldown -= delta
 		start_random_movement()
 
 func handle_chasing_state(delta):
-	chase_target()
+	if target:
+		chase_target()
+		if player_in_avoidance_zone:
+			current_state = State.AVOIDING
+		elif fire_cooldown <= 0:
+			current_state = State.WINDUP
 	
 func handle_avoiding_state(delta):
 	if is_chasing and target:
