@@ -51,6 +51,8 @@ func _physics_process(delta: float) -> void:
 			handle_firing_state(delta)
 		State.DEAD:
 			pass
+	handle_state_transitions()
+	
 	super._physics_process(delta)
 	animate_enemy()
 
@@ -62,7 +64,7 @@ func _physics_process(delta: float) -> void:
 	elif is_timer_playing:
 		$StepPlayer2D.stop()
 		is_timer_playing = false
-
+		
 func handle_idle_state(delta):
 	if is_dead:
 		return
@@ -199,3 +201,11 @@ func _on_avoid_player_area_body_entered(body: Node2D) -> void:
 func _on_avoid_player_area_body_exited(body: Node2D) -> void:
 	if body is Player and not is_dead:
 		player_in_avoidance_zone = false
+
+
+func _on_max_range_area_body_entered(body: Node2D) -> void:
+	pass # Replace with function body.
+
+
+func _on_max_range_area_body_exited(body: Node2D) -> void:
+	pass # Replace with function body.

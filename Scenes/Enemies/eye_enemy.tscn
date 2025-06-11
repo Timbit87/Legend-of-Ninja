@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=3 uid="uid://r4ustjlxps1i"]
+[gd_scene load_steps=31 format=3 uid="uid://r4ustjlxps1i"]
 
 [ext_resource type="PackedScene" uid="uid://b6sb1y6le0aqo" path="res://Scenes/Enemy/enemy.tscn" id="1_vahuy"]
 [ext_resource type="Texture2D" uid="uid://dq6ygcdj750e4" path="res://Ninja Adventure - Asset Pack/Actor/Monsters/Eye/Eye.png" id="2_5fjkv"]
@@ -174,6 +174,9 @@ radius = 195.064
 [sub_resource type="CircleShape2D" id="CircleShape2D_rqhhd"]
 radius = 65.9242
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_ksfg8"]
+radius = 140.0
+
 [node name="Enemy" instance=ExtResource("1_vahuy")]
 collision_layer = 16
 script = ExtResource("2_v1gv6")
@@ -246,5 +249,15 @@ collision_mask = 2
 shape = SubResource("CircleShape2D_rqhhd")
 debug_color = Color(0.679754, 0.501675, 0.127835, 0.42)
 
+[node name="MaxRangeArea" type="Area2D" parent="." index="13"]
+collision_layer = 16
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="MaxRangeArea" index="0"]
+shape = SubResource("CircleShape2D_ksfg8")
+debug_color = Color(0.0816021, 0.629653, 0.455711, 0.42)
+
 [connection signal="body_entered" from="AvoidPlayerArea" to="." method="_on_avoid_player_area_body_entered"]
 [connection signal="body_exited" from="AvoidPlayerArea" to="." method="_on_avoid_player_area_body_exited"]
+[connection signal="body_entered" from="MaxRangeArea" to="." method="_on_max_range_area_body_entered"]
+[connection signal="body_exited" from="MaxRangeArea" to="." method="_on_max_range_area_body_exited"]
