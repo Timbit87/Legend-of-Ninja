@@ -71,6 +71,12 @@ func handle_idle_state(delta):
 
 func handle_chasing_state(delta):
 	chase_target()
+	
+func handle_avoiding_state(delta):
+	if is_chasing and target:
+		is_idling = false
+		var dir = -get_direction_to_target()
+		velocity = velocity.move_toward(dir * speed, acceleration)
 
 func chase_target():
 	if returning_to_spawn:
