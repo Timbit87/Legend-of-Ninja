@@ -180,13 +180,9 @@ radius = 140.0
 [node name="Enemy" instance=ExtResource("1_vahuy")]
 collision_layer = 16
 script = ExtResource("2_v1gv6")
-step_duration = null
-step_distance = null
-HP = null
-damage = null
+step_duration = 0.2
+step_distance = 10
 speed = 20.0
-acceleration = null
-return_speed = null
 step_sounds = Array[AudioStream]([ExtResource("3_dutno")])
 
 [node name="AnimatedSprite2D" parent="." index="1"]

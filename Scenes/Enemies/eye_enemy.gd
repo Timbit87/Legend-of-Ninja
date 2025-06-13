@@ -90,6 +90,34 @@ func handle_avoiding_state(delta):
 		is_idling = false
 		var dir = -get_direction_to_target()
 		velocity = velocity.move_toward(dir * speed, acceleration)
+		
+func handle_windup_state(delta):
+	velocity = Vector2.ZERO
+	state_timer += delta
+	if int(state_timer * 10) % 2 == 0:
+		eye_sprite.modulate = Color(1,0,0)
+	else:
+		eye_sprite.modulate = Color(1,1,1)
+	if state_timer > 0.5:
+		target_position = player.global_position
+		eye_sprite.modulate = Color (1, 1, 1)
+		state_timer = 0.0
+		current_state = State.FIRING
+		
+func handle_firing_state(delta):
+	fire_laser_at(target_position)
+	fire_cooldown = randf_range(3.0, 5.0)
+	state_timer = 0.0
+
+	if player_in_avoidance_zone:
+		current_state = State.AVOIDING
+	elif not is_chasing:
+		current_state = State.CHASING
+	else:
+		current_state = State.IDLE
+		
+func fire_laser_at(pos: Vector2):
+	print ("Firing at:", pos)
 
 func chase_target():
 	if returning_to_spawn:
