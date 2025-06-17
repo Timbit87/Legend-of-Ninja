@@ -71,7 +71,7 @@ func handle_idle_state(delta):
 		current_state = State.CHASING
 	elif player_in_avoidance_zone:
 		current_state = State.AVOIDING
-	elif fire_cooldown <= 0.0:
+	elif fire_cooldown <= 0.0 and target != null:
 		current_state = State.WINDUP
 	else:
 		fire_cooldown -= delta
@@ -106,6 +106,7 @@ func handle_windup_state(delta):
 		
 func handle_firing_state(delta):
 	fire_laser_at(target_position)
+	print("No valid target")
 	fire_cooldown = randf_range(3.0, 5.0)
 	state_timer = 0.0
 
@@ -153,7 +154,6 @@ func death():
 	$AnimatedSprite2D.visible = false
 	
 	$StepPlayer2D.stop()
-	$SnakeDeathPlayer.play()
 	$StepTimer.stop()
 	
 	await get_tree().create_timer(1.0).timeout
