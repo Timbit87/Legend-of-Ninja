@@ -4,6 +4,7 @@ enum State {
 	IDLE,
 	CHASING,
 	AVOIDING,
+	STRAFING,
 	WINDUP,
 	FIRING,
 	DEAD
@@ -53,9 +54,20 @@ func _physics_process(delta: float) -> void:
 			handle_firing_state(delta)
 		State.DEAD:
 			pass
-	
+	if current_state in [State.CHASING, State.STRAFING, State.IDLE] and target:
+		var distance = global_position.distance_to(target.global_position)
+
+		if player_in_avoidance_zone:
+			current_state = State.AVOIDING
+		elif fire_cooldown <= 0:
+			current_state = State.WINDUP
+		elif distance <= $MaxRangeArea/CollisionShape2D.shape.radius and distance > $AvoidPlayerArea/CollisionShape2D.shape.radius:
+			current_state = State.STRAFING
+		else:
+			current_state = State.CHASING
 	super._physics_process(delta)
 	animate_enemy()
+	fire_cooldown = max(fire_cooldown - delta, 0.0)
 
 	# footstep logic
 	if velocity.length() > 2:
@@ -67,29 +79,57 @@ func _physics_process(delta: float) -> void:
 		is_timer_playing = false
 
 func handle_idle_state(delta):
-	if is_chasing:
-		current_state = State.CHASING
-	elif player_in_avoidance_zone:
-		current_state = State.AVOIDING
-	elif fire_cooldown <= 0.0 and target != null:
-		current_state = State.WINDUP
-	else:
-		fire_cooldown -= delta
-		start_random_movement()
-
-func handle_chasing_state(delta):
-	if target:
-		chase_target()
+	fire_cooldown -= delta
+	
+	if is_chasing and target != null:
 		if player_in_avoidance_zone:
 			current_state = State.AVOIDING
 		elif fire_cooldown <= 0:
 			current_state = State.WINDUP
+		else:
+			current_state = State.STRAFING
+	elif target != null and not is_chasing:
+		current_state = State.CHASING
+	else:
+		start_random_movement()
+
+func handle_chasing_state(delta):
+	if target:
+		var distance = global_position.distance_to(target.global_position)
+		if player_in_avoidance_zone:
+			current_state = State.AVOIDING
+		elif distance > $MaxRangeArea/CollisionShape2D.shape.radius * 0.95:
+			var dir = get_direction_to_target()
+			velocity = velocity.move_toward(dir * speed, acceleration)
+		else:
+			current_state = State.STRAFING
+	else:
+		is_chasing = false
+		current_state = State.IDLE
+		
+func handle_strafing_state(delta):
+	if player_in_avoidance_zone:
+		current_state = State.AVOIDING
+	elif target == null:
+		current_state = State.IDLE
+	elif fire_cooldown <= 0:
+		current_state = State.WINDUP
+	else:
+		var to_player = target.global_position - global_position
+		var strafe_direction = Vector2(-to_player.y, to_player.x).normalized()
+		if randi() % 2 == 0:
+			strafe_direction = -strafe_direction
+		velocity = velocity.move_toward(strafe_direction * speed, acceleration)
 	
 func handle_avoiding_state(delta):
-	if is_chasing and target:
-		is_idling = false
+	if target:
 		var dir = -get_direction_to_target()
 		velocity = velocity.move_toward(dir * speed, acceleration)
+	if not player_in_avoidance_zone:
+		if fire_cooldown <= 0:
+			current_state = State.WINDUP
+		else:
+			current_state = State.STRAFING
 		
 func handle_windup_state(delta):
 	velocity = Vector2.ZERO
@@ -99,23 +139,22 @@ func handle_windup_state(delta):
 	else:
 		eye_sprite.modulate = Color(1,1,1)
 	if state_timer > 0.5:
-		target_position = player.global_position
+		target_position = player.global_position if target else global_position
 		eye_sprite.modulate = Color (1, 1, 1)
 		state_timer = 0.0
 		current_state = State.FIRING
 		
 func handle_firing_state(delta):
-	fire_laser_at(target_position)
-	print("No valid target")
+	print("Firing laser at:", target_position)
 	fire_cooldown = randf_range(3.0, 5.0)
 	state_timer = 0.0
 
 	if player_in_avoidance_zone:
 		current_state = State.AVOIDING
-	elif not is_chasing:
+	elif target and global_position.distance_to(target.global_position) > $MaxRangeArea/CollisionShape2D.shape.radius:
 		current_state = State.CHASING
 	else:
-		current_state = State.IDLE
+		current_state = State.STRAFING
 		
 func fire_laser_at(pos: Vector2):
 	print ("Firing at:", pos)
@@ -184,6 +223,7 @@ func play_damage_sfx():
 	
 func _on_player_detect_area_2d_body_entered(body: Node2D) -> void:
 	if body is Player and not is_dead:
+		print("Player detected!")
 		target = body
 		is_chasing = true
 		is_idling = false
