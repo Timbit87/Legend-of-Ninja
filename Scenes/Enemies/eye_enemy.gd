@@ -71,6 +71,8 @@ func _physics_process(delta: float) -> void:
 			current_state = State.STRAFING
 		else:
 			current_state = State.CHASING
+	if fire_cooldown <= 0.0 and current_state not in [State.WINDUP, State.FIRING, State.DEAD]:
+		current_state = State.WINDUP
 	super._physics_process(delta)
 	animate_enemy()
 
