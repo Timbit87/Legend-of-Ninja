@@ -46,6 +46,8 @@ func _physics_process(delta: float) -> void:
 			handle_idle_state(delta)
 		State.CHASING:
 			handle_chasing_state(delta)
+		State.STRAFING:
+			handle_strafing_state(delta)
 		State.AVOIDING:
 			handle_avoiding_state(delta)
 		State.WINDUP:
@@ -54,20 +56,24 @@ func _physics_process(delta: float) -> void:
 			handle_firing_state(delta)
 		State.DEAD:
 			pass
+	fire_cooldown = max(fire_cooldown - delta, 0.0)
+		
 	if current_state in [State.CHASING, State.STRAFING, State.IDLE] and target:
 		var distance = global_position.distance_to(target.global_position)
+		var max_range: float = $MaxRangeArea.get_node("CollisionShape2D").shape.radius
+		var avoid_range: float = $AvoidPlayerArea.get_node("CollisionShape2D").shape.radius
 
-		if player_in_avoidance_zone:
+		if player_in_avoidance_zone or distance < avoid_range:
 			current_state = State.AVOIDING
-		elif fire_cooldown <= 0:
+		elif fire_cooldown <= 0.0:
 			current_state = State.WINDUP
-		elif distance <= $MaxRangeArea/CollisionShape2D.shape.radius and distance > $AvoidPlayerArea/CollisionShape2D.shape.radius:
+		elif distance <= max_range and distance > avoid_range:
 			current_state = State.STRAFING
 		else:
 			current_state = State.CHASING
 	super._physics_process(delta)
 	animate_enemy()
-	fire_cooldown = max(fire_cooldown - delta, 0.0)
+
 
 	# footstep logic
 	if velocity.length() > 2:
@@ -146,6 +152,7 @@ func handle_windup_state(delta):
 		
 func handle_firing_state(delta):
 	print("Firing laser at:", target_position)
+	velocity = Vector2.ZERO
 	fire_cooldown = randf_range(3.0, 5.0)
 	state_timer = 0.0
 
