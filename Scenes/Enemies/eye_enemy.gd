@@ -62,24 +62,8 @@ func _physics_process(delta: float) -> void:
 		State.DEAD:
 			pass
 
-		
-	if current_state in [State.CHASING, State.STRAFING, State.IDLE] and target and is_chasing:
-		var distance = global_position.distance_to(target.global_position)
-		var max_range: float = $MaxRangeArea.get_node("CollisionShape2D").shape.radius
-		var avoid_range: float = $AvoidPlayerArea.get_node("CollisionShape2D").shape.radius
-
-		if player_in_avoidance_zone or distance < avoid_range:
-			current_state = State.AVOIDING
-		elif fire_cooldown <= 0.0:
-			current_state = State.WINDUP
-		elif distance <= max_range:
-			current_state = State.STRAFING
-		else:
-			current_state = State.CHASING
-	if fire_cooldown <= 0.0 and current_state not in [State.WINDUP, State.FIRING, State.DEAD]:
-		current_state = State.WINDUP
+	update_state_logic()
 	animate_enemy()
-	super._physics_process(delta)
 
 
 	# footstep logic
@@ -90,7 +74,29 @@ func _physics_process(delta: float) -> void:
 	elif is_timer_playing:
 		$StepPlayer2D.stop()
 		is_timer_playing = false
+		
+func update_state_logic():
+	if target == null or is_dead:
+		current_state = State.IDLE
+		return
 
+	if current_state in [State.WINDUP, State.FIRING, State.DEAD]:
+		return  # Don't interrupt these states
+
+	var distance = global_position.distance_to(target.global_position)
+	var max_range = $MaxRangeArea.get_node("CollisionShape2D").shape.radius
+	var avoid_range = $AvoidPlayerArea.get_node("CollisionShape2D").shape.radius
+
+	if is_chasing:
+		if player_in_avoidance_zone or distance < avoid_range:
+			current_state = State.AVOIDING
+		elif distance <= max_range:
+			current_state = State.STRAFING
+		else:
+			current_state = State.CHASING
+	else:
+		current_state = State.IDLE
+		
 func handle_idle_state(delta):
 	fire_cooldown -= delta
 	
