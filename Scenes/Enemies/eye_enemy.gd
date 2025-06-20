@@ -41,6 +41,11 @@ func _ready():
 	chase_zone_area.connect("body_entered", Callable(self, "_on_chase_zone_area_2d_body_entered"))
 	
 func _physics_process(delta: float) -> void:
+	if is_dead:
+		return
+		
+	fire_cooldown = max(fire_cooldown - delta, 0.0)
+	
 	match current_state:
 		State.IDLE:
 			handle_idle_state(delta)
@@ -56,9 +61,9 @@ func _physics_process(delta: float) -> void:
 			handle_firing_state(delta)
 		State.DEAD:
 			pass
-	fire_cooldown = max(fire_cooldown - delta, 0.0)
+
 		
-	if current_state in [State.CHASING, State.STRAFING, State.IDLE] and target:
+	if current_state in [State.CHASING, State.STRAFING, State.IDLE] and target and is_chasing:
 		var distance = global_position.distance_to(target.global_position)
 		var max_range: float = $MaxRangeArea.get_node("CollisionShape2D").shape.radius
 		var avoid_range: float = $AvoidPlayerArea.get_node("CollisionShape2D").shape.radius
@@ -67,14 +72,14 @@ func _physics_process(delta: float) -> void:
 			current_state = State.AVOIDING
 		elif fire_cooldown <= 0.0:
 			current_state = State.WINDUP
-		elif distance <= max_range and distance > avoid_range:
+		elif distance <= max_range:
 			current_state = State.STRAFING
 		else:
 			current_state = State.CHASING
 	if fire_cooldown <= 0.0 and current_state not in [State.WINDUP, State.FIRING, State.DEAD]:
 		current_state = State.WINDUP
-	super._physics_process(delta)
 	animate_enemy()
+	super._physics_process(delta)
 
 
 	# footstep logic
@@ -140,19 +145,26 @@ func handle_avoiding_state(delta):
 			current_state = State.STRAFING
 		
 func handle_windup_state(delta):
-	velocity = Vector2.ZERO
-	state_timer += delta
-	if int(state_timer * 10) % 2 == 0:
-		eye_sprite.modulate = Color(1,0,0)
+	if target != null:
+		velocity = Vector2.ZERO
+		state_timer += delta
+		if int(state_timer * 10) % 2 == 0:
+			eye_sprite.modulate = Color(1,0,0)
+		else:
+			eye_sprite.modulate = Color(1,1,1)
+		if state_timer > 0.5:
+			target_position = player.global_position if target else global_position
+			eye_sprite.modulate = Color (1, 1, 1)
+			state_timer = 0.0
+			current_state = State.FIRING
 	else:
-		eye_sprite.modulate = Color(1,1,1)
-	if state_timer > 0.5:
-		target_position = player.global_position if target else global_position
-		eye_sprite.modulate = Color (1, 1, 1)
-		state_timer = 0.0
-		current_state = State.FIRING
+		current_state = State.IDLE
+		return
 		
 func handle_firing_state(delta):
+	if not is_chasing or target == null:
+		current_state = State.IDLE
+		return
 	print("Firing laser at:", target_position)
 	velocity = Vector2.ZERO
 	fire_cooldown = randf_range(3.0, 5.0)
@@ -164,6 +176,7 @@ func handle_firing_state(delta):
 		current_state = State.CHASING
 	else:
 		current_state = State.STRAFING
+	current_state = State.IDLE
 		
 func fire_laser_at(pos: Vector2):
 	print ("Firing at:", pos)
