@@ -24,6 +24,8 @@ var current_state = State.IDLE
 var state_timer = 0.0
 var fire_cooldown = 0.0
 var target_position = Vector2.ZERO
+var current_strafe_direction: Vector2 = Vector2.ZERO
+var strafe_flip_timer: float = 0.0
 
 @onready var detection_area: Area2D = $PlayerDetectArea2D
 @onready var chase_zone_area: Area2D = $ChaseZoneArea2D
@@ -43,9 +45,9 @@ func _ready():
 func _physics_process(delta: float) -> void:
 	if is_dead:
 		return
-		
+
 	fire_cooldown = max(fire_cooldown - delta, 0.0)
-	
+
 	match current_state:
 		State.IDLE:
 			handle_idle_state(delta)
@@ -64,7 +66,7 @@ func _physics_process(delta: float) -> void:
 
 	update_state_logic()
 	animate_enemy()
-
+	move_and_slide()
 
 	# footstep logic
 	if velocity.length() > 2:
@@ -110,6 +112,8 @@ func handle_idle_state(delta):
 	elif target != null and not is_chasing:
 		current_state = State.CHASING
 	else:
+		if not $StepTimer.is_stopped():
+			return
 		start_random_movement()
 
 func handle_chasing_state(delta):
@@ -135,10 +139,14 @@ func handle_strafing_state(delta):
 		current_state = State.WINDUP
 	else:
 		var to_player = target.global_position - global_position
-		var strafe_direction = Vector2(-to_player.y, to_player.x).normalized()
-		if randi() % 2 == 0:
-			strafe_direction = -strafe_direction
-		velocity = velocity.move_toward(strafe_direction * speed, acceleration)
+		strafe_flip_timer -= delta
+
+		if strafe_flip_timer <= 0 or current_strafe_direction == Vector2.ZERO:
+			var perp = Vector2(-to_player.y, to_player.x).normalized()
+			current_strafe_direction = perp if randi() % 2 == 0 else -perp
+			strafe_flip_timer = randf_range(1.0, 2.0)
+
+		velocity = velocity.move_toward(current_strafe_direction * speed, acceleration)
 	
 func handle_avoiding_state(delta):
 	if target:
@@ -199,7 +207,12 @@ func chase_target():
 		is_idling = true
 
 func animate_enemy():
-	super.animate_enemy()	
+	super.animate_enemy()
+	if target and not is_dead:
+		var to_target = target.global_position - global_position
+		var angle = to_target.angle()
+		$PlayerDetectArea2D.rotation = angle
+		
 	var normal_velocity: Vector2 = velocity.normalized()
 	if normal_velocity.x > 0.707:
 		$PlayerDetectArea2D.rotation = deg_to_rad(-90)
