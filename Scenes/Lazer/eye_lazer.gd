@@ -1,1 +1,1 @@
-extends RayCast2D
+extends Area2D
