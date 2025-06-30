@@ -30,4 +30,27 @@ func _ready() -> void:
 		explosion_area.monitoring = true
 		explosion_sound.play()
 		
+		if hit_object.has_method("take_damage"):
+			hit_object.take_damage(damage)
 		
+		update_beam_visual(hit_position)
+	else:
+		update_beam_visual(global_position + raycast.target_position)
+	
+	timer.start(lifespan)
+	
+func update_beam_visual(hit_pos: Vector2):
+	var local_hit = to_local(hit_pos)
+	var length = local_hit.length()
+	beam_sprite.scale.x = length / beam_sprite.frames.get_frame_texture("beam_loop", 0).get_width()
+	
+
+
+
+func _on_timer_timeout() -> void:
+	queue_free()
+
+
+func _on_explosion_area_body_entered(body: Node2D) -> void:
+	if body.has_method("take_damage"):
+		body.take_damage(damage)

@@ -12,6 +12,7 @@ enum State {
 
 @export var step_duration := 0.2
 @export var step_distance := 10
+var laser_scene = preload("res://Scenes/Lazer/eye_lazer.tscn")
 
 var is_timer_playing := false
 var is_idling = true
@@ -194,6 +195,11 @@ func handle_firing_state(delta):
 		
 func fire_laser_at(pos: Vector2):
 	print ("Firing at:", pos)
+	var laser = laser_scene.instantiate()
+	laser.global_position = global_position
+	laser.look_at(player.global_position)
+	
+	get_tree().current_scene.add_child(laser)
 
 func chase_target():
 	if returning_to_spawn:
