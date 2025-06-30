@@ -1,46 +1,54 @@
-[gd_scene load_steps=22 format=3 uid="uid://b6hmdeaihhxky"]
+[gd_scene load_steps=21 format=3 uid="uid://b6hmdeaihhxky"]
 
 [ext_resource type="Script" uid="uid://db5g2kj5e8ral" path="res://Scenes/Lazer/eye_lazer.gd" id="1_p23pt"]
-[ext_resource type="Texture2D" uid="uid://dfe8hdwxm0q6q" path="res://Ninja Adventure - Asset Pack/FX/Projectile/IceSpike.png" id="2_qup2t"]
+[ext_resource type="Texture2D" uid="uid://nma518hjk2x" path="res://Ninja Adventure - Asset Pack/FX/Particle/Laser Shot Assets/LaserShot.png" id="2_p23pt"]
 [ext_resource type="AudioStream" uid="uid://bqi6mom0ix5gr" path="res://Ninja Adventure - Asset Pack/Sounds/Game/Fireball2.wav" id="3_ast4p"]
 [ext_resource type="AudioStream" uid="uid://w5wwo444wekl" path="res://Ninja Adventure - Asset Pack/Sounds/Game/Explosion2.wav" id="4_iag1c"]
 [ext_resource type="Texture2D" uid="uid://b86vdadg7ix6x" path="res://Ninja Adventure - Asset Pack/FX/Magic/Aura/SpriteSheetPurple.png" id="5_81eh1"]
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_qup2t"]
+atlas = ExtResource("2_p23pt")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ast4p"]
+atlas = ExtResource("2_p23pt")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_iag1c"]
+atlas = ExtResource("2_p23pt")
+region = Rect2(128, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_81eh1"]
+atlas = ExtResource("2_p23pt")
+region = Rect2(192, 0, 64, 64)
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_mvduq"]
-atlas = ExtResource("2_qup2t")
-region = Rect2(0, 0, 18, 10)
+atlas = ExtResource("2_p23pt")
+region = Rect2(256, 0, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_viejh"]
-atlas = ExtResource("2_qup2t")
-region = Rect2(18, 0, 18, 10)
+atlas = ExtResource("2_p23pt")
+region = Rect2(320, 0, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ddnwk"]
-atlas = ExtResource("2_qup2t")
-region = Rect2(36, 0, 18, 10)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_0d0fj"]
-atlas = ExtResource("2_qup2t")
-region = Rect2(54, 0, 18, 10)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_5mgp0"]
-atlas = ExtResource("2_qup2t")
-region = Rect2(72, 0, 18, 10)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_20p7l"]
-atlas = ExtResource("2_qup2t")
-region = Rect2(90, 0, 18, 10)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_4b4h3"]
-atlas = ExtResource("2_qup2t")
-region = Rect2(108, 0, 18, 10)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_vrxnw"]
-atlas = ExtResource("2_qup2t")
-region = Rect2(126, 0, 18, 10)
+atlas = ExtResource("2_p23pt")
+region = Rect2(384, 0, 64, 64)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_t4rr5"]
 animations = [{
 "frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qup2t")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ast4p")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_iag1c")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_81eh1")
+}, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_mvduq")
 }, {
@@ -49,21 +57,6 @@ animations = [{
 }, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_ddnwk")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_0d0fj")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_5mgp0")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_20p7l")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_4b4h3")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_vrxnw")
 }],
 "loop": true,
 "name": &"beam_loop",
@@ -122,9 +115,12 @@ script = ExtResource("1_p23pt")
 collision_mask = 19
 
 [node name="AnimatedBeam" type="AnimatedSprite2D" parent="."]
-position = Vector2(-9, -5)
+position = Vector2(-9, -4)
+scale = Vector2(0.268074, 0.118531)
 sprite_frames = SubResource("SpriteFrames_t4rr5")
 animation = &"beam_loop"
+frame = 5
+frame_progress = 0.460868
 centered = false
 
 [node name="ZapSound" type="AudioStreamPlayer2D" parent="."]
@@ -138,9 +134,11 @@ shape = SubResource("CapsuleShape2D_15axk")
 [node name="Timer" type="Timer" parent="."]
 
 [node name="Explosion sound" type="AudioStreamPlayer2D" parent="."]
+visible = false
 stream = ExtResource("4_iag1c")
 
 [node name="AnimatedExplosion" type="AnimatedSprite2D" parent="."]
+visible = false
 position = Vector2(-9.53674e-07, -1)
 scale = Vector2(0.40625, 0.5)
 sprite_frames = SubResource("SpriteFrames_83jfy")
@@ -149,6 +147,7 @@ frame = 1
 frame_progress = 0.065387
 
 [node name="ExplosionArea" type="Area2D" parent="."]
+visible = false
 scale = Vector2(1.03768, 0.676524)
 collision_layer = 2
 collision_mask = 16
