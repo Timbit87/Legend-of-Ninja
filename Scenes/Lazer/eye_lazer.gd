@@ -39,7 +39,7 @@ func _ready() -> void:
 		
 		if hit_object:
 			print("Hit object: ", hit_object.name)
-			if hit_object.has_method("take_damage"):				
+			if hit_object and hit_object.has_method("take_damage"):
 				hit_object.take_damage(damage)
 				print("damage applied to: ", hit_object.name)
 			else:

@@ -83,27 +83,33 @@ func update_trasure_label():
 func _on_hit_box_area_2d_body_entered(body):
 	if body is CharacterBody2D and "is_dead" in body and body.is_dead:
 		return
-	$PlayerDamageAudioStreamPlayer2D.play()
-	SceneManager.player_hp -= 1
-	update_hp_bar()
-	if SceneManager.player_hp <= 0:
-		$PlayerDeathAudioStreamLayer2D.play()
-		die()
-		
+
+	take_damage(1)
+
 	var distance_to_player: Vector2 = global_position - body.global_position
 	var knockback_direction: Vector2 = distance_to_player.normalized()
 	var knockback_strength: float = 200
 	
 	velocity += knockback_direction * knockback_strength
 	
-	var flash_white_colour: Color = Color(50, 50, 50)
+func take_damage(amount: int) -> void:
+	if SceneManager.player_hp <= 0:
+		return
 	
+	$PlayerDamageAudioStreamPlayer2D.play()
+	SceneManager.player_hp -= amount
+	update_hp_bar()
+	
+	if SceneManager.player_hp <= 0:
+		$PlayerDeathAudioStreamLayer2D.play()
+		die()
+	
+	var flash_white_colour: Color = Color(50, 50, 50)
 	for i in range(2):
 		modulate = flash_white_colour	
 		await get_tree().create_timer(0.05).timeout	
 		modulate = original_colour
-		await get_tree().create_timer(0.05).timeout	
-	
+		await get_tree().create_timer(0.05).timeout
 	
 func die():
 	if $DeathTimer.is_stopped():
