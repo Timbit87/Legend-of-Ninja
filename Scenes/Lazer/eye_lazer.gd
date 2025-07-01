@@ -23,7 +23,9 @@ func _ready() -> void:
 	
 	if raycast.is_colliding():
 		var hit_position = raycast.get_collision_point()
+		print("hit position", hit_position)
 		var hit_object = raycast.get_collider()
+		print("hit object", hit_object)
 		
 		explosion_sprite.global_position = hit_position
 		explosion_area.global_position = hit_position
@@ -47,10 +49,10 @@ func _ready() -> void:
 		
 		update_beam_visual(hit_position)
 	else:
+		print("No collision")
 		update_beam_visual(global_position + raycast.target_position)
 	
 	timer.start(lifespan)
-	print("Beam ready")
 	
 func update_beam_visual(hit_pos: Vector2):
 	print("FIring beam visual")
