@@ -13,13 +13,33 @@ var lifespan = 0.3
 var target_position: Vector2
 
 func _ready() -> void:
-	print("Beam getting ready")
+	print("Ray start: ", raycast.global_position, " end: ", raycast.to_global(raycast.target_position))
+	
 	var dir = (target_position - global_position).normalized()
-	raycast.target_position = dir * 500
+	raycast.position = Vector2.ZERO
+	raycast.rotation = 0  # Keep at zero if you prefer not to rotate node
+
+	raycast.target_position = dir * 100  # Fire directly in the global direction relative to parent
+
 	raycast.force_raycast_update()
 	
 	beam_sprite.play("beam_loop")
 	zap_sound.play()
+	
+	raycast.force_raycast_update()
+	print("Raycast node global position: ", raycast.global_position)
+	print("Raycast target global position: ", raycast.to_global(raycast.target_position))
+	print("Raycast dir: ", dir)
+	print("Raycast enabled: ", raycast.enabled)
+	print("Raycast target_position: ", raycast.target_position)
+	print("Ray start global: ", raycast.global_position)
+	print("Ray end global: ", raycast.to_global(raycast.target_position))
+	print("Ray is colliding?: ", raycast.is_colliding())
+	explosion_sprite.global_position = raycast.to_global(raycast.target_position)
+	explosion_sprite.show()
+	explosion_sprite.play("explode")
+	explosion_area.monitoring = true
+	explosion_sound.play()
 	
 	if raycast.is_colliding():
 		var hit_position = raycast.get_collision_point()
@@ -27,14 +47,6 @@ func _ready() -> void:
 		var hit_object = raycast.get_collider()
 		print("hit object", hit_object)
 		
-		explosion_sprite.global_position = hit_position
-		explosion_area.global_position = hit_position
-		explosion_sound.global_position = hit_position
-		print("Explosion point set to: ", hit_position)
-		explosion_sprite.show
-		explosion_sprite.play("explode")
-		explosion_area.monitoring = true
-		explosion_sound.play()
 		print("Explosion hit location: ", hit_position)
 		
 		if hit_object:
@@ -53,6 +65,8 @@ func _ready() -> void:
 		update_beam_visual(global_position + raycast.target_position)
 	
 	timer.start(lifespan)
+	print("Ray end: ", raycast.global_position, " end: ", raycast.to_global(raycast.target_position))
+
 	
 func update_beam_visual(hit_pos: Vector2):
 	print("FIring beam visual")

@@ -115,6 +115,7 @@ script = ExtResource("1_p23pt")
 [node name="RayCast2D" type="RayCast2D" parent="."]
 target_position = Vector2(100, 100)
 collision_mask = 2
+collide_with_areas = true
 
 [node name="AnimatedBeam" type="AnimatedSprite2D" parent="."]
 position = Vector2(-9, -4)
