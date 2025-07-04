@@ -29,6 +29,7 @@ var fire_cooldown = 0.0
 var target_position = Vector2.ZERO
 var current_strafe_direction: Vector2 = Vector2.ZERO
 var strafe_flip_timer: float = 0.0
+var locked_target_position: Vector2
 
 @onready var detection_area: Area2D = $PlayerDetectArea2D
 @onready var chase_zone_area: Area2D = $ChaseZoneArea2D
@@ -109,6 +110,8 @@ func handle_idle_state(delta):
 		if player_in_avoidance_zone:
 			current_state = State.AVOIDING
 		elif fire_cooldown <= 0:
+			locked_target_position = player.global_position
+			state_timer = 0.0
 			current_state = State.WINDUP
 		else:
 			current_state = State.STRAFING
@@ -139,6 +142,8 @@ func handle_strafing_state(delta):
 	elif target == null:
 		current_state = State.IDLE
 	elif fire_cooldown <= 0:
+		locked_target_position = player.global_position
+		state_timer = 0.0
 		current_state = State.WINDUP
 	else:
 		var to_player = target.global_position - global_position
@@ -186,7 +191,7 @@ func handle_firing_state(delta):
 	velocity = Vector2.ZERO
 	fire_cooldown = randf_range(3.0, 5.0)
 	state_timer = 0.0
-	fire_laser_at(target_position)
+	fire_laser_at(locked_target_position)
 
 	if player_in_avoidance_zone:
 		current_state = State.AVOIDING
@@ -201,7 +206,7 @@ func fire_laser_at(pos: Vector2):
 	var laser = laser_scene.instantiate()
 	laser.global_position = global_position
 	laser.look_at(player.global_position)
-	laser.target_position = player.global_position
+	laser.target_position = locked_target_position
 	
 	get_tree().current_scene.add_child(laser)
 
@@ -215,6 +220,10 @@ func chase_target():
 		velocity = velocity.move_toward(dir * speed, acceleration)
 	else:
 		is_idling = true
+		
+func start_windup():
+	locked_target_position = player.global_position
+
 
 func animate_enemy():
 	super.animate_enemy()
