@@ -13,20 +13,22 @@ var lifespan = 0.3
 var target_position: Vector2
 
 func _ready() -> void:
+	fire_laser()
+
+func fire_laser() -> void:
 	print("Ray start: ", raycast.global_position, " end: ", raycast.to_global(raycast.target_position))
-	
-	var dir = (target_position - global_position).normalized()
+
+	var dir = (target_position - raycast.global_position).normalized()
 	raycast.position = Vector2.ZERO
-	raycast.rotation = 0  # Keep at zero if you prefer not to rotate node
+	raycast.rotation = 0
 
-	raycast.target_position = dir * 100  # Fire directly in the global direction relative to parent
-
+	raycast.target_position = to_local(raycast.global_position + dir * 100)
 	raycast.force_raycast_update()
-	
+
 	beam_sprite.play("beam_loop")
 	zap_sound.play()
-	
-	raycast.force_raycast_update()
+
+	# Debug info
 	print("Raycast node global position: ", raycast.global_position)
 	print("Raycast target global position: ", raycast.to_global(raycast.target_position))
 	print("Raycast dir: ", dir)
@@ -35,41 +37,42 @@ func _ready() -> void:
 	print("Ray start global: ", raycast.global_position)
 	print("Ray end global: ", raycast.to_global(raycast.target_position))
 	print("Ray is colliding?: ", raycast.is_colliding())
+
+	# Explosion always plays
 	explosion_sprite.global_position = raycast.to_global(raycast.target_position)
 	explosion_sprite.show()
 	explosion_sprite.play("explode")
 	explosion_area.monitoring = true
 	explosion_sound.play()
-	
+
 	if raycast.is_colliding():
 		var hit_position = raycast.get_collision_point()
-		print("hit position", hit_position)
 		var hit_object = raycast.get_collider()
-		print("hit object", hit_object)
-		
 		print("Explosion hit location: ", hit_position)
-		
+		explosion_sprite.global_position = hit_position
+
 		if hit_object:
 			print("Hit object: ", hit_object.name)
-			if hit_object and hit_object.has_method("take_damage"):
+			if hit_object.has_method("take_damage"):
 				hit_object.take_damage(damage)
-				print("damage applied to: ", hit_object.name)
+				print("Damage applied to: ", hit_object.name)
 			else:
 				print("Hit object does not take damage")
 		else:
-			print("Raycast didnt hit an object")
-		
+			print("Raycast didn't hit an object")
+			
 		update_beam_visual(hit_position)
 	else:
 		print("No collision")
+		explosion_sprite.global_position = raycast.to_global(raycast.target_position)
 		update_beam_visual(global_position + raycast.target_position)
-	
+
+
 	timer.start(lifespan)
 	print("Ray end: ", raycast.global_position, " end: ", raycast.to_global(raycast.target_position))
 
-	
-func update_beam_visual(hit_pos: Vector2):
-	print("FIring beam visual")
+func update_beam_visual(hit_pos: Vector2) -> void:
+	print("Firing beam visual")
 	var length = global_position.distance_to(hit_pos)
 	var tex = beam_sprite.sprite_frames.get_frame_texture("beam_loop", 0)
 	if tex:
@@ -77,10 +80,8 @@ func update_beam_visual(hit_pos: Vector2):
 	else:
 		print("No texture found in beam sprite")
 
-
 func _on_timer_timeout() -> void:
 	queue_free()
-
 
 func _on_explosion_area_body_entered(body: Node2D) -> void:
 	if body.has_method("take_damage"):

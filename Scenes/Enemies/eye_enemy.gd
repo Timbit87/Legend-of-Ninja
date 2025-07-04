@@ -201,7 +201,7 @@ func fire_laser_at(pos: Vector2):
 	var laser = laser_scene.instantiate()
 	laser.global_position = global_position
 	laser.look_at(player.global_position)
-	laser.target_position = pos
+	laser.target_position = player.global_position
 	
 	get_tree().current_scene.add_child(laser)
 
