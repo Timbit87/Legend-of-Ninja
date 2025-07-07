@@ -185,9 +185,7 @@ func handle_windup_state(delta):
 		
 func handle_firing_state(delta):
 	if not is_chasing or target == null:
-		current_state = State.IDLE
 		return
-	print("Firing laser at:", target_position)
 	velocity = Vector2.ZERO
 	fire_cooldown = randf_range(3.0, 5.0)
 	state_timer = 0.0
@@ -202,10 +200,9 @@ func handle_firing_state(delta):
 	current_state = State.IDLE
 		
 func fire_laser_at(pos: Vector2):
-	print ("Firing at:", pos)
 	var laser = laser_scene.instantiate()
 	laser.global_position = global_position
-	laser.look_at(player.global_position)
+	laser.look_at(pos)
 	laser.target_position = locked_target_position
 	
 	get_tree().current_scene.add_child(laser)
@@ -262,10 +259,6 @@ func take_damage(amount: int = 1, attacker: Node2D = null):
 	if attacker == null:
 		print("No attacker passed!")
 		return
-
-	print("Attacker name: ", attacker.name)
-	print("Attacker class: ", attacker.get_class())
-	print("Attacker script: ", attacker.get_script())
 	super.take_damage(amount, attacker)
 	emit_blood_splatter()
 		
