@@ -29,7 +29,7 @@ var fire_cooldown = 0.0
 var target_position = Vector2.ZERO
 var current_strafe_direction: Vector2 = Vector2.ZERO
 var strafe_flip_timer: float = 0.0
-var locked_target_position: Vector2
+var locked_target_position: Vector2 = global_position
 
 @onready var detection_area: Area2D = $PlayerDetectArea2D
 @onready var chase_zone_area: Area2D = $ChaseZoneArea2D
@@ -170,12 +170,16 @@ func handle_windup_state(delta):
 	if target != null:
 		velocity = Vector2.ZERO
 		state_timer += delta
+		if state_timer == delta:
+			if is_instance_valid(player):
+				locked_target_position = player.global_position
+			else:
+				locked_target_position = global_position
 		if int(state_timer * 10) % 2 == 0:
 			eye_sprite.modulate = Color(1,0,0)
 		else:
 			eye_sprite.modulate = Color(1,1,1)
 		if state_timer > 0.5:
-			target_position = player.global_position if target else global_position
 			eye_sprite.modulate = Color (1, 1, 1)
 			state_timer = 0.0
 			current_state = State.FIRING
@@ -202,7 +206,10 @@ func handle_firing_state(delta):
 func fire_laser_at(pos: Vector2):
 	var laser = laser_scene.instantiate()
 	laser.global_position = global_position
-	laser.look_at(pos)
+	if is_instance_valid(player):
+		laser.look_at(pos)
+	else:
+		laser.look_at(locked_target_position)
 	laser.target_position = locked_target_position
 	
 	get_tree().current_scene.add_child(laser)
