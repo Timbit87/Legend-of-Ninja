@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://ce2t6lv6rjg1y"]
 
-[ext_resource type="Script" uid="uid://ca3pxsr7jdhqk" path="res://Scenes/Stealth/bamboo.gd" id="1_rs8xf"]
+[ext_resource type="Script" uid="uid://chdrrls8rdgql" path="res://Scenes/Stealth/stealth_grass.gd" id="1_rs8xf"]
 [ext_resource type="Texture2D" uid="uid://c7xxq1dmqc48" path="res://Ninja Adventure - Asset Pack/Backgrounds/Tilesets/TilesetNature.png" id="2_go25g"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_00ytn"]
