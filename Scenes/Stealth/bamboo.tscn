@@ -1,0 +1,20 @@
+[gd_scene load_steps=4 format=3 uid="uid://y6t40mky1bm7"]
+
+[ext_resource type="Script" uid="uid://ca3pxsr7jdhqk" path="res://Scenes/Stealth/bamboo.gd" id="1_tg4q5"]
+[ext_resource type="Texture2D" uid="uid://c7xxq1dmqc48" path="res://Ninja Adventure - Asset Pack/Backgrounds/Tilesets/TilesetNature.png" id="2_6dup2"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_00ytn"]
+size = Vector2(14, 14)
+
+[node name="Bamboo" type="StaticBody2D"]
+script = ExtResource("1_tg4q5")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_6dup2")
+region_enabled = true
+region_rect = Rect2(112.707, 161.514, 14.713, 13.8576)
+
+[node name="StealthZone" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StealthZone"]
+shape = SubResource("RectangleShape2D_00ytn")
