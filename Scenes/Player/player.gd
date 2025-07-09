@@ -9,6 +9,7 @@ var original_colour: Color = Color(1,1,1)
 var is_attacking: bool = false
 var can_interact: bool = false
 var last_move_direction: Vector2 = Vector2.RIGHT
+var is_stealthed = false
 
 
 # Called when the node enters the scene tree for the first time.
@@ -216,3 +217,10 @@ func throw_kunai():
 	get_parent().add_child(kunai_instance)
 	$ThrowKunaiTimer.start()
 	is_attacking = false
+	
+func set_stealth_mode(state: bool):
+	is_stealthed = state
+	if is_stealthed:
+		$AnimatedSprite2D.play("stealth")
+	else:
+		$AnimatedSprite2D.play("normal")

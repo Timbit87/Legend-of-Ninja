@@ -1,4 +1,4 @@
-[gd_scene load_steps=42 format=3 uid="uid://ckpmajjjqcrg5"]
+[gd_scene load_steps=44 format=3 uid="uid://ckpmajjjqcrg5"]
 
 [ext_resource type="Script" uid="uid://bd6slj6g1dena" path="res://Scenes/Player/player.gd" id="1_yfx64"]
 [ext_resource type="Texture2D" uid="uid://dif6thu3mt724" path="res://Ninja Adventure - Asset Pack/Actor/Characters/NinjaRed2/SeparateAnim/Walk.png" id="2_5jgnp"]
@@ -100,6 +100,14 @@ region = Rect2(16, 32, 16, 16)
 [sub_resource type="AtlasTexture" id="AtlasTexture_ioh86"]
 atlas = ExtResource("2_5jgnp")
 region = Rect2(16, 48, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0objx"]
+atlas = ExtResource("2_5jgnp")
+region = Rect2(0, 0, 16, 10)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_w71ue"]
+atlas = ExtResource("2_5jgnp")
+region = Rect2(0, 50, 16, 10)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_qd3fr"]
 animations = [{
@@ -216,6 +224,17 @@ animations = [{
 "loop": true,
 "name": &"move_up",
 "speed": 6.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0objx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_w71ue")
+}],
+"loop": true,
+"name": &"stealth",
+"speed": 5.0
 }]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_qwtjr"]
@@ -294,8 +313,9 @@ push_strength = 300.0
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, -1)
 sprite_frames = SubResource("SpriteFrames_qd3fr")
-animation = &"attack_down"
+animation = &"stealth"
 autoplay = "move_down"
+frame_progress = 0.109476
 offset = Vector2(0, -5)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

@@ -18,6 +18,8 @@ var target: Node2D
 var is_dead = false
 var spawn_position: Vector2
 var returning_to_spawn := false
+var stealth_timer = 0.0
+var close_detection_radius = 32.0
 
 
 func _ready() -> void:
@@ -120,3 +122,22 @@ func get_move_velocity() -> Vector2:
 	var next_path_position = nav_agent.get_next_path_position()
 	var direction = (next_path_position - global_position).normalized()
 	return direction * return_speed
+	
+func update_detection(delta):
+	var distance_to_player = global_position.distance_to(target.global_position)
+	
+	if target.is_stealthed:
+		if is_chasing:
+			stealth_timer += delta
+			if stealth_timer >= 2:
+				lose_player()
+		else:
+			stealth_timer = 0.0
+			if distance_to_player < close_detection_radius:
+				detect_player()
+			else:
+				return
+	else:
+		stealth_timer = 0.0
+		if distance_to_player < detection_radius:
+			detect_player()
