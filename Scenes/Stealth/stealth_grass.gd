@@ -1,5 +1,13 @@
 extends StaticBody2D
 
-var stealth_timer = 0.0
-var close_detection_radius = 32
-var lose_player_as_target_timer = 1
+func _ready():
+	connect("body_entered", Callable(self, "_on_body_entered"))
+	connect("body_exited", Callable(self, "_on_body_exited"))
+	
+func _on_body_entered(body):
+	if body.is_in_group("player"):
+		body.set_stealth_mode(true)
+		
+func _on_body_exited(body):
+	if body.is_in_group("player"):
+		body.set_steath_mode(false)
