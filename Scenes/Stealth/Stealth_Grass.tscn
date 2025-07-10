@@ -4,9 +4,10 @@
 [ext_resource type="Texture2D" uid="uid://c7xxq1dmqc48" path="res://Ninja Adventure - Asset Pack/Backgrounds/Tilesets/TilesetNature.png" id="2_go25g"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_00ytn"]
-size = Vector2(14, 14)
+size = Vector2(16, 14)
 
 [node name="StealthGrass" type="Area2D"]
+collision_mask = 2
 script = ExtResource("1_rs8xf")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]

@@ -221,6 +221,8 @@ func throw_kunai():
 func set_stealth_mode(state: bool):
 	is_stealthed = state
 	if is_stealthed:
+		print("Stealthed bitch")
 		$AnimatedSprite2D.play("stealth")
 	else:
-		$AnimatedSprite2D.play("normal")
+		print("No longer stealthed")
+		$AnimatedSprite2D.play("move_up")
