@@ -301,7 +301,7 @@ animations = [{
 "speed": 5.0
 }]
 
-[node name="Player" type="CharacterBody2D"]
+[node name="Player" type="CharacterBody2D" groups=["player"]]
 position = Vector2(512, 212)
 collision_layer = 2
 collision_mask = 7
@@ -315,7 +315,7 @@ position = Vector2(0, -1)
 sprite_frames = SubResource("SpriteFrames_qd3fr")
 animation = &"stealth"
 autoplay = "move_down"
-frame_progress = 0.109476
+frame_progress = 0.990865
 offset = Vector2(0, -5)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

@@ -20,6 +20,7 @@ var spawn_position: Vector2
 var returning_to_spawn := false
 var stealth_timer = 0.0
 var close_detection_radius = 32.0
+var is_chasing = false
 
 
 func _ready() -> void:
@@ -124,6 +125,9 @@ func get_move_velocity() -> Vector2:
 	return direction * return_speed
 	
 func update_detection(delta):
+	if not target:
+		return
+		
 	var distance_to_player = global_position.distance_to(target.global_position)
 	
 	if target.is_stealthed:
@@ -141,3 +145,19 @@ func update_detection(delta):
 		stealth_timer = 0.0
 		if distance_to_player < detection_radius:
 			detect_player()
+
+
+func detect_player():
+	if target:
+		is_chasing = true
+		return
+	var player = get_tree().get_first_node_in_group("player")
+	if player:
+		target = player
+		is_chasing = true
+		
+func lose_player():
+	is_chasing = false
+	target = null
+	returning_to_spawn = true
+	nav_agent.set_target_position(spawn_position)

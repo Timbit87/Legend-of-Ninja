@@ -6,7 +6,6 @@ extends "res://Scenes/Enemy/enemy.gd"
 
 var is_timer_playing := false
 var is_ideling = true
-var is_chasing = false
 var random_movement_direction = Vector2.ZERO
 var steps_remaining = 0
 
@@ -82,9 +81,6 @@ func take_damage(amount: int = 1, attacker: Node2D = null):
 		print("No attacker passed!")
 		return
 
-	print("Attacker name: ", attacker.name)
-	print("Attacker class: ", attacker.get_class())
-	print("Attacker script: ", attacker.get_script())
 	super.take_damage(amount, attacker)
 	emit_blood_splatter()
 		
@@ -102,18 +98,14 @@ func play_damage_sfx():
 	
 func _on_player_detect_area_2d_body_entered(body: Node2D) -> void:
 	if body is Player and not is_dead:
-		target = body
-		is_chasing = true
+		detect_player()
 		is_ideling = false
 		$StepTimer.stop()
 
 func _on_chase_zone_area_2d_body_exited(body: Node2D) -> void:
 	if body is Player and not is_dead:
 		if is_chasing:
-			is_chasing = false
-			target = null
-			returning_to_spawn = true
-			nav_agent.target_position = spawn_position
+			lose_player()
 	start_random_movement()
 
 

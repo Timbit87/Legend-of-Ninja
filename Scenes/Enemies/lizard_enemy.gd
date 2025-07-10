@@ -18,7 +18,6 @@ var is_winding_up := false
 var last_known_player_position := Vector2.ZERO
 var is_timer_playing := false
 var is_ideling = true
-var is_chasing = false
 var random_movement_direction = Vector2.ZERO
 var steps_remaining = 0
 
@@ -134,18 +133,14 @@ func play_damage_sfx():
 	
 func _on_player_detect_area_2d_body_entered(body: Node2D) -> void:
 	if body is Player and not is_dead:
-		target = body
-		is_chasing = true
+		detect_player()
 		is_ideling = false
 		$StepTimer.stop()
 
 func _on_chase_zone_area_2d_body_exited(body: Node2D) -> void:
 	if body is Player and not is_dead and not is_charging:
 		if is_chasing:
-			is_chasing = false
-			target = null
-			returning_to_spawn = true
-			nav_agent.target_position = spawn_position
+			lose_player()
 	start_random_movement()
 
 

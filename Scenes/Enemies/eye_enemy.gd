@@ -283,19 +283,14 @@ func play_damage_sfx():
 	
 func _on_player_detect_area_2d_body_entered(body: Node2D) -> void:
 	if body is Player and not is_dead:
-		print("Player detected!")
-		target = body
-		is_chasing = true
+		detect_player()
 		is_idling = false
 		$StepTimer.stop()
 
 func _on_chase_zone_area_2d_body_exited(body: Node2D) -> void:
 	if body is Player and not is_dead:
 		if is_chasing:
-			is_chasing = false
-			target = null
-			returning_to_spawn = true
-			nav_agent.target_position = spawn_position
+			lose_player()
 	start_random_movement()
 
 
