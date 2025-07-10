@@ -315,7 +315,7 @@ position = Vector2(0, -1)
 sprite_frames = SubResource("SpriteFrames_qd3fr")
 animation = &"stealth"
 autoplay = "move_down"
-frame_progress = 0.990865
+frame_progress = 0.223102
 offset = Vector2(0, -5)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

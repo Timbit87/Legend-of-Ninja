@@ -18,7 +18,6 @@ var laser_scene = preload("res://Scenes/Lazer/eye_lazer.tscn")
 
 var is_timer_playing := false
 var is_idling = true
-var is_chasing = false
 var random_movement_direction = Vector2.ZERO
 var steps_remaining = 0
 var player_in_avoidance_zone := false

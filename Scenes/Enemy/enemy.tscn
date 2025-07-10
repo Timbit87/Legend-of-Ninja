@@ -13,12 +13,6 @@ color = Color(0.861553, 0.241736, 0.191367, 1)
 
 [node name="Enemy" type="CharacterBody2D"]
 script = ExtResource("1_mw074")
-HP = null
-damage = null
-speed = null
-acceleration = null
-return_speed = null
-step_sounds = null
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
 avoidance_enabled = true

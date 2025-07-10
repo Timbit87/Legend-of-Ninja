@@ -6,15 +6,13 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_00ytn"]
 size = Vector2(14, 14)
 
-[node name="StealthGrass" type="StaticBody2D"]
+[node name="StealthGrass" type="Area2D"]
+script = ExtResource("1_rs8xf")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("2_go25g")
 region_enabled = true
 region_rect = Rect2(112.707, 161.514, 14.713, 13.8576)
 
-[node name="StealthZone" type="Area2D" parent="."]
-script = ExtResource("1_rs8xf")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StealthZone"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_00ytn")

@@ -76,6 +76,7 @@ func _physics_process(delta):
 			var direction = (next_position - global_position).normalized()
 			velocity = direction * return_speed
 	else:
+		update_detection(delta)
 		chase_target()
 	move_and_slide()
 	animate_enemy()
@@ -131,20 +132,18 @@ func update_detection(delta):
 	var distance_to_player = global_position.distance_to(target.global_position)
 	
 	if target.is_stealthed:
-		if is_chasing:
-			stealth_timer += delta
-			if stealth_timer >= 2:
-				lose_player()
+		stealth_timer = 0.0
+		if distance_to_player < close_detection_radius:
+			detect_player()
 		else:
-			stealth_timer = 0.0
-			if distance_to_player < close_detection_radius:
-				detect_player()
-			else:
-				return
+			if is_chasing:
+				stealth_timer += delta
+				if stealth_timer >= 2:
+					lose_player()
+			return
 	else:
 		stealth_timer = 0.0
-		if distance_to_player < detection_radius:
-			detect_player()
+		
 
 
 func detect_player():

@@ -1,4 +1,4 @@
-extends StaticBody2D
+extends Area2D
 
 func _ready():
 	connect("body_entered", Callable(self, "_on_body_entered"))
@@ -10,4 +10,4 @@ func _on_body_entered(body):
 		
 func _on_body_exited(body):
 	if body.is_in_group("player"):
-		body.set_steath_mode(false)
+		body.set_stealth_mode(false)

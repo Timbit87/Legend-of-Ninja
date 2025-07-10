@@ -7,7 +7,6 @@ extends "res://Scenes/Enemy/enemy.gd"
 
 var is_timer_playing := false
 var is_ideling = true
-var is_chasing = false
 var random_movement_direction = Vector2.ZERO
 var steps_remaining = 0
 
