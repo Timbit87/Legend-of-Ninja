@@ -10,6 +10,7 @@ var is_attacking: bool = false
 var can_interact: bool = false
 var last_move_direction: Vector2 = Vector2.RIGHT
 var is_stealthed = false
+var stealth_counter: int = 0
 
 
 # Called when the node enters the scene tree for the first time.
