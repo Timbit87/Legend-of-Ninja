@@ -86,7 +86,16 @@ func update_state_logic():
 		return
 
 	if current_state in [State.WINDUP, State.FIRING, State.DEAD]:
-		return  # Don't interrupt these states
+		return
+	
+	if target.is_stealthed:
+		if is_chasing:
+			is_chasing = false
+			current_state = State.IDLE
+			return
+		else:
+			current_state = State.IDLE
+			return
 
 	var distance = global_position.distance_to(target.global_position)
 	var max_range = $MaxRangeArea.get_node("CollisionShape2D").shape.radius
