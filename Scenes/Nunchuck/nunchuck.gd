@@ -18,8 +18,11 @@ func on_hitbox_body_entered(body: Node2D) -> void:
 		var knockback_direction: Vector2 = distance_to_enemy.normalized()
 		body.velocity += knockback_direction * knockback_force
 	if "take_damage" in body:
+		
 		body.take_damage(damage, thrower)
 		already_hit_enemies[body] = true
+		if thrower and thrower.has_method("set_stealth_mode"):
+			thrower.set_stealth_mode(false)
 
 func play_spin_animation(direction: Vector2):
 	if direction == Vector2.RIGHT:

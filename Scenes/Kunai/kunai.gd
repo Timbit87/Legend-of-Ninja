@@ -24,6 +24,8 @@ func _on_body_entered(body: Node2D) -> void:
 		
 		body.velocity += knockback_direction * knockback_strength
 		body.take_damage(damage, thrower)
+		if thrower and thrower.has_method("set_stealth_mode"):
+			thrower.set_stealth_mode(false)
 	elif body.has_method("hit_by_kunai"):
 		body.hit_by_kunai()
 	$Sprite2D.visible = false

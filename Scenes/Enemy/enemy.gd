@@ -19,7 +19,7 @@ var is_dead = false
 var spawn_position: Vector2
 var returning_to_spawn := false
 var stealth_timer = 0.0
-var close_detection_radius = 32.0
+var close_detection_radius = 16.0
 var is_chasing = false
 
 
