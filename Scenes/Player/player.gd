@@ -223,7 +223,7 @@ func set_stealth_mode(state: bool):
 	is_stealthed = state
 	if is_stealthed:
 		print("Stealthed bitch")
-		$AnimatedSprite2D.play("stealth")
+		modulate = Color(0.5,0.5,0.5,0.8)
 	else:
 		print("No longer stealthed")
-		$AnimatedSprite2D.play("move_up")
+		modulate = original_colour
