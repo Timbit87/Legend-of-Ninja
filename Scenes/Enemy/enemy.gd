@@ -19,7 +19,7 @@ var is_dead = false
 var spawn_position: Vector2
 var returning_to_spawn := false
 var stealth_timer = 0.0
-var close_detection_radius := 5.0
+var close_detection_radius := 24.0
 var is_chasing = false
 
 
@@ -166,7 +166,7 @@ func lose_player():
 
 func _on_player_detect_area_2d_body_entered(body: Node2D) -> void:
 	if body is Player and not is_dead:
-		if body.is_stealted:
+		if body.is_stealthed:
 			var distance_to_player = global_position.distance_to(body.global_position)
 			if distance_to_player < close_detection_radius:
 				detect_player()
