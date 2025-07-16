@@ -21,7 +21,7 @@ var is_idling = true
 var random_movement_direction = Vector2.ZERO
 var steps_remaining = 0
 var player_in_avoidance_zone := false
-var player = Node2D
+var player: Player = null
 var current_state = State.IDLE
 var state_timer = 0.0
 var fire_cooldown = 0.0
@@ -118,7 +118,10 @@ func handle_idle_state(delta):
 		if player_in_avoidance_zone:
 			current_state = State.AVOIDING
 		elif fire_cooldown <= 0:
-			locked_target_position = player.global_position
+			if is_instance_valid(player):
+				locked_target_position = player.global_position
+			else:
+				locked_target_position = global_position
 			state_timer = 0.0
 			current_state = State.WINDUP
 		else:
@@ -290,10 +293,9 @@ func play_damage_sfx():
 	
 	
 func _on_player_detect_area_2d_body_entered(body: Node2D) -> void:
-	if body is Player and not is_dead:
-		detect_player()
-		is_idling = false
-		$StepTimer.stop()
+	super._on_player_detect_area_2d_body_entered(body)
+	is_idling = false
+	$StepTimer.stop()
 
 func _on_chase_zone_area_2d_body_exited(body: Node2D) -> void:
 	if body is Player and not is_dead:

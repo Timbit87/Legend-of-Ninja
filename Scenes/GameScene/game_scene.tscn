@@ -1106,6 +1106,10 @@ lizard_sounds = []
 z_index = 10
 position = Vector2(-14, 78)
 
+[node name="Enemy" parent="." instance=ExtResource("16_6dkqd")]
+z_index = 3
+position = Vector2(11, 55)
+
 [connection signal="pressed" from="PuzzleButton" to="LockedDoor" method="_on_puzzle_button_pressed"]
 [connection signal="unpressed" from="PuzzleButton" to="LockedDoor" method="_on_puzzle_button_unpressed"]
 

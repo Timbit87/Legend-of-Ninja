@@ -132,10 +132,9 @@ func play_damage_sfx():
 	
 	
 func _on_player_detect_area_2d_body_entered(body: Node2D) -> void:
-	if body is Player and not is_dead:
-		detect_player()
-		is_ideling = false
-		$StepTimer.stop()
+	super._on_player_detect_area_2d_body_entered(body)
+	is_ideling = false
+	$StepTimer.stop()
 
 func _on_chase_zone_area_2d_body_exited(body: Node2D) -> void:
 	if body is Player and not is_dead and not is_charging:

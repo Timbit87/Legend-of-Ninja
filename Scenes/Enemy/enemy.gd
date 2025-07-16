@@ -19,7 +19,7 @@ var is_dead = false
 var spawn_position: Vector2
 var returning_to_spawn := false
 var stealth_timer = 0.0
-var close_detection_radius = 16.0
+var close_detection_radius := 5.0
 var is_chasing = false
 
 
@@ -130,10 +130,13 @@ func update_detection(delta):
 		return
 		
 	var distance_to_player = global_position.distance_to(target.global_position)
+	print("Distance to player: ", distance_to_player, " Close detection radius: ", close_detection_radius)
+
 	
 	if target.is_stealthed:
 		stealth_timer = 0.0
 		if distance_to_player < close_detection_radius:
+			print("Distance to player: ", distance_to_player, " Close detection radius: ", close_detection_radius)
 			detect_player()
 		else:
 			if is_chasing:
@@ -160,3 +163,12 @@ func lose_player():
 	target = null
 	returning_to_spawn = true
 	nav_agent.set_target_position(spawn_position)
+
+func _on_player_detect_area_2d_body_entered(body: Node2D) -> void:
+	if body is Player and not is_dead:
+		if body.is_stealted:
+			var distance_to_player = global_position.distance_to(body.global_position)
+			if distance_to_player < close_detection_radius:
+				detect_player()
+		else:
+			detect_player()
