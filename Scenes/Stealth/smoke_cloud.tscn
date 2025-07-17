@@ -1,0 +1,19 @@
+[gd_scene load_steps=2 format=3 uid="uid://ckfsbhonrewrr"]
+
+[ext_resource type="Script" uid="uid://e3805yug4qro" path="res://Scenes/Stealth/smoke_cloud.gd" id="1_hp6ss"]
+
+[node name="SmokeCloud" type="Area2D"]
+script = ExtResource("1_hp6ss")
+
+[node name="SmokePoof" type="AnimatedSprite2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+
+[node name="StealthTimer" type="Timer" parent="."]
+wait_time = 2.0
+
+[node name="RefreshTimer" type="Timer" parent="."]
+wait_time = 10.0
+
+[connection signal="timeout" from="StealthTimer" to="." method="_on_stealth_timer_timeout"]
+[connection signal="timeout" from="RefreshTimer" to="." method="_on_refresh_timer_timeout"]
