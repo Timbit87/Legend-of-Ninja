@@ -11,6 +11,7 @@ var can_interact: bool = false
 var last_move_direction: Vector2 = Vector2.RIGHT
 var is_stealthed = false
 var stealth_counter: int = 0
+var smoke_on_cooldown: bool = false
 
 
 # Called when the node enters the scene tree for the first time.
@@ -33,6 +34,8 @@ func _physics_process(delta: float) -> void:
 		attack()
 	if Input.is_action_just_pressed("Throw") and not can_interact:
 		throw_kunai()
+	if Input.is_action_just_pressed("smoke_bomb") and not can_interact:
+		use_smoke_bomb()
 	
 func move_player():
 	var move_vector: Vector2 = Input.get_vector("move_left", "move_right","move_up","move_down")
@@ -227,3 +230,21 @@ func set_stealth_mode(state: bool):
 	else:
 		print("No longer stealthed")
 		modulate = original_colour
+
+func start_smoke_cooldown():
+	smoke_on_cooldown = true
+	$SmokeCloudRefreshTimer.start()
+
+func _on_smoke_cloud_refresh_timer_timeout() -> void:
+	smoke_on_cooldown = false
+	
+func use_smoke_bomb():
+	if smoke_on_cooldown:
+		return
+	set_stealth_mode(true)
+	var smoke_bomb_scene = preload("res://Scenes/Stealth/smoke_cloud.tscn")
+	var smoke_bomb = smoke_bomb_scene.instantiate()
+	smoke_bomb.global_position = global_position
+	smoke_bomb.player = self
+	get_tree().current_scene.add_child(smoke_bomb)
+	start_smoke_cooldown()

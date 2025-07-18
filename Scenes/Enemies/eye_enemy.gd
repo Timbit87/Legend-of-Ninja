@@ -134,11 +134,14 @@ func handle_idle_state(delta):
 		start_random_movement()
 
 func handle_chasing_state(delta):
-	if target:
+	if is_instance_valid(target):
 		var distance = global_position.distance_to(target.global_position)
+		var max_range_node = $MaxRangeArea.get_node("CollisionShape2D")
+		var max_range_radius = max_range_node.shape.radius if max_range_node else 0
+		
 		if player_in_avoidance_zone:
 			current_state = State.AVOIDING
-		elif distance > $MaxRangeArea/CollisionShape2D.shape.radius * 0.95:
+		elif distance > max_range_radius * 0.95:
 			var dir = get_direction_to_target()
 			velocity = velocity.move_toward(dir * speed, acceleration)
 		else:
@@ -150,7 +153,7 @@ func handle_chasing_state(delta):
 func handle_strafing_state(delta):
 	if player_in_avoidance_zone:
 		current_state = State.AVOIDING
-	elif target == null:
+	elif target == null and not is_instance_valid(target):
 		current_state = State.IDLE
 	elif fire_cooldown <= 0:
 		locked_target_position = player.global_position
@@ -237,7 +240,8 @@ func chase_target():
 		is_idling = true
 		
 func start_windup():
-	locked_target_position = player.global_position
+	if is_instance_valid(target):
+		locked_target_position = player.global_position
 
 
 func animate_enemy():

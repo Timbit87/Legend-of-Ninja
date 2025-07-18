@@ -6,18 +6,18 @@ func _ready():
 	if $StealthTimer.is_stopped():
 		$SmokePoof.play("poof")
 		$SmokePoof.connect("animation_finished", Callable(self, "_on_poof_finished"))
+		
+	if player != null:
+		player.set_stealth_mode(true)
 		$StealthTimer.start()
-		if is_instance_valid(player):
-			$RefreshTimer.start()
-		if is_instance_valid(player):
-			player.activate_smoke_stealth($StealthTimer)		
+		print("Stealth Timer started")
+	await $SmokePoof.animation_finished
 
-func _on_refresh_timer_timeout() -> void:
-	pass # Replace with function body.
-	
-func _on_poof_finished(anim_name):
-	if anim_name == "poof":
-		queue_free()
+
+
 
 func _on_stealth_timer_timeout() -> void:
-	$RefreshTimer.start()
+	print("Stealth timer ended")
+	if player != null:
+		player.set_stealth_mode(false)
+	queue_free()
