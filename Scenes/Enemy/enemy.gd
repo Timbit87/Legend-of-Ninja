@@ -130,13 +130,11 @@ func update_detection(delta):
 		return
 		
 	var distance_to_player = global_position.distance_to(target.global_position)
-	print("Distance to player: ", distance_to_player, " Close detection radius: ", close_detection_radius)
 
 	
 	if target.is_stealthed:
 		stealth_timer = 0.0
 		if distance_to_player < close_detection_radius:
-			print("Distance to player: ", distance_to_player, " Close detection radius: ", close_detection_radius)
 			detect_player()
 		else:
 			if is_chasing:
