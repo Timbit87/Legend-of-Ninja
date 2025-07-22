@@ -11,6 +11,7 @@ func _ready():
 		player.set_stealth_mode(true)
 		$StealthTimer.start()
 		print("Stealth Timer started")
+		SceneManager.stop_all_enemy_chase()
 	await $SmokePoof.animation_finished
 
 

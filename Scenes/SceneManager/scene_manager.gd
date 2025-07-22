@@ -8,3 +8,8 @@ var state = {
 	"block_on_button_overworld": false,
 	"button_pressed_overworld": false,
 }
+
+func stop_all_enemy_chase():
+	for enemy in get_tree().get_nodes_in_group("Enemies"):
+		if "lose_player" in enemy:
+			enemy.lose_player()

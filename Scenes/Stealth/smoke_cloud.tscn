@@ -64,8 +64,6 @@ autoplay = "poof"
 frame = 5
 frame_progress = 1.0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-
 [node name="StealthTimer" type="Timer" parent="."]
 wait_time = 2.0
 one_shot = true
