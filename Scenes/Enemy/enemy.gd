@@ -67,14 +67,13 @@ func _physics_process(delta):
 		return
 		
 	if returning_to_spawn:
-		if nav_agent.is_navigation_finished():
+		var direction = (spawn_position - global_position).normalized()
+		velocity = direction * return_speed
+		
+		if global_position.distance_to(spawn_position) < 4:
 			returning_to_spawn = false
 			velocity = Vector2.ZERO
-		else:
-			nav_agent.set_target_position(nav_agent.target_position)
-			var next_position = nav_agent.get_next_path_position()
-			var direction = (next_position - global_position).normalized()
-			velocity = direction * return_speed
+		
 	else:
 		update_detection(delta)
 		chase_target()
@@ -159,8 +158,11 @@ func detect_player():
 func lose_player():
 	is_chasing = false
 	target = null
-	returning_to_spawn = true
 	nav_agent.set_target_position(spawn_position)
+	return_to_spawn()
+
+func return_to_spawn():
+	returning_to_spawn = true
 
 func _on_player_detect_area_2d_body_entered(body: Node2D) -> void:
 	if body is Player and not is_dead:

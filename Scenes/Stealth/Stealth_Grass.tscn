@@ -18,3 +18,7 @@ region_rect = Rect2(112.707, 161.514, 14.713, 13.8576)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_00ytn")
+
+[node name="GrassTimer" type="Timer" parent="."]
+
+[connection signal="timeout" from="GrassTimer" to="." method="_on_grass_timer_timeout"]
