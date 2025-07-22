@@ -18,7 +18,6 @@ func _on_body_exited(body):
 	if body.is_in_group("player"):
 		body.stealth_counter = max(0, body.stealth_counter - 1)
 		if body.stealth_counter == 0:
-			print("Player left grass")
 			body.set_stealth_mode(false)
 
 
