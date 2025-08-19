@@ -49,4 +49,4 @@ func is_backstab(attacker_position: Vector2, enemy) -> bool:
 	var to_attacker = (attacker_position - enemy.global_position).normalized()
 	var enemy_facing = -enemy.get_direction_to_target()
 	var dot = enemy_facing.dot(to_attacker)
-	return dot > 0.7
+	return dot > 0.5
