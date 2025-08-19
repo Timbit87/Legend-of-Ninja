@@ -172,3 +172,9 @@ func _on_player_detect_area_2d_body_entered(body: Node2D) -> void:
 				detect_player()
 		else:
 			detect_player()
+
+func get_facing_direction() -> Vector2:
+	var normal_velocity: Vector2 = velocity.normalized()
+	if normal_velocity == Vector2.ZERO:
+		return Vector2.DOWN
+	return normal_velocity

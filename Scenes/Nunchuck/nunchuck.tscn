@@ -5,7 +5,7 @@
 [ext_resource type="AudioStream" uid="uid://bhx0chhwdlqdi" path="res://Ninja Adventure - Asset Pack/Sounds/Zappsplat Sounds/warfare_weapon_shuriken_flying_star_throw_kung_fu_002.mp3" id="3_jpc23"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_vqre5"]
-size = Vector2(6, 10.0165)
+size = Vector2(2, 10.0165)
 
 [sub_resource type="Animation" id="Animation_825xp"]
 length = 0.001
@@ -274,7 +274,7 @@ collision_layer = 2
 collision_mask = 16
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Nunchuck/NunchuckArea2D"]
-position = Vector2(5.72205e-06, -1.00661)
+position = Vector2(5.48363e-06, -1.00661)
 shape = SubResource("RectangleShape2D_vqre5")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
