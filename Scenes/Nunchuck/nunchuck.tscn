@@ -1,11 +1,11 @@
 [gd_scene load_steps=12 format=3 uid="uid://cdu2hmp6ve63u"]
 
 [ext_resource type="Script" uid="uid://dyka7hekddh8e" path="res://Scenes/Nunchuck/nunchuck.gd" id="1_6dcbd"]
-[ext_resource type="Texture2D" uid="uid://crtkq7vh7p5mb" path="res://Ninja Adventure - Asset Pack/Items/Weapons/Ninjaku/Sprite.png" id="2_p0yvk"]
+[ext_resource type="Texture2D" uid="uid://d16y3moatixe3" path="res://Ninja Adventure - Asset Pack/Items/Weapons/Katana/SpriteInHand.png" id="2_p0yvk"]
 [ext_resource type="AudioStream" uid="uid://bhx0chhwdlqdi" path="res://Ninja Adventure - Asset Pack/Sounds/Zappsplat Sounds/warfare_weapon_shuriken_flying_star_throw_kung_fu_002.mp3" id="3_jpc23"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_vqre5"]
-size = Vector2(8.98096, 15)
+size = Vector2(6, 10.0165)
 
 [sub_resource type="Animation" id="Animation_825xp"]
 length = 0.001
@@ -57,6 +57,18 @@ tracks/3/keys = {
 "update": 0,
 "values": [Vector2(0, 0)]
 }
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Nunchuck:flip_h")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
 
 [sub_resource type="Animation" id="Animation_i5acl"]
 resource_name = "attack_down"
@@ -64,26 +76,38 @@ length = 0.2
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Nunchuck:rotation")
+tracks/0/path = NodePath("Nunchuck:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.2),
-"transitions": PackedFloat32Array(1, 1),
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [4.27606, 2.00713]
+"values": [Vector2(-5, 9)]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("Nunchuck:position")
+tracks/1/path = NodePath("Nunchuck:rotation")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector2(6, 1)]
+"values": [0.0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Nunchuck:flip_h")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
 }
 
 [sub_resource type="Animation" id="Animation_0kmp4"]
@@ -92,26 +116,38 @@ length = 0.2
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Nunchuck:rotation")
+tracks/0/path = NodePath("Nunchuck:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.2),
-"transitions": PackedFloat32Array(1, 1),
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [3.05782, 6.03011]
+"values": [Vector2(-14, -2)]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("Nunchuck:position")
+tracks/1/path = NodePath("Nunchuck:rotation")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector2(-8, -2)]
+"values": [1.5708]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Nunchuck:flip_h")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
 }
 
 [sub_resource type="Animation" id="Animation_ji083"]
@@ -124,10 +160,10 @@ tracks/0/path = NodePath("Nunchuck:rotation")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.2),
-"transitions": PackedFloat32Array(1, 1),
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [0.0872665, 3.02466]
+"values": [4.71239]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
@@ -139,7 +175,7 @@ tracks/1/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector2(10, -4)]
+"values": [Vector2(14, -2)]
 }
 
 [sub_resource type="Animation" id="Animation_fk5o5"]
@@ -152,10 +188,10 @@ tracks/0/path = NodePath("Nunchuck:rotation")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.2),
-"transitions": PackedFloat32Array(1, 1),
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [-1.5708, 1.5708]
+"values": [3.14159]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
@@ -167,7 +203,19 @@ tracks/1/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector2(-4, -14)]
+"values": [Vector2(-3, -21)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Nunchuck:flip_h")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
 }
 
 [sub_resource type="Animation" id="Animation_p0yvk"]
@@ -214,8 +262,10 @@ script = ExtResource("1_6dcbd")
 
 [node name="Nunchuck" type="Sprite2D" parent="."]
 position = Vector2(-4, -14)
+scale = Vector2(1, 0.998349)
 texture = ExtResource("2_p0yvk")
 offset = Vector2(0, -4)
+flip_h = true
 
 [node name="NunchuckArea2D" type="Area2D" parent="Nunchuck"]
 unique_name_in_owner = true
@@ -224,7 +274,7 @@ collision_layer = 2
 collision_mask = 16
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Nunchuck/NunchuckArea2D"]
-position = Vector2(0, -1.42455e-05)
+position = Vector2(5.72205e-06, -1.00661)
 shape = SubResource("RectangleShape2D_vqre5")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]

@@ -313,9 +313,8 @@ push_strength = 300.0
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, -1)
 sprite_frames = SubResource("SpriteFrames_qd3fr")
-animation = &"stealth"
+animation = &"attack_right"
 autoplay = "move_down"
-frame_progress = 0.565426
 offset = Vector2(0, -5)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
