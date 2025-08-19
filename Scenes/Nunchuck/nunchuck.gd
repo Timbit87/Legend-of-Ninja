@@ -3,6 +3,7 @@ extends Node2D
 
 @export var damage := 2
 @export var knockback_force := 150
+@export var backstab_damage := 200
 var already_hit_enemies := {}
 var thrower: Node2D
 
@@ -16,13 +17,16 @@ func on_hitbox_body_entered(body: Node2D) -> void:
 	if "velocity" in body:
 		var distance_to_enemy: Vector2 = body.global_position - global_position
 		var knockback_direction: Vector2 = distance_to_enemy.normalized()
-		body.velocity += knockback_direction * knockback_force
+		body.velocity += knockback_direction * knockback_force		
+	
 	if "take_damage" in body:
-		
-		body.take_damage(damage, thrower)
-		already_hit_enemies[body] = true
-		if thrower and thrower.has_method("set_stealth_mode"):
-			thrower.set_stealth_mode(false)
+		if thrower and is_backstab(thrower.global_position, body):
+			body.take_damage(backstab_damage, thrower)
+		else:
+			body.take_damage(damage, thrower)
+			already_hit_enemies[body] = true
+			if thrower and thrower.has_method("set_stealth_mode"):
+				thrower.set_stealth_mode(false)
 
 func play_spin_animation(direction: Vector2):
 	if direction == Vector2.RIGHT:
@@ -37,3 +41,12 @@ func play_spin_animation(direction: Vector2):
 
 func _on_spin_finished(anim_name: String) -> void:
 	queue_free()
+	
+func is_backstab(attacker_position: Vector2, enemy) -> bool:
+	if not enemy.has_method("get_direction_to_target"):
+		return false
+		
+	var to_attacker = (attacker_position - enemy.global_position).normalized()
+	var enemy_facing = -enemy.get_direction_to_target()
+	var dot = enemy_facing.dot(to_attacker)
+	return dot > 0.7
