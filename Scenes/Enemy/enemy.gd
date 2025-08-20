@@ -21,6 +21,7 @@ var returning_to_spawn := false
 var stealth_timer = 0.0
 var close_detection_radius := 24.0
 var is_chasing = false
+var look_direction: Vector2 = Vector2.RIGHT
 
 
 func _ready() -> void:
@@ -85,15 +86,19 @@ func animate_enemy():
 	var normal_velocity: Vector2 = velocity.normalized()
 	if normal_velocity.x > 0.707:
 		$AnimatedSprite2D.play("move_right")
+		set_look_direction(Vector2.RIGHT)
 		play_step_sounds()
 	elif normal_velocity.x < -0.707:
 		$AnimatedSprite2D.play("move_left")
+		set_look_direction(Vector2.LEFT)
 		play_step_sounds()
 	elif normal_velocity.y > 0.707:
 		$AnimatedSprite2D.play("move_down")
+		set_look_direction(Vector2.DOWN)
 		play_step_sounds()
 	elif normal_velocity.y < -0.707:
 		$AnimatedSprite2D.play("move_up")
+		set_look_direction(Vector2.UP)
 		play_step_sounds()
 		
 
@@ -172,9 +177,10 @@ func _on_player_detect_area_2d_body_entered(body: Node2D) -> void:
 				detect_player()
 		else:
 			detect_player()
-
+			
+func set_look_direction(dir: Vector2):
+	if dir != Vector2.ZERO:
+		look_direction = dir.normalized()
+		
 func get_facing_direction() -> Vector2:
-	var normal_velocity: Vector2 = velocity.normalized()
-	if normal_velocity == Vector2.ZERO:
-		return Vector2.DOWN
-	return normal_velocity
+	return look_direction

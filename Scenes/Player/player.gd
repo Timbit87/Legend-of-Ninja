@@ -225,10 +225,8 @@ func throw_kunai():
 func set_stealth_mode(state: bool):
 	is_stealthed = state
 	if is_stealthed:
-		print("Stealthed bitch")
 		modulate = Color(0.5,0.5,0.5,0.8)
 	else:
-		print("No longer stealthed")
 		modulate = original_colour
 
 func start_smoke_cooldown():
