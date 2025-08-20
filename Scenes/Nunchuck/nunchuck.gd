@@ -43,10 +43,10 @@ func _on_spin_finished(anim_name: String) -> void:
 	queue_free()
 	
 func is_backstab(attacker_position: Vector2, enemy) -> bool:
-	if not enemy.has_method("get_direction_to_target"):
+	if not enemy.has_method("get_facing_direction"):
 		return false
 		
 	var to_attacker = (attacker_position - enemy.global_position).normalized()
-	var enemy_facing = -enemy.get_direction_to_target()
+	var enemy_facing = enemy.get_facing_direction()
 	var dot = enemy_facing.dot(to_attacker)
-	return dot > -0.1
+	return dot > -0.5
