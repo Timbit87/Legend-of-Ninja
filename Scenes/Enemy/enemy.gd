@@ -22,6 +22,10 @@ var stealth_timer = 0.0
 var close_detection_radius := 24.0
 var is_chasing = false
 var look_direction: Vector2 = Vector2.RIGHT
+var is_searching = false
+var confused_timer = 0.0
+var search_timer = 0.0
+var last_known_player_position: Vector2
 
 
 func _ready() -> void:
@@ -74,16 +78,23 @@ func _physics_process(delta):
 		if global_position.distance_to(spawn_position) < 4:
 			returning_to_spawn = false
 			velocity = Vector2.ZERO
+	elif is_searching:
+		update_searching(delta)
 		
 	else:
 		update_detection(delta)
-		chase_target()
+		if is_chasing:
+			chase_target()
+		else:
+			velocity = Vector2.ZERO
 	move_and_slide()
 	animate_enemy()
 	
 		
 func animate_enemy():
 	var normal_velocity: Vector2 = velocity.normalized()
+	if normal_velocity == Vector2.ZERO:
+		return
 	if normal_velocity.x > 0.707:
 		$AnimatedSprite2D.play("move_right")
 		set_look_direction(Vector2.RIGHT)
@@ -144,12 +155,42 @@ func update_detection(delta):
 			if is_chasing:
 				stealth_timer += delta
 				if stealth_timer >= 2:
-					lose_player()
+					last_known_player_position = target.global_position
+					enter_confused()
 			return
 	else:
 		stealth_timer = 0.0
 		
-
+func enter_confused():
+	is_chasing = false
+	confused_timer = 2.0
+	is_searching = true
+	search_timer = 0.0
+	velocity = Vector2.ZERO
+	# TODO: Show "?" over head. Need animation for this.
+	
+func update_searching(delta):
+	if confused_timer > 0:
+		confused_timer -= delta
+		velocity = Vector2.ZERO
+		if confused_timer <= 0:
+			search_timer = randf_range(3.0,5.0)
+		return
+	if search_timer > 0:
+		search_timer -= delta
+		if velocity == Vector2.ZERO or randf() < 0.02:
+			var random_offset = Vector2(randf_range(-64, 64), randf_range(-64, 64))
+			nav_agent.set_target_position(last_known_player_position + random_offset)
+			velocity = get_move_velocity()
+		else:
+			velocity = get_move_velocity()
+			
+		if search_timer <= 0:
+			is_searching = false
+			return_to_spawn()
+	else:
+		is_searching = false
+		return_to_spawn()
 
 func detect_player():
 	if target:
@@ -163,8 +204,6 @@ func detect_player():
 func lose_player():
 	is_chasing = false
 	target = null
-	nav_agent.set_target_position(spawn_position)
-	return_to_spawn()
 
 func return_to_spawn():
 	returning_to_spawn = true

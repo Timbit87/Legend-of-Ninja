@@ -4,8 +4,10 @@ extends Node2D
 @export var damage := 2
 @export var knockback_force := 150
 @export var backstab_damage := 200
+
 var already_hit_enemies := {}
 var thrower: Node2D
+
 
 func _ready():
 	%NunchuckArea2D.connect("body_entered", Callable(self, "on_hitbox_body_entered"))

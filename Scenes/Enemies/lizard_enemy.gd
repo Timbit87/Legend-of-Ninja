@@ -15,7 +15,6 @@ const MIN_CHARGE_DISTANCE := 100.0
 
 var is_charging := false
 var is_winding_up := false
-var last_known_player_position := Vector2.ZERO
 var is_timer_playing := false
 var is_ideling = true
 var random_movement_direction = Vector2.ZERO
