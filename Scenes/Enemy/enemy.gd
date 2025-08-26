@@ -26,12 +26,14 @@ var is_searching = false
 var confused_timer = 0.0
 var search_timer = 0.0
 var last_known_player_position: Vector2
+var is_wandering = true
 
 
 func _ready() -> void:
 	spawn_position = global_position
 	nav_agent.path_desired_distance = 4.0
 	nav_agent.target_desired_distance = 4.0
+	start_wandering()
 	
 func take_damage(amount: int = 1, attacker: Node2D = null):
 	if is_dead:
@@ -85,6 +87,8 @@ func _physics_process(delta):
 		update_detection(delta)
 		if is_chasing:
 			chase_target()
+		elif is_wandering:
+			pass
 		else:
 			velocity = Vector2.ZERO
 	move_and_slide()
@@ -148,7 +152,6 @@ func update_detection(delta):
 
 	
 	if target.is_stealthed:
-		stealth_timer = 0.0
 		if distance_to_player < close_detection_radius:
 			detect_player()
 		else:
@@ -159,15 +162,17 @@ func update_detection(delta):
 					enter_confused()
 			return
 	else:
-		stealth_timer = 0.0
+		stealth_timer = 0.0	
 		
 func enter_confused():
+	is_wandering = false
 	is_chasing = false
 	confused_timer = 2.0
 	is_searching = true
 	search_timer = 0.0
 	velocity = Vector2.ZERO
 	# TODO: Show "?" over head. Need animation for this.
+	$RandomMovementTimer.start(randf_range(2.0, 5.0))
 	
 func update_searching(delta):
 	if confused_timer > 0:
@@ -176,13 +181,15 @@ func update_searching(delta):
 		if confused_timer <= 0:
 			search_timer = randf_range(3.0,5.0)
 		return
+		
 	if search_timer > 0:
 		search_timer -= delta
-		if velocity == Vector2.ZERO or randf() < 0.02:
-			var random_offset = Vector2(randf_range(-64, 64), randf_range(-64, 64))
-			nav_agent.set_target_position(last_known_player_position + random_offset)
+		
+		if not nav_agent.is_navigation_finished() and velocity != Vector2.ZERO:
 			velocity = get_move_velocity()
 		else:
+			var random_offset = Vector2(randf_range(-64, 64), randf_range(-64, 64))
+			nav_agent.set_target_position(last_known_player_position + random_offset)
 			velocity = get_move_velocity()
 			
 		if search_timer <= 0:
@@ -194,6 +201,7 @@ func update_searching(delta):
 
 func detect_player():
 	if target:
+		is_wandering = false
 		is_chasing = true
 		return
 	var player = get_tree().get_first_node_in_group("player")
@@ -206,6 +214,7 @@ func lose_player():
 	target = null
 
 func return_to_spawn():
+	is_wandering = false
 	returning_to_spawn = true
 
 func _on_player_detect_area_2d_body_entered(body: Node2D) -> void:
@@ -223,3 +232,19 @@ func set_look_direction(dir: Vector2):
 		
 func get_facing_direction() -> Vector2:
 	return look_direction
+
+func start_wandering():
+	if is_dead or is_searching or returning_to_spawn:
+		return
+	is_wandering = true
+	var random_dir = Vector2(
+		randf_range(-1.0, 1.0),
+		randf_range(-1.0, 1.0)
+	).normalized()
+	velocity = random_dir * speed * 0.5
+	$RandomMovementTimer.wait_time = randf_range(2.0, 5.0)
+	$RandomMovementTimer.start()
+
+
+func _on_random_movement_timer_timeout() -> void:
+	start_wandering()

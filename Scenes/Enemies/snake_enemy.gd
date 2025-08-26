@@ -25,7 +25,11 @@ func _ready():
 	
 func _physics_process(delta: float) -> void:
 	super._physics_process(delta)
-
+	if is_dead:
+		return
+	if not is_chasing and not returning_to_spawn and not is_searching and not is_dead:
+		if $RandomMovementTimer.is_stopped() and velocity == Vector2.ZERO:
+			start_random_movement()
 	# Snake-specific footstep logic
 	if velocity.length() > 2:
 		if not is_timer_playing:

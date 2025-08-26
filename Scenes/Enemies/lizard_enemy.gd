@@ -50,6 +50,9 @@ func _physics_process(delta: float) -> void:
 	super._physics_process(delta)
 	if is_dead or is_winding_up:
 		return
+	if not is_chasing and not returning_to_spawn and not is_searching and not is_dead:
+		if $RandomMovementTimer.is_stopped() and velocity == Vector2.ZERO:
+			start_random_movement()
 	if is_charging:
 		var direction = (last_known_player_position - global_position).normalized()
 		velocity = direction * charge_speed
