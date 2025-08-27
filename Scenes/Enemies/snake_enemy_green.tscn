@@ -288,11 +288,11 @@ stream = ExtResource("3_r878a")
 [node name="DamageSFX" type="AudioStreamPlayer2D" parent="." index="9"]
 stream = ExtResource("5_76crs")
 
-[node name="RandomMovementTimer" type="Timer" parent="." index="10"]
+[node name="RandomMovementTimer2" type="Timer" parent="." index="10"]
 autostart = true
 
 [node name="StepTimer" type="Timer" parent="." index="11"]
 one_shot = true
 
-[connection signal="timeout" from="RandomMovementTimer" to="." method="_on_random_movement_timer_timeout"]
+[connection signal="timeout" from="RandomMovementTimer2" to="." method="_on_random_movement_timer_timeout"]
 [connection signal="timeout" from="StepTimer" to="." method="_on_step_timer_timeout"]

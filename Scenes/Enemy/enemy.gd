@@ -13,6 +13,7 @@ extends CharacterBody2D
 @onready var step_player: AudioStreamPlayer2D = $StepPlayer2D
 @onready var particles = $BloodParticles
 @onready var nav_agent: NavigationAgent2D = $NavigationAgent2D
+@onready var confusion_icon = $ConfusionIcon
 
 var target: Node2D
 var is_dead = false
@@ -165,13 +166,13 @@ func update_detection(delta):
 		stealth_timer = 0.0	
 		
 func enter_confused():
+	confusion_icon.visible = true
 	is_wandering = false
 	is_chasing = false
 	confused_timer = 2.0
 	is_searching = true
 	search_timer = 0.0
 	velocity = Vector2.ZERO
-	# TODO: Show "?" over head. Need animation for this.
 	$RandomMovementTimer.start(randf_range(2.0, 5.0))
 	
 func update_searching(delta):
@@ -180,6 +181,7 @@ func update_searching(delta):
 		velocity = Vector2.ZERO
 		if confused_timer <= 0:
 			search_timer = randf_range(3.0,5.0)
+			confusion_icon = false
 		return
 		
 	if search_timer > 0:
@@ -245,6 +247,10 @@ func start_wandering():
 	$RandomMovementTimer.wait_time = randf_range(2.0, 5.0)
 	$RandomMovementTimer.start()
 
-
+func end_search():
+	is_searching = false
+	returning_to_spawn = true
+	return_to_spawn()
+	
 func _on_random_movement_timer_timeout() -> void:
 	start_wandering()

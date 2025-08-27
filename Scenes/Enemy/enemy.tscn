@@ -32,4 +32,15 @@ process_material = SubResource("ParticleProcessMaterial_mw074")
 
 [node name="RandomMovementTimer" type="Timer" parent="."]
 
+[node name="ConfusionIcon" type="Label" parent="."]
+visible = false
+offset_left = -3.0
+offset_top = -16.0
+offset_right = 37.0
+offset_bottom = 7.0
+scale = Vector2(0.16, 0.280001)
+text = "?"
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [connection signal="timeout" from="RandomMovementTimer" to="." method="_on_random_movement_timer_timeout"]
