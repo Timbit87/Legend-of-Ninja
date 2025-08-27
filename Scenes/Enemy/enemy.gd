@@ -14,6 +14,7 @@ extends CharacterBody2D
 @onready var particles = $BloodParticles
 @onready var nav_agent: NavigationAgent2D = $NavigationAgent2D
 @onready var confusion_icon = $ConfusionIcon
+@onready var confused_timer = $ConfusedTimer
 
 var target: Node2D
 var is_dead = false
@@ -24,7 +25,6 @@ var close_detection_radius := 24.0
 var is_chasing = false
 var look_direction: Vector2 = Vector2.RIGHT
 var is_searching = false
-var confused_timer = 0.0
 var search_timer = 0.0
 var last_known_player_position: Vector2
 var is_wandering = true
@@ -166,14 +166,12 @@ func update_detection(delta):
 		stealth_timer = 0.0	
 		
 func enter_confused():
-	confusion_icon.visible = true
 	is_wandering = false
 	is_chasing = false
-	confused_timer = 2.0
 	is_searching = true
-	search_timer = 0.0
 	velocity = Vector2.ZERO
-	$RandomMovementTimer.start(randf_range(2.0, 5.0))
+	confusion_icon.visible = true
+	confused_timer.start(2.0)
 	
 func update_searching(delta):
 	if confused_timer > 0:
@@ -181,7 +179,7 @@ func update_searching(delta):
 		velocity = Vector2.ZERO
 		if confused_timer <= 0:
 			search_timer = randf_range(3.0,5.0)
-			confusion_icon = false
+			confusion_icon.visible = false
 		return
 		
 	if search_timer > 0:
@@ -217,6 +215,8 @@ func lose_player():
 
 func return_to_spawn():
 	is_wandering = false
+	is_chasing = false
+	is_searching = false
 	returning_to_spawn = true
 
 func _on_player_detect_area_2d_body_entered(body: Node2D) -> void:
@@ -249,8 +249,18 @@ func start_wandering():
 
 func end_search():
 	is_searching = false
+	is_wandering = false
 	returning_to_spawn = true
 	return_to_spawn()
 	
 func _on_random_movement_timer_timeout() -> void:
 	start_wandering()
+
+
+func _on_confused_timer_timeout() -> void:
+	confusion_icon.visible = false
+	start_wandering()
+	$SearchTimer.start(randf_range(3.0, 5.0))
+
+func _on_search_timer_timeout() -> void:
+	end_search()

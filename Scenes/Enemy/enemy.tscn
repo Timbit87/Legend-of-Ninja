@@ -34,6 +34,7 @@ process_material = SubResource("ParticleProcessMaterial_mw074")
 
 [node name="ConfusionIcon" type="Label" parent="."]
 visible = false
+z_index = 200
 offset_left = -3.0
 offset_top = -16.0
 offset_right = 37.0
@@ -43,4 +44,11 @@ text = "?"
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="ConfusedTimer" type="Timer" parent="."]
+wait_time = 2.0
+
+[node name="SearchTimer" type="Timer" parent="."]
+
 [connection signal="timeout" from="RandomMovementTimer" to="." method="_on_random_movement_timer_timeout"]
+[connection signal="timeout" from="ConfusedTimer" to="." method="_on_confused_timer_timeout"]
+[connection signal="timeout" from="SearchTimer" to="." method="_on_search_timer_timeout"]
