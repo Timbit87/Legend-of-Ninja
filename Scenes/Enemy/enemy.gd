@@ -170,6 +170,7 @@ func enter_confused():
 	is_searching = true
 	velocity = Vector2.ZERO
 	confusion_icon.visible = true
+	start_confused_wandering()
 	confused_timer.start(2.0)
 	
 func update_searching(delta):
@@ -246,6 +247,7 @@ func _on_random_movement_timer_timeout() -> void:
 
 func _on_confused_timer_timeout() -> void:
 	confusion_icon.visible = false
+	is_searching = false
 	start_wandering()
 	$SearchTimer.start(randf_range(3.0, 5.0))
 
