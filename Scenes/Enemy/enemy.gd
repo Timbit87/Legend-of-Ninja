@@ -13,8 +13,8 @@ extends CharacterBody2D
 @onready var step_player: AudioStreamPlayer2D = $StepPlayer2D
 @onready var particles = $BloodParticles
 @onready var nav_agent: NavigationAgent2D = $NavigationAgent2D
-@onready var confusion_icon = $ConfusionIcon
 @onready var confused_timer = $ConfusedTimer
+@onready var confusion_icon: Label = $ConfusionIcon
 
 var target: Node2D
 var is_dead = false
@@ -35,6 +35,10 @@ func _ready() -> void:
 	spawn_position = global_position
 	nav_agent.path_desired_distance = 4.0
 	nav_agent.target_desired_distance = 4.0
+	if confusion_icon == null:
+		push_error("ConfusionIcon missing in " + str(self.name))
+	else:
+		confusion_icon.hide()
 	start_wandering()
 	
 func take_damage(amount: int = 1, attacker: Node2D = null):
@@ -154,22 +158,25 @@ func update_detection(delta):
 	if target.is_stealthed:
 		if distance_to_player < close_detection_radius:
 			detect_player()
+			print("Update detection distance to player < close detection radius hit")
 		else:
 			if is_chasing:
+				print ("Update detection else is chasing hit")
 				stealth_timer += delta
 				if stealth_timer >= 2:
+					print ("Update detection else is chasing stealth timer >= 2 hit")
 					last_known_player_position = target.global_position
 					enter_confused()
 			return
 	else:
-		stealth_timer = 0.0	
+		stealth_timer = 0.0
 		
 func enter_confused():
 	is_wandering = false
 	is_chasing = false
 	is_searching = true
 	velocity = Vector2.ZERO
-	confusion_icon.visible = true
+	confusion_icon.show()
 	start_confused_wandering()
 	confused_timer.start(2.0)
 	

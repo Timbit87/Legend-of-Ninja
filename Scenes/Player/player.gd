@@ -232,11 +232,10 @@ func set_stealth_mode(state: bool):
 func start_smoke_cooldown():
 	smoke_on_cooldown = true
 	$SmokeCloudRefreshTimer.start()
-	stealth_counter += 1
+	stealth_counter -= 1
 
 func _on_smoke_cloud_refresh_timer_timeout() -> void:
 	smoke_on_cooldown = false
-	stealth_counter -= 1
 	if stealth_counter <= 0:
 		set_stealth_mode(false)
 	

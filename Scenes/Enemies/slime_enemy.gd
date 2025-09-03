@@ -83,7 +83,7 @@ func death():
 	
 func take_damage(amount: int = 1, attacker: Node2D = null):
 	emit_blood_splatter()
-	super(amount, attacker)
+	super.take_damage(amount, attacker)
 	if attacker != null:
 		target = attacker
 		is_chasing = true
