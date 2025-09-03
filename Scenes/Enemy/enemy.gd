@@ -239,6 +239,7 @@ func start_confused_wandering():
 func end_search():
 	is_searching = false
 	is_wandering = false
+	is_confused = false
 	return_to_spawn()
 	
 func _on_random_movement_timer_timeout() -> void:
@@ -248,6 +249,7 @@ func _on_random_movement_timer_timeout() -> void:
 func _on_confused_timer_timeout() -> void:
 	confusion_icon.visible = false
 	is_searching = false
+	is_wandering = true
 	start_wandering()
 	$SearchTimer.start(randf_range(3.0, 5.0))
 
