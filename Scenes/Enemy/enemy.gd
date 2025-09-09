@@ -156,22 +156,27 @@ func update_detection(delta):
 
 	
 	if target.is_stealthed:
-		if distance_to_player < close_detection_radius:
-			detect_player()
-			print("Update detection distance to player < close detection radius hit")
-		else:
-			if is_chasing:
-				print ("Update detection else is chasing hit")
+		if is_chasing:
+			if distance_to_player < close_detection_radius:
+				detect_player()
+				print("Update detection distance to player < close detection radius hit")
+			if target.from_smoke_bomb:
+				print("Smoke bomb confusion")
+				last_known_player_position = target.global_position
+				enter_confused()
+			else:
 				stealth_timer += delta
-				if stealth_timer >= 2:
-					print ("Update detection else is chasing stealth timer >= 2 hit")
-					last_known_player_position = target.global_position
+				print("Stealth timer ticking", stealth_timer)
+				if stealth_timer >= 2.0:
+					print("Confusion triggered after 2s (grass)")
+					last_known_player_position = global_position
 					enter_confused()
 			return
 	else:
 		stealth_timer = 0.0
 		
 func enter_confused():
+	print("entered confused")
 	is_wandering = false
 	is_chasing = false
 	is_searching = true

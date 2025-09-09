@@ -8,6 +8,7 @@ func _ready():
 		$SmokePoof.connect("animation_finished", Callable(self, "_on_poof_finished"))
 		
 	if player != null:
+		player.from_smoke_bomb = true
 		player.set_stealth_mode(true)
 		$StealthTimer.start()
 		print("Stealth Timer started")
@@ -20,5 +21,6 @@ func _ready():
 func _on_stealth_timer_timeout() -> void:
 	print("Stealth timer ended")
 	if player != null:
+		player.from_smoke_bomb = false
 		player.set_stealth_mode(false)
 	queue_free()
