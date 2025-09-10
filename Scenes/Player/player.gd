@@ -12,7 +12,8 @@ var last_move_direction: Vector2 = Vector2.RIGHT
 var is_stealthed = false
 var stealth_counter: int = 0
 var smoke_on_cooldown: bool = false
-var from_smoke_bomb: bool = false
+var is_stealthed_from_smoke: bool = false
+var is_stealthed_from_grass: bool = false
 
 
 # Called when the node enters the scene tree for the first time.

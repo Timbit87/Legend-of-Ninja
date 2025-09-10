@@ -32,6 +32,7 @@ var is_confused = false
 
 
 func _ready() -> void:
+	add_to_group("Enemies")
 	spawn_position = global_position
 	nav_agent.path_desired_distance = 4.0
 	nav_agent.target_desired_distance = 4.0
@@ -153,35 +154,31 @@ func update_detection(delta):
 		return
 		
 	var distance_to_player = global_position.distance_to(target.global_position)
-
-	
-	if target.is_stealthed:
+	if target.is_stealthed_from_smoke:
 		if is_chasing:
-			if distance_to_player < close_detection_radius:
-				detect_player()
-				print("Update detection distance to player < close detection radius hit")
-			if target.from_smoke_bomb:
-				print("Smoke bomb confusion")
+			print("Smoke bomb confusion")
+			last_known_player_position = target.global_position
+			enter_confused()
+		return
+	elif target.is_stealthed_from_grass:
+		if is_chasing:
+			stealth_timer += delta
+			print("Stealth timer engaged", stealth_timer)
+			if stealth_timer >= 2.0:
+				print("Grass stealthed triggered")
 				last_known_player_position = target.global_position
 				enter_confused()
-			else:
-				stealth_timer += delta
-				print("Stealth timer ticking", stealth_timer)
-				if stealth_timer >= 2.0:
-					print("Confusion triggered after 2s (grass)")
-					last_known_player_position = global_position
-					enter_confused()
-			return
+		return
 	else:
 		stealth_timer = 0.0
-		
+
 func enter_confused():
 	print("entered confused")
 	is_wandering = false
 	is_chasing = false
 	is_searching = true
 	velocity = Vector2.ZERO
-	confusion_icon.show()
+	confusion_icon.visible = true
 	start_confused_wandering()
 	confused_timer.start(2.0)
 	

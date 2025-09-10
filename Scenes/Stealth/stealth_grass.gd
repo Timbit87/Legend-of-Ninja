@@ -9,6 +9,7 @@ func _ready():
 	
 func _on_body_entered(body):
 	if body.is_in_group("player"):
+		body.is_stealthed_from_grass = true
 		grass_timer.start()
 		body.stealth_counter += 1
 		body.set_stealth_mode(true)
@@ -16,6 +17,7 @@ func _on_body_entered(body):
 func _on_body_exited(body):
 	grass_timer.stop()
 	if body.is_in_group("player"):
+		body.is_stealthed_from_grass = false
 		body.stealth_counter = max(0, body.stealth_counter - 1)
 		if body.stealth_counter == 0:
 			body.set_stealth_mode(false)
