@@ -265,7 +265,7 @@ func _on_confused_timer_timeout() -> void:
 	is_searching = true
 	is_wandering = false
 	$SearchTimer.start(randf_range(3.0, 5.0))
-	print("Confused timer start")
+	print("Search timer start")
 
 func _on_search_timer_timeout() -> void:
 	end_search()
