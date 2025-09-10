@@ -36,10 +36,11 @@ func _ready() -> void:
 	spawn_position = global_position
 	nav_agent.path_desired_distance = 4.0
 	nav_agent.target_desired_distance = 4.0
+
 	if confusion_icon == null:
 		push_error("ConfusionIcon missing in " + str(self.name))
 	else:
-		confusion_icon.hide()
+		confusion_icon.visible = false
 	start_wandering()
 	
 func take_damage(amount: int = 1, attacker: Node2D = null):
@@ -178,7 +179,10 @@ func enter_confused():
 	is_chasing = false
 	is_searching = true
 	velocity = Vector2.ZERO
-	confusion_icon.visible = true
+	if confusion_icon:
+		confusion_icon.visible = true
+	else:
+		print("No confusion Icon on:", name)
 	start_confused_wandering()
 	confused_timer.start(2.0)
 	
@@ -246,6 +250,7 @@ func start_confused_wandering():
 	
 	
 func end_search():
+	print("Search ended")
 	is_searching = false
 	is_wandering = false
 	is_confused = false
@@ -257,10 +262,11 @@ func _on_random_movement_timer_timeout() -> void:
 
 func _on_confused_timer_timeout() -> void:
 	confusion_icon.visible = false
-	is_searching = false
-	is_wandering = true
-	start_wandering()
+	is_searching = true
+	is_wandering = false
 	$SearchTimer.start(randf_range(3.0, 5.0))
+	print("Confused timer start")
 
 func _on_search_timer_timeout() -> void:
 	end_search()
+	print("Timer timed out")

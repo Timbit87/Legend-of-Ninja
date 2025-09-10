@@ -242,7 +242,15 @@ color = Color(0.591903, 0.879535, 0.952378, 1)
 collision_layer = 16
 motion_mode = 1
 script = ExtResource("1_5uyk1")
+step_duration = null
+step_distance = null
 slime_sounds = [ExtResource("4_1u7tg"), ExtResource("3_jwhlm"), ExtResource("4_n4i4n"), ExtResource("5_ld0qu")]
+HP = null
+damage = null
+speed = null
+acceleration = null
+return_speed = null
+step_sounds = null
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
 avoidance_enabled = true
@@ -310,6 +318,14 @@ autostart = true
 
 [node name="StepTimer" type="Timer" parent="."]
 one_shot = true
+
+[node name="ConfusionIcon" type="Label" parent="."]
+offset_right = 40.0
+offset_bottom = 23.0
+
+[node name="ConfusedTimer" type="Timer" parent="."]
+
+[node name="SearchTimer" type="Timer" parent="."]
 
 [connection signal="body_entered" from="PlayerDetectArea2D" to="." method="_on_player_detect_area_2d_body_entered"]
 [connection signal="body_exited" from="PlayerDetectArea2D" to="." method="_on_player_detect_area_2d_body_exited"]

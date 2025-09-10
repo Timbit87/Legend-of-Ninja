@@ -1040,11 +1040,30 @@ position = Vector2(191, -155)
 [node name="LizardEnemy" parent="NavigationRegion2D/ObstacleLayer" groups=["Enemies"] instance=ExtResource("17_jaj74")]
 z_index = 10
 position = Vector2(-374, -2)
-lizard_sounds = []
+HP = null
+damage = null
+speed = null
+acceleration = null
+return_speed = null
+step_sounds = null
+step_duration = null
+step_distance = null
+lizard_sounds = null
+charge_speed = null
+charge_duration = null
+charge_cooldown = null
+windup_time = null
+stun_duration = null
 
 [node name="EyeEnemy" parent="NavigationRegion2D/ObstacleLayer" groups=["Enemies"] instance=ExtResource("18_pyj2o")]
 z_index = 10
 position = Vector2(-14, 78)
+HP = null
+damage = null
+acceleration = null
+return_speed = null
+step_duration = null
+step_distance = null
 
 [node name="SnakeEnemy2" parent="NavigationRegion2D/ObstacleLayer" groups=["Enemies"] instance=ExtResource("16_6dkqd")]
 z_index = 3

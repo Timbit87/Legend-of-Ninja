@@ -232,9 +232,9 @@ _data = {
 collision_layer = 16
 motion_mode = 1
 script = ExtResource("2_x0bgp")
-step_duration = 0.2
-step_distance = 10
 step_sounds = Array[AudioStream]([ExtResource("5_r878a")])
+step_duration = null
+step_distance = null
 
 [node name="AnimatedSprite2D" parent="." index="1"]
 sprite_frames = SubResource("SpriteFrames_pu2wv")
