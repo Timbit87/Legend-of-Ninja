@@ -45,8 +45,10 @@ vertical_alignment = 1
 
 [node name="ConfusedTimer" type="Timer" parent="."]
 wait_time = 2.0
+one_shot = true
 
 [node name="SearchTimer" type="Timer" parent="."]
+one_shot = true
 
 [connection signal="timeout" from="RandomMovementTimer" to="." method="_on_random_movement_timer_timeout"]
 [connection signal="timeout" from="ConfusedTimer" to="." method="_on_confused_timer_timeout"]

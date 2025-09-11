@@ -209,6 +209,7 @@ func return_to_spawn():
 	is_searching = false
 	returning_to_spawn = true
 	$RandomMovementTimer.stop()
+	start_wandering()
 
 func _on_player_detect_area_2d_body_entered(body: Node2D) -> void:
 	if body is Player and not is_dead:
@@ -264,8 +265,8 @@ func _on_confused_timer_timeout() -> void:
 	confusion_icon.visible = false
 	is_searching = true
 	is_wandering = false
-	$SearchTimer.start(randf_range(3.0, 5.0))
 	print("Search timer start")
+	$SearchTimer.start(randf_range(3.0, 5.0))
 
 func _on_search_timer_timeout() -> void:
 	end_search()
