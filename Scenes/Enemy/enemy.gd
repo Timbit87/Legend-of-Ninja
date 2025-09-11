@@ -175,9 +175,10 @@ func update_detection(delta):
 
 func enter_confused():
 	print("entered confused")
+	if is_searching:
+		return
 	is_wandering = false
 	is_chasing = false
-	is_searching = true
 	velocity = Vector2.ZERO
 	if confusion_icon:
 		confusion_icon.visible = true
