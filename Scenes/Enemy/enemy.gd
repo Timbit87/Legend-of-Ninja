@@ -82,11 +82,27 @@ func _physics_process(delta):
 		return
 		
 	if returning_to_spawn:
-		var direction = (spawn_position - global_position).normalized()
-		velocity = direction * return_speed
+		var direction = (spawn_position - global_position)
 		
+		if direction.length() > 1:
+			velocity = direction.normalized() * return_speed
+		else:
+			velocity = Vector2.ZERO
+			
 		if global_position.distance_to(spawn_position) < 4:
 			returning_to_spawn = false
+			velocity = Vector2.ZERO
+			start_wandering()
+	elif is_searching:
+		if nav_agent and not nav_agent.is_navigation_finished():
+			var next_pos = nav_agent.get_next_path_position()
+			var dir = (next_pos - global_position)
+			if dir.length() > 1:
+				velocity = dir.normalized() * speed
+			else:
+				var random_offset = Vector2(randf_range(-64.0, 64.0), randf_range(-64.0, 64.0))
+				nav_agent.set_target_position(last_known_player_position + random_offset)
+		else:
 			velocity = Vector2.ZERO
 		
 	else:
@@ -173,19 +189,34 @@ func update_detection(delta):
 	else:
 		stealth_timer = 0.0
 
-func enter_confused():
+func enter_confused(search_pos = null, instant := false):
 	print("entered confused")
 	if is_searching:
 		return
+	
+	if search_pos != null:
+		last_known_player_position = search_pos
+	elif target:
+		last_known_player_position = target.global_position
+		
 	is_wandering = false
 	is_chasing = false
+	is_searching = true
 	velocity = Vector2.ZERO
+	
 	if confusion_icon:
 		confusion_icon.visible = true
 	else:
 		print("No confusion Icon on:", name)
-	start_confused_wandering()
-	confused_timer.start(2.0)
+		
+	if instant:
+		_on_confused_timer_timeout()
+	else:
+		if confused_timer and not confused_timer.is_stopped():
+			return
+		if confused_timer:
+			confused_timer.one_shot = true
+			confused_timer.start(1.0)
 	
 func update_searching(delta):
 	pass
@@ -201,16 +232,23 @@ func detect_player():
 		is_chasing = true
 		
 func lose_player():
-	is_chasing = false
-	target = null
+	if is_chasing:
+		print("Lose player, enter search")
+		is_chasing = false
+		target = null
+		velocity = Vector2.ZERO
+		enter_confused(last_known_player_position)
 
 func return_to_spawn():
 	is_wandering = false
 	is_chasing = false
 	is_searching = false
 	returning_to_spawn = true
+	if nav_agent:
+		nav_agent.set_target_position(spawn_position)
+	else:
+		pass
 	$RandomMovementTimer.stop()
-	start_wandering()
 
 func _on_player_detect_area_2d_body_entered(body: Node2D) -> void:
 	if body is Player and not is_dead:
@@ -238,18 +276,7 @@ func start_wandering():
 	).normalized()
 	velocity = random_dir * speed * 0.5
 	$RandomMovementTimer.wait_time = randf_range(2.0, 5.0)
-	$RandomMovementTimer.start()
-	
-func start_confused_wandering():
-	if is_dead or is_searching or returning_to_spawn:
-		return
-	is_confused = true
-	var random_dir = Vector2(
-		randf_range(-1.0, 1.0),
-		randf_range(-1.0, 1.0)
-	).normalized()
-	velocity = random_dir * speed * 0.3
-	
+	$RandomMovementTimer.start()	
 	
 func end_search():
 	print("Search ended")
@@ -263,12 +290,21 @@ func _on_random_movement_timer_timeout() -> void:
 
 
 func _on_confused_timer_timeout() -> void:
-	confusion_icon.visible = false
+	if confusion_icon:
+		confusion_icon.visible = false
 	is_searching = true
 	is_wandering = false
+	
+	var random_offset = Vector2(randf_range(-64.0, 64.0), randf_range(-64.0,64.0))
+	var search_target = last_known_player_position + random_offset
+	if nav_agent:
+		nav_agent.set_target_position(search_target)
+	$SearchTimer.one_shot = true
+	$SearchTimer.start(randf_range(3.0,5.0))
 	print("Search timer start")
-	$SearchTimer.start(randf_range(3.0, 5.0))
 
 func _on_search_timer_timeout() -> void:
-	end_search()
 	print("Timer timed out")
+	is_searching = false
+	end_search()
+	return_to_spawn()
