@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://y1qx2t2ovohd"]
+
+[node name="HookshotStump" type="Area2D"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
