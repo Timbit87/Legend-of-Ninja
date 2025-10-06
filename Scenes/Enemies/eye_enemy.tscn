@@ -231,7 +231,7 @@ wait_time = 0.02
 [node name="StepTimer" type="Timer" parent="." index="9"]
 one_shot = true
 
-[node name="RandomMovementTimer" type="Timer" parent="." index="10"]
+[node name="RandomMovementTimer2" type="Timer" parent="." index="10"]
 autostart = true
 
 [node name="DamageSFX" type="AudioStreamPlayer2D" parent="." index="11"]
