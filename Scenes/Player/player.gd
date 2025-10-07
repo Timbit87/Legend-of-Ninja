@@ -38,6 +38,8 @@ func _physics_process(delta: float) -> void:
 		throw_kunai()
 	if Input.is_action_just_pressed("smoke_bomb") and not can_interact:
 		use_smoke_bomb()
+	if Input.is_action_just_pressed("Hookshot") and not can_interact:
+		launch_hookshot()
 	
 func move_player():
 	var move_vector: Vector2 = Input.get_vector("move_left", "move_right","move_up","move_down")
@@ -251,3 +253,54 @@ func use_smoke_bomb():
 	smoke_bomb.player = self
 	get_tree().current_scene.add_child(smoke_bomb)
 	start_smoke_cooldown()
+	
+func launch_hookshot():
+	if is_attacking or $HookshotCooldownTimer.time_left > 0:
+		return
+	is_attacking = true
+	velocity = Vector2.ZERO
+		
+	var hookshot = preload("res://Scenes/Hookshot/hookshot.tscn").instantiate()
+	hookshot.global_position = global_position
+	hookshot.player = self
+	
+	var dir = Vector2.RIGHT
+	var anim = $AnimatedSprite2D.animation
+	
+	match anim:
+		"move_right", "attack_right":
+			dir = Vector2.RIGHT
+			$AnimatedSprite2D.play("attack_right")
+		"move_left", "attack_left":
+			dir = Vector2.LEFT
+			$AnimatedSprite2D.play("attack_left")
+		"move_up", "attack_up":
+			dir = Vector2.UP
+			$AnimatedSprite2D.play("attack_up")
+		"move_down", "attack_down":
+			dir = Vector2.DOWN
+			$AnimatedSprite2D.play("attack_down")
+		_:
+			dir = Vector2.RIGHT
+			$AnimatedSprite2D.play("attack_right")
+			
+	hookshot.direction = dir
+	hookshot.rotation = dir.angle()
+	
+	var offset = 8
+	hookshot.global_position += dir * offset
+	get_tree().current_scene.add_child(hookshot)
+	await get_tree().create_timer(0.2).timeout
+	is_attacking = false
+	$AnimatedSprite2D.play(anim.replace("attack", "move"))
+	$HookshotCooldownTimer.start()
+
+	
+func start_hook_pull(target_position: Vector2):
+	set_physics_process(false)
+	var pull_time = 0.2
+	var tween = create_tween()
+	tween.tween_property(self, "global_position", target_position, pull_time)
+	tween.finished.connect(func():
+		set_physics_process(true)
+	)
