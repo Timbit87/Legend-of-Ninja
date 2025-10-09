@@ -1,0 +1,32 @@
+[gd_scene format=3 uid="uid://cu6upcp6dt0t8"]
+
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+alignment = 1
+
+[node name="NewGameLabel" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+text = "New Game"
+
+[node name="LoadGameLabel" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+text = "Load Game"
+
+[node name="QuitLabel" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+text = "Quit
+"
+
+[node name="GameTitleLabel" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+text = "Shinobi's Saga"
