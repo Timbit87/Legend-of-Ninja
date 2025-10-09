@@ -12,4 +12,4 @@ func _on_load_pressed():
 	print("Load game not implemented")
 	
 func _on_quit_pressed():
-	get_tree().quit
+	get_tree().quit()
